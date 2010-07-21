@@ -2,7 +2,7 @@
 
 Best Acronym Explanations
 
-<b>m</b>onitoring
+**m**onitoring
 <b>e</b>verything
 <b>s</b>hall
 <b>h</b>elp
