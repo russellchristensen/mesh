@@ -1,6 +1,8 @@
 # mesh
 
-Best Acronym Explanations:
+mesh is a decentralized monitoring system.  Yeeha!
+
+## Best Acronyms for mesh:
 
 **m**onitoring
 **e**verything
@@ -14,5 +16,5 @@ Best Acronym Explanations:
 
 many
 eyes
-s
-h
+s?
+h?
