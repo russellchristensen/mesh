@@ -1,8 +1,8 @@
 # mesh
 
-mesh is a decentralized monitoring system.  Yeeha!
+**mesh** is a decentralized monitoring system.
 
-## Best Acronyms for mesh:
+## Best Acronyms for mesh we've thought of so far:
 
 **m**onitoring
 **e**verything
@@ -14,7 +14,7 @@ mesh is a decentralized monitoring system.  Yeeha!
 **s**tay
 **h**ealthy
 
-many
-eyes
-s?
-h?
+**m**any
+**e**yes
+**s**canning
+**h**ardware
