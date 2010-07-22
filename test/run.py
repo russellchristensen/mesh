@@ -7,7 +7,7 @@ class TestPrerequisites(unittest.TestCase):
    def setUp(self):
       pass
 
-   def test_00(self):
+   def test_00os(self):
       "Supported OS?"
       self.assertTrue(sys.platform in ['darwin'])
 
