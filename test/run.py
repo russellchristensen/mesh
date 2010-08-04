@@ -15,7 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with Mesh.  If not, see <http://www.gnu.org/licenses/>.
 
-import unittest, sys
+import glob, os, unittest, sys
 from distutils import version
 
 class TestPrerequisites(unittest.TestCase):
@@ -59,14 +59,17 @@ class TestCode(unittest.TestCase):
 
    def test_00license(self):
       "GPL 3 Compliance"
-      import glob
-      # It would be nice to dynamically find all source files instead of hard-code them here...
-      source_files = ['test/run.py']
+      # Get a prefix that will put us at the root of the mesh project
+      # - this could probably be improved to handle other cases...
+      prefix = "./"
+      cwd = os.getcwd()
+      if (cwd[-11:] == '_trial_temp') or (cwd[-4:] == 'test'):
+         prefix = "../"
+      # Iterate through the python files and check for compliance
+      source_files = ['test/run.py'] # It would be nice to dynamically find all source files instead of hard-code them here...
       for fname in source_files:
-         header = open(fname, 'r').read(100)
-         self.assertTrue("# This file is part of Mesh." in header)
-
-
+         header = open(prefix + fname, 'r').read(100)
+         self.assertTrue("# This file is part of Mesh." in header) # We could probably do a more thorough check...
 
 if __name__ == '__main__':
    unittest.main()
