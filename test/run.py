@@ -22,6 +22,9 @@ class TestPrerequisites(unittest.TestCase):
    def setUp(self):
       pass
 
+   def tearDown(self):
+      pass
+
    def test_00os(self):
       "Supported OS?"
       self.assertTrue(sys.platform in ['darwin'])
@@ -46,8 +49,24 @@ class TestPrerequisites(unittest.TestCase):
       this_version = version.StrictVersion(OpenSSL.version.__version__)
       self.assertTrue(this_version >= supported_version)
 
+
+class TestCode(unittest.TestCase):
+   def setUp(self):
+      pass
+
    def tearDown(self):
       pass
+
+   def test_00license(self):
+      "GPL 3 Compliance"
+      import glob
+      # It would be nice to dynamically find all source files instead of hard-code them here...
+      source_files = ['test/run.py']
+      for fname in source_files:
+         header = open(fname, 'r').read(100)
+         self.assertTrue("# This file is part of Mesh." in header)
+
+
 
 if __name__ == '__main__':
    unittest.main()
