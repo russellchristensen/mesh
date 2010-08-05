@@ -18,14 +18,17 @@
 import glob, os, unittest, sys
 from distutils import version
 
-class TestPrerequisites(unittest.TestCase):
+class Test00Prerequisites(unittest.TestCase):
    def setUp(self):
       pass
 
    def tearDown(self):
       pass
 
-   def test_00os(self):
+   def test_00banner(self):
+      "==> Starting Prerequisite Tests"
+
+   def test_01os(self):
       "Supported OS?"
       self.assertTrue(sys.platform in ['darwin'])
 
@@ -50,25 +53,35 @@ class TestPrerequisites(unittest.TestCase):
       self.assertTrue(this_version >= supported_version)
 
 
-class TestCode(unittest.TestCase):
+global project_root_dir; project_root_dir = None ; # Gotta be a way better than a global...
+
+class Test01Code(unittest.TestCase):
    def setUp(self):
       pass
 
    def tearDown(self):
       pass
 
-   def test_00license(self):
+   def test_00banner(self):
+      "==> Starting Code Tests"
+
+   def test_01projectrootdir(self):
+      "Can find the project root directory"
+      global project_root_dir
+      curr_root_dir = os.getcwd()
+      while not project_root_dir:
+         curr_root_dir, last_element = os.path.split(curr_root_dir)
+         if last_element == 'mesh':
+            project_root_dir = os.path.join(curr_root_dir, 'mesh')
+         self.assertTrue(last_element) # Once we've made it down to the root and not found mesh, it's time to fail
+
+   def test_03license(self):
       "GPL 3 Compliance"
-      # Get a prefix that will put us at the root of the mesh project
-      # - this could probably be improved to handle other cases...
-      prefix = "./"
-      cwd = os.getcwd()
-      if (cwd[-11:] == '_trial_temp') or (cwd[-4:] == 'test'):
-         prefix = "../"
+      global project_root_dir
       # Iterate through the python files and check for compliance
       source_files = ['test/run.py'] # It would be nice to dynamically find all source files instead of hard-code them here...
       for fname in source_files:
-         header = open(prefix + fname, 'r').read(100)
+         header = open(os.path.join(project_root_dir, fname), 'r').read(100)
          self.assertTrue("# This file is part of Mesh." in header) # We could probably do a more thorough check...
 
 if __name__ == '__main__':
