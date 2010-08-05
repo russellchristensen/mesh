@@ -79,10 +79,19 @@ class Test01Code(unittest.TestCase):
       "GPL 3 Compliance"
       global project_root_dir
       # Iterate through the python files and check for compliance
-      source_files = ['test/run.py'] # It would be nice to dynamically find all source files instead of hard-code them here...
+      source_files = ['test/run.py', 'src/mesh.py'] # It would be nice to dynamically find all source files instead of hard-code them here...
       for fname in source_files:
          header = open(os.path.join(project_root_dir, fname), 'r').read(100)
          self.assertTrue("# This file is part of Mesh." in header) # We could probably do a more thorough check...
+
+class Test02Syntax(unittest.TestCase):
+   def test_00banner(self):
+      "==> Starting Syntax Tests"
+
+   def test_03main(self):
+      global project_root_dir
+      sys.path.append(os.path.join(project_root_dir, 'src'))
+      import mesh
 
 if __name__ == '__main__':
    unittest.main()
