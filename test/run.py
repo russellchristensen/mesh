@@ -26,7 +26,7 @@ class Test00Prerequisites(unittest.TestCase):
       pass
 
    def test_00banner(self):
-      "==> Starting Prerequisite Tests"
+      "STARTING PREREQUISITE TESTS"
 
    def test_01os(self):
       "Supported OS?"
@@ -63,7 +63,7 @@ class Test01Code(unittest.TestCase):
       pass
 
    def test_00banner(self):
-      "==> Starting Code Tests"
+      "STARTING CODE TESTS"
 
    def test_01projectrootdir(self):
       "Can find the project root directory"
@@ -79,14 +79,14 @@ class Test01Code(unittest.TestCase):
       "GPL 3 Compliance"
       global project_root_dir
       # Iterate through the python files and check for compliance
-      source_files = ['test/run.py', 'src/mesh.py'] # It would be nice to dynamically find all source files instead of hard-code them here...
+      source_files = ['test/run.py', 'src/mesh.py', 'src/meshlib.py'] # It would be nice to dynamically find all source files instead of hard-code them here...
       for fname in source_files:
          header = open(os.path.join(project_root_dir, fname), 'r').read(100)
          self.assertTrue("# This file is part of Mesh." in header) # We could probably do a more thorough check...
 
 class Test02Syntax(unittest.TestCase):
    def test_00banner(self):
-      "==> Starting Syntax Tests"
+      "STARTING SYNTAX TESTS"
 
    def test_03main(self):
       global project_root_dir
