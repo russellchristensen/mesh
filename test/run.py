@@ -52,6 +52,13 @@ class Test00Prerequisites(unittest.TestCase):
       this_version = version.StrictVersion(OpenSSL.version.__version__)
       self.assertTrue(this_version >= supported_version)
 
+   def test_12zmq(self):
+      "Supported version of ZeroMQ"
+      import zmq
+      supported_version = version.LooseVersion('2.0.9')
+      this_version = version.LooseVersion(zmq.__version__)
+      self.assertTrue(this_version >= supported_version)
+
 
 global project_root_dir; project_root_dir = None ; # Gotta be a way better than a global...
 
