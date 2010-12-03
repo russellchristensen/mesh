@@ -38,13 +38,6 @@ class Test00Prerequisites(unittest.TestCase):
       this_version = version.StrictVersion(str(sys.version_info[0]) + '.' + str(sys.version_info[1]))
       self.assertTrue(this_version >= supported_version)
 
-   def test_06twisted(self):
-      "Supported version of Twisted?"
-      import twisted
-      supported_version = version.StrictVersion('9.0')
-      this_version = version.StrictVersion(twisted.__version__)
-      self.assertTrue(this_version >= supported_version)
-
    def test_09pyopenssl(self):
       "Supported version of pyOpenSSL?"
       import OpenSSL
