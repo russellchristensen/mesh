@@ -45,11 +45,11 @@ class Test00Prerequisites(unittest.TestCase):
       this_version = version.StrictVersion(twisted.__version__)
       self.assertTrue(this_version >= supported_version)
 
-   def test_09pyopenssl(self):
-      "Supported version of pyOpenSSL?"
-      import OpenSSL
-      supported_version = version.StrictVersion('0.7')
-      this_version = version.StrictVersion(OpenSSL.version.__version__)
+   def test_09m2crypto(self):
+      "Supported version of M2Crypto?"
+      import M2Crypto
+      supported_version = version.StrictVersion('0.20.2')
+      this_version = version.StrictVersion(M2Crypto.version)
       self.assertTrue(this_version >= supported_version)
 
    def test_12zmq(self):
