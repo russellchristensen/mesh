@@ -1,6 +1,6 @@
 # mesh
 
-**mesh** is a decentralized monitoring system.
+**mesh** is a decentralized monitoring system.  The github organization "meshers" was created to make it easier to manage who has commit access to the repository.
 
 ## Best Acronyms for mesh we've thought of so far:
 
