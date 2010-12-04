@@ -89,9 +89,14 @@ class Test02Syntax(unittest.TestCase):
       "STARTING SYNTAX TESTS"
 
    def test_03main(self):
+      "Can import the main mesh file"
       global project_root_dir
       sys.path.append(os.path.join(project_root_dir, 'src'))
       import mesh
+
+class Test02zmq(unittest.TestCase):
+   def test_00pubsub(self):
+      pass
 
 if __name__ == '__main__':
    unittest.main()
