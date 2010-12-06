@@ -15,7 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with Mesh.  If not, see <http://www.gnu.org/licenses/>.
 
-import glob, os, unittest, sys
+import glob, os, unittest, sys, subprocess, time
 from distutils import version
 
 global gpl_header
@@ -94,7 +94,6 @@ class Test01Code(unittest.TestCase):
    def test_03license(self):
       "GPL 3 Compliance"
       global project_root_dir
-      os.chdir(project_root_dir)
       # Iterate through the python files and check for compliance
       source_files = glob.glob('test/*.py') + glob.glob('src/*.py')
       for fname in source_files:
@@ -114,7 +113,25 @@ class Test02Syntax(unittest.TestCase):
 
 class Test02zmq(unittest.TestCase):
    def test_00pubsub(self):
-      pass
+      "ZMQ Publish/Subscribe pattern works"
+      global project_root_dir
+      sub_command = ('/usr/bin/env', 'python', os.path.join(project_root_dir, 'test/zmq_sub.py'),)
+      sub_process = subprocess.Popen(sub_command)
+
+      pub_command = ('/usr/bin/env', 'python', os.path.join(project_root_dir, 'test/zmq_pub.py'),)
+      pub_process = subprocess.Popen(pub_command)
+      # We'll only watch the subscriber, since the publisher obviously worked if the subscriber successfully gets the message
+      sub_retcode = sub_process.poll()
+      for i in range(20):
+         if (sub_retcode != None):
+            break
+         time.sleep(.25)
+         sub_retcode = sub_process.poll()
+      sub_retcode = sub_process.poll()
+      if sub_retcode == 0:
+         return
+      else:
+         self.fail("Pub/Sub pattern failed with retcodes %s/%s" % (str(sub_retcode), str(pub_retcode)))
 
 if __name__ == '__main__':
    unittest.main()

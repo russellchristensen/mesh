@@ -13,14 +13,13 @@
 # You should have received a copy of the GNU General Public License
 # along with Mesh.  If not, see <http://www.gnu.org/licenses/>.
 
-import zmq
-import time
+import time, zmq
 
 context = zmq.Context()
 pub_socket = context.socket(zmq.PUB)
 pub_socket.bind("ipc://testpublisher.ipc")
 
-for i in range(20):
-   pub_socket.send(str(i))
+for i in range(3):
+   pub_socket.send("Now is the time for all good men to come to the aid of their country.")
    time.sleep(1)
    

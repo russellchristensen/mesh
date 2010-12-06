@@ -13,7 +13,7 @@
 # You should have received a copy of the GNU General Public License
 # along with Mesh.  If not, see <http://www.gnu.org/licenses/>.
 
-import zmq
+import sys, zmq
 
 context = zmq.Context()
 sub_socket = context.socket(zmq.SUB)
@@ -21,8 +21,8 @@ sub_socket.connect("ipc://testpublisher.ipc")
 
 sub_socket.setsockopt(zmq.SUBSCRIBE, "")
 
-count = 0
-while count < 10:
-   count += 1
-   my_message = sub_socket.recv()
-   print "message from publisher is", my_message
+msg = sub_socket.recv()
+
+if msg == "Now is the time for all good men to come to the aid of their country.":
+   sys.exit(0)
+sys.exit(-1)
