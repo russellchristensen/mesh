@@ -113,14 +113,18 @@ class Test02Syntax(unittest.TestCase):
 
 class Test02zmq(unittest.TestCase):
    def test_00pubsub(self):
-      "ZMQ Publish/Subscribe pattern works"
+      "ZMQ Publish/Subscribe pattern works over ipc"
       global project_root_dir
+      
+      # Subscriber subprocess
       sub_command = ('/usr/bin/env', 'python', os.path.join(project_root_dir, 'test/zmq_sub.py'),)
       sub_process = subprocess.Popen(sub_command)
 
+      # Publisher subprocess
       pub_command = ('/usr/bin/env', 'python', os.path.join(project_root_dir, 'test/zmq_pub.py'),)
       pub_process = subprocess.Popen(pub_command)
-      # We'll only watch the subscriber, since the publisher obviously worked if the subscriber successfully gets the message
+
+      # Watch only the subscriber,  publisher obviously works if the subscriber successfully gets the message
       sub_retcode = sub_process.poll()
       for i in range(20):
          if (sub_retcode != None):
@@ -131,7 +135,31 @@ class Test02zmq(unittest.TestCase):
       if sub_retcode == 0:
          return
       else:
-         self.fail("Pub/Sub pattern failed with retcodes %s/%s" % (str(sub_retcode), str(pub_retcode)))
+         self.fail("ZMQ Publish/Subscribe pattern failed with retcodes %s/%s" % (str(sub_retcode), str(pub_retcode)))
+
+   def test_03reqrep(self):
+      "ZMQ Request/Reply pattern works over ipc"
+      global project_root_dir
+
+      # Reply subprocess
+      rep_command = ('/usr/bin/env', 'python', os.path.join(project_root_dir, 'test/zmq_rep.py'),)
+      rep_process = subprocess.Popen(rep_command)
+      
+      # Request subprocess
+      req_command = ('/usr/bin/env', 'python', os.path.join(project_root_dir, 'test/zmq_req.py'),)
+      req_process = subprocess.Popen(req_command)
+
+      # Make sure both process exit successfully
+      rep_retcode = rep_process.poll()
+      req_retcode = req_process.poll()
+      while (rep_retcode == None) or (req_retcode == None):
+         time.sleep(.25)
+         rep_retcode = rep_process.poll()
+         req_retcode = req_process.poll()
+      if (rep_retcode == 0) and (req_retcode == 0):
+         return
+      else:
+         self.fail("ZMQ Request/Reply pattern failed with with retcodes %s/%s" % (str(rep_retcode), str(req_retcode)))
 
 if __name__ == '__main__':
    unittest.main()

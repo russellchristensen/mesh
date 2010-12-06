@@ -13,14 +13,15 @@
 # You should have received a copy of the GNU General Public License
 # along with Mesh.  If not, see <http://www.gnu.org/licenses/>.
 
-import zmq
+import sys, zmq
 
 context = zmq.Context()
 req_socket = context.socket(zmq.REQ)
 req_socket.connect("ipc://testreqrep.ipc")
 
-message = "Are you there?"
-req_socket.send(message)
-print "Sent:", message
+req_socket.send("Are you there?")
 reply = req_socket.recv()
-print "Received:", reply
+if reply == "Yes, I'm here":
+   sys.exit(0)
+else:
+   sys.exit(1)
