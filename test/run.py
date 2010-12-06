@@ -18,6 +18,22 @@
 import glob, os, unittest, sys
 from distutils import version
 
+global gpl_header
+gpl_header = """# This file is part of Mesh.
+
+# Mesh is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+
+# Mesh is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with Mesh.  If not, see <http://www.gnu.org/licenses/>."""
+
 class Test00Prerequisites(unittest.TestCase):
    def setUp(self):
       pass
@@ -78,11 +94,13 @@ class Test01Code(unittest.TestCase):
    def test_03license(self):
       "GPL 3 Compliance"
       global project_root_dir
+      os.chdir(project_root_dir)
       # Iterate through the python files and check for compliance
-      source_files = ['test/run.py', 'src/mesh.py', 'src/meshlib.py'] # It would be nice to dynamically find all source files instead of hard-code them here...
+      source_files = glob.glob('test/*.py') + glob.glob('src/*.py')
       for fname in source_files:
-         header = open(os.path.join(project_root_dir, fname), 'r').read(100)
-         self.assertTrue("# This file is part of Mesh." in header) # We could probably do a more thorough check...
+         header = open(os.path.join(project_root_dir, fname), 'r').read(1024)
+         if not "# This file is part of Mesh." in header:
+            self.fail("The source file %s has a malformed or missing GPL header." % fname)
 
 class Test02Syntax(unittest.TestCase):
    def test_00banner(self):
