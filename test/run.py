@@ -180,5 +180,35 @@ class Test03crypto(unittest.TestCase):
       if communicator.verify_cert(cafile=os.path.join(project_root_dir, 'test', 'certs', 'test-ca-cert.pem'), certfile=os.path.join(project_root_dir, 'test', 'certs', 'test-self-sign.cert')):
          self.fail("A certificate that should not be valid was verified.")
 
+class Test04m2crypto(unittest.TestCase):
+   def setUp(self):
+      self.test00run = False
+      self.test00toencrypt = 'encrypted string'
+      self.test00encrypted = ''
+      self.test01decrypted = ''
+
+   def test_00encrypt(self):
+      "Encrypt a string using a public key"
+      import M2Crypto as m2
+      global project_root_dir
+      cert = m2.X509.load_cert(os.path.join(project_root_dir, 'test/certs/test-self-sign.cert'))
+      pubkey = cert.get_pubkey().get_rsa()
+      self.test00encrypted = pubkey.public_encrypt(self.test00toencrypt, m2.RSA.pkcs1_padding)
+      if self.test00toencrypt == self.test00encrypted:
+         self.fail('Failed to encrypt string "%s"' % (self.test00toencrypt))
+      else:
+         self.test00run = True
+
+   def test_01decrypt(self):
+      "Decrypt an encrypted string using a private key"
+      import M2Crypto as m2
+      global project_root_dir
+
+      if self.test00run:
+         private = m2.RSA.load_key(os.path.join(project_root_dir, 'test/certs/test-self-sign.key'))
+         self.test01decrypted = public.public_encrypt(data, m2.RSA.pkcs1_padding)
+         if self.test00toecrypt != self.test01decrypted:
+            self.fail('Failed to decrypt an encrypted string.')
+
 if __name__ == '__main__':
    unittest.main()
