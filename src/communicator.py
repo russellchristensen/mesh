@@ -13,7 +13,7 @@
 # You should have received a copy of the GNU General Public License
 # along with Mesh.  If not, see <http://www.gnu.org/licenses/>.
 
-import subprocess
+import M2Crypto, subprocess
 
 def verify_cert(cafile, certfile):
    command = ('/usr/bin/env', 'openssl', 'verify', '-CAfile', cafile, certfile)
@@ -23,14 +23,11 @@ def verify_cert(cafile, certfile):
       return True
    return False
    
-def encrypt_with_cert(pkey, toencrypt):
+def encrypt(data, cert):
    "Encrypt a string using a cert"
-   import M2Crypto as m2
-   pubkey = m2.X509.load_cert(pkey).get_pubkey().get_rsa()
-   return pubkey.public_encrypt(toencrypt, m2.RSA.pkcs1_padding)
+   pubkey = cert.get_pubkey().get_rsa()
+   return pubkey.public_encrypt(data, M2Crypto.RSA.pkcs1_padding).encode('base64')
 
-def decrypt_with_private_key(key, encrypted):
+def decrypt(data, key):
    "Decrypt an encrypted string using a private key"
-   import M2Crypto as m2
-   private = m2.RSA.load_key(key)
-   return private.private_decrypt(encrypted, m2.RSA.pkcs1_padding)
+   return key.private_decrypt(data.decode('base64'), M2Crypto.RSA.pkcs1_padding)

@@ -164,6 +164,14 @@ class Test02zmq(unittest.TestCase):
          self.fail("ZMQ Request/Reply pattern failed with with retcodes %s/%s" % (str(rep_retcode), str(req_retcode)))
 
 class Test03crypto(unittest.TestCase):
+   def setUp(self):
+      import M2Crypto
+      self.alice_key  = M2Crypto.RSA.load_key(os.path.join(project_root_dir, 'test', 'certs', 'alice.key'))
+      self.alice_cert = M2Crypto.X509.load_cert(os.path.join(project_root_dir, 'test', 'certs', 'alice.cert'))
+      self.bob_key    = M2Crypto.RSA.load_key(os.path.join(project_root_dir, 'test', 'certs', 'bob.key'))
+      self.bob_cert   = M2Crypto.X509.load_cert(os.path.join(project_root_dir, 'test', 'certs', 'bob.cert'))
+      self.ca_cert    = M2Crypto.X509.load_cert(os.path.join(project_root_dir, 'test', 'certs', 'test-ca-cert.pem'))
+
    def test_00verifycert(self):
       "SSL certificates signed by the CA get verified correctly"
       import communicator
@@ -180,30 +188,39 @@ class Test03crypto(unittest.TestCase):
       if communicator.verify_cert(cafile=os.path.join(project_root_dir, 'test', 'certs', 'test-ca-cert.pem'), certfile=os.path.join(project_root_dir, 'test', 'certs', 'test-self-sign.cert')):
          self.fail("A certificate that should not be valid was verified.")
 
-class Test04m2crypto(unittest.TestCase):
-   def test_00encrypt(self):
-      "Encrypt a string using a public key"
-      import communicator, os.path
-      global project_root_dir, encrypted
-      global to_encrypt; to_encrypt = 'encrypted string'
+   def test_06encrypt(self):
+      "Encrypting a string using a public key seems to work"
+      import communicator, M2Crypto, os
+      global project_root_dir
+      data = 'Confidential data!'
+      cryptogram = communicator.encrypt(data, self.alice_cert)
+      if cryptogram == data:
+         self.fail('Encryption failed spectacularly')
 
-      pkey_location = os.path.join(project_root_dir, 'test/certs/test-self-sign.cert')
-      encrypted = communicator.encrypt_with_cert(pkey_location, to_encrypt)
-      # This should be false
-      if to_encrypt == encrypted:
-         self.fail('Failed to encrypt string "%s"' % (to_encrypt))
+   def test_09decrypt_known(self):
+      "Decrypt a known pre-encrypted string"
+      import communicator, M2Crypto, os
+      global project_root_dir
+      cryptogram = """bvzkTmVVWmLfw6lvJtdrXIaXFTHoI8U+AWE906c9FC4ca7dfDiLB5TOOxhy6thDkhUw+J9AnrEoh
+FFsRRoGACYRufjm84bBDqOHMkK0rjyRFvU2uttphOTjdgqHPZJnA7iWrV7mHTBHogiaM6MpJWLQO
+uNSdEHxKxqpjg9BR1xj/cYm+iqD0OFfONz7BqFgao3NDTg4a5qpS8i9m4mqFcIuAIRkZG2mC+uBN
+h3JvaGQ7Opua72ninJI79Hr2X2VWBXtA4eOQM1BsxxbHWxiLspHplStM34zvXkaUgwUdvHZjvwo5
+Tp7tERNH08s4Wb7hvIj6p/EloWtb/CA01EfQwA==
+"""
+      message = communicator.decrypt(cryptogram, self.alice_key)
+      if message != 'Confidential data!':
+         self.fail('Failed to decrypt an encrypted string.')
 
-   def test_01decrypt(self):
-      "Decrypt an encrypted string using a private key"
-      import communicator, os.path
-      global project_root_dir, encrypted, to_encrypt
-
-      # Skip test unless the encryption test was successful
-      if encrypted:
-         key_location = os.path.join(project_root_dir, 'test/certs/test-self-sign.key')
-         decrypted = communicator.decrypt_with_private_key(key_location, encrypted)
-         if to_encrypt != decrypted:
-            self.fail('Failed to decrypt an encrypted string.')
+   def test_12encrypt_decrypt(self):
+      "Encrypt and then decrypt a random string"
+      import communicator, M2Crypto, os, random, string
+      # Generate a random string of 32 letters and numbers
+      message = ''.join([random.choice(string.ascii_letters + string.digits) for x in range(32)])
+      cryptogram = communicator.encrypt(message, self.bob_cert)
+      decrypted_message = communicator.decrypt(cryptogram, self.bob_key)
+      if message != decrypted_message:
+         self.fail('Input string came back differently when decrypted: "%s" != "%s"' % (message, decrypted_message))
+      
 
 if __name__ == '__main__':
    unittest.main()
