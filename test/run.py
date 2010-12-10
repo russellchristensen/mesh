@@ -90,6 +90,8 @@ class Test01Code(unittest.TestCase):
          if last_element == 'mesh':
             project_root_dir = os.path.join(curr_root_dir, 'mesh')
          self.assertTrue(last_element) # Once we've made it down to the root and not found mesh, it's time to fail
+      # Found the project root directory!  Make it available for the rest of the tests...
+      sys.path.append(os.path.join(project_root_dir, 'src'))
 
    def test_03license(self):
       "GPL 3 Compliance"
@@ -160,6 +162,23 @@ class Test02zmq(unittest.TestCase):
          return
       else:
          self.fail("ZMQ Request/Reply pattern failed with with retcodes %s/%s" % (str(rep_retcode), str(req_retcode)))
+
+class Test03crypto(unittest.TestCase):
+   def test_00verifycert(self):
+      "SSL certificates signed by the CA get verified correctly"
+      import communicator
+      global project_root_dir
+      # This certificate should be valid
+      if not communicator.verify_cert(cafile=os.path.join(project_root_dir, 'test', 'certs', 'test-ca-cert.pem'), certfile=os.path.join(project_root_dir, 'test', 'certs', 'alice.cert')):
+         self.fail("A certificate that should be valid could not be verified.")
+
+   def test_03verifycert_fail(self):
+      "SSL certificates not signed by the CA do not get verified"
+      import communicator
+      global project_root_dir
+      # This certificate should not be valid
+      if communicator.verify_cert(cafile=os.path.join(project_root_dir, 'test', 'certs', 'test-ca-cert.pem'), certfile=os.path.join(project_root_dir, 'test', 'certs', 'test-self-sign.cert')):
+         self.fail("A certificate that should not be valid was verified.")
 
 if __name__ == '__main__':
    unittest.main()
