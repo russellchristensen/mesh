@@ -181,7 +181,7 @@ class Test03crypto(unittest.TestCase):
          self.fail("A certificate that should not be valid was verified.")
 
 class Test04m2crypto(unittest.TestCase):
-   def test_00encrypt_fail(self):
+   def test_00encrypt(self):
       "Encrypt a string using a public key"
       import communicator, os.path
       global project_root_dir, encrypted
