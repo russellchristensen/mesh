@@ -23,3 +23,14 @@ def verify_cert(cafile, certfile):
       return True
    return False
    
+def encrypt_with_cert(pkey, toencrypt):
+   "Encrypt a string using a cert"
+   import M2Crypto as m2
+   pubkey = m2.X509.load_cert(pkey).get_pubkey().get_rsa()
+   return pubkey.public_encrypt(toencrypt, m2.RSA.pkcs1_padding)
+
+def decrypt_with_private_key(key, encrypted):
+   "Decrypt an encrypted string using a private key"
+   import M2Crypto as m2
+   private = m2.RSA.load_key(key)
+   return private.private_decrypt(encrypted, m2.RSA.pkcs1_padding)

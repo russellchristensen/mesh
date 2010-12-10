@@ -181,33 +181,28 @@ class Test03crypto(unittest.TestCase):
          self.fail("A certificate that should not be valid was verified.")
 
 class Test04m2crypto(unittest.TestCase):
-   def setUp(self):
-      self.test00run = False
-      self.test00toencrypt = 'encrypted string'
-      self.test00encrypted = ''
-      self.test01decrypted = ''
-
-   def test_00encrypt(self):
+   def test_00encrypt_fail(self):
       "Encrypt a string using a public key"
-      import M2Crypto as m2
-      global project_root_dir
-      cert = m2.X509.load_cert(os.path.join(project_root_dir, 'test/certs/test-self-sign.cert'))
-      pubkey = cert.get_pubkey().get_rsa()
-      self.test00encrypted = pubkey.public_encrypt(self.test00toencrypt, m2.RSA.pkcs1_padding)
-      if self.test00toencrypt == self.test00encrypted:
-         self.fail('Failed to encrypt string "%s"' % (self.test00toencrypt))
-      else:
-         self.test00run = True
+      import communicator, os.path
+      global project_root_dir, encrypted
+      global to_encrypt; to_encrypt = 'encrypted string'
+
+      pkey_location = os.path.join(project_root_dir, 'test/certs/test-self-sign.cert')
+      encrypted = communicator.encrypt_with_cert(pkey_location, to_encrypt)
+      # This should be false
+      if to_encrypt == encrypted:
+         self.fail('Failed to encrypt string "%s"' % (to_encrypt))
 
    def test_01decrypt(self):
       "Decrypt an encrypted string using a private key"
-      import M2Crypto as m2
-      global project_root_dir
+      import communicator, os.path
+      global project_root_dir, encrypted, to_encrypt
 
-      if self.test00run:
-         private = m2.RSA.load_key(os.path.join(project_root_dir, 'test/certs/test-self-sign.key'))
-         self.test01decrypted = public.public_encrypt(data, m2.RSA.pkcs1_padding)
-         if self.test00toecrypt != self.test01decrypted:
+      # Skip test unless the encryption test was successful
+      if encrypted:
+         key_location = os.path.join(project_root_dir, 'test/certs/test-self-sign.key')
+         decrypted = communicator.decrypt_with_private_key(key_location, encrypted)
+         if to_encrypt != decrypted:
             self.fail('Failed to decrypt an encrypted string.')
 
 if __name__ == '__main__':
