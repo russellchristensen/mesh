@@ -128,10 +128,10 @@ class Test02zmq(unittest.TestCase):
 
       # Watch only the subscriber,  publisher obviously works if the subscriber successfully gets the message
       sub_retcode = sub_process.poll()
-      for i in range(20):
+      for i in range(100):
          if (sub_retcode != None):
             break
-         time.sleep(.25)
+         time.sleep(.05)
          sub_retcode = sub_process.poll()
       sub_retcode = sub_process.poll()
       if sub_retcode == 0:
@@ -155,7 +155,7 @@ class Test02zmq(unittest.TestCase):
       rep_retcode = rep_process.poll()
       req_retcode = req_process.poll()
       while (rep_retcode == None) or (req_retcode == None):
-         time.sleep(.25)
+         time.sleep(.05)
          rep_retcode = rep_process.poll()
          req_retcode = req_process.poll()
       if (rep_retcode == 0) and (req_retcode == 0):

@@ -19,7 +19,7 @@ context = zmq.Context()
 pub_socket = context.socket(zmq.PUB)
 pub_socket.bind("ipc://testpublisher.ipc")
 
-for i in range(3):
+for i in range(50):
    pub_socket.send("Now is the time for all good men to come to the aid of their country.")
-   time.sleep(1)
+   time.sleep(.05)
    
