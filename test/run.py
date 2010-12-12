@@ -34,15 +34,9 @@ gpl_header = """# This file is part of Mesh.
 # You should have received a copy of the GNU General Public License
 # along with Mesh.  If not, see <http://www.gnu.org/licenses/>."""
 
-class Test00Prerequisites(unittest.TestCase):
-   def setUp(self):
-      pass
-
-   def tearDown(self):
-      pass
-
+class Test00Dependencies(unittest.TestCase):
    def test_00banner(self):
-      "STARTING PREREQUISITE TESTS"
+      "[DEPENDENCY TESTS]"
 
    def test_01os(self):
       "Supported OS?"
@@ -72,14 +66,8 @@ class Test00Prerequisites(unittest.TestCase):
 global project_root_dir; project_root_dir = None ; # Gotta be a way better than a global...
 
 class Test01Code(unittest.TestCase):
-   def setUp(self):
-      pass
-
-   def tearDown(self):
-      pass
-
    def test_00banner(self):
-      "STARTING CODE TESTS"
+      "[CODE TESTS]"
 
    def test_01projectrootdir(self):
       "Can find the project root directory"
@@ -105,7 +93,7 @@ class Test01Code(unittest.TestCase):
 
 class Test02Syntax(unittest.TestCase):
    def test_00banner(self):
-      "STARTING SYNTAX TESTS"
+      "[SYNTAX TESTS]"
 
    def test_03main(self):
       "Can import the main mesh file"
@@ -114,7 +102,10 @@ class Test02Syntax(unittest.TestCase):
       import mesh
 
 class Test02zmq(unittest.TestCase):
-   def test_00pubsub(self):
+   def test_00banner(self):
+      "[MESSAGING TESTS]"
+
+   def test_01pubsub(self):
       "ZMQ Publish/Subscribe pattern works over ipc"
       global project_root_dir
       
@@ -172,7 +163,10 @@ class Test03crypto(unittest.TestCase):
       self.bob_cert   = M2Crypto.X509.load_cert(os.path.join(project_root_dir, 'test', 'certs', 'bob.cert'))
       self.ca_cert    = M2Crypto.X509.load_cert(os.path.join(project_root_dir, 'test', 'certs', 'test-ca-cert.pem'))
 
-   def test_00verifycert(self):
+   def test_00banner(self):
+      "[CRYPTOGRAPHY TESTS]"
+
+   def test_01verifycert(self):
       "SSL certificates signed by the CA get verified correctly"
       import communicator
       global project_root_dir
