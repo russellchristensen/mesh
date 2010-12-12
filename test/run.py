@@ -166,21 +166,37 @@ class Test03crypto(unittest.TestCase):
    def test_00banner(self):
       "[CRYPTOGRAPHY TESTS]"
 
-   def test_01verifycert(self):
-      "SSL certificates signed by the CA get verified correctly"
+   def test_01m2verifycert(self):
+      "(w/M2Crytpo [optional]) SSL certificates signed by the CA get verified correctly"
       import communicator
       global project_root_dir
       # This certificate should be valid
-      if not communicator.verify_cert(cafile=os.path.join(project_root_dir, 'test', 'certs', 'test-ca-cert.pem'), certfile=os.path.join(project_root_dir, 'test', 'certs', 'alice.cert')):
+      if not communicator.verify_cert_m2crypto(cafile=os.path.join(project_root_dir, 'test', 'certs', 'test-ca-cert.pem'), certfile=os.path.join(project_root_dir, 'test', 'certs', 'alice.cert')):
          self.fail("A certificate that should be valid could not be verified.")
 
-   def test_03verifycert_fail(self):
-      "SSL certificates not signed by the CA do not get verified"
+   def test_02m2verifycert_fail(self):
+      "(w/M2Crypto [optional]) Self-signed SSL certificates do not get verified"
       import communicator
       global project_root_dir
       # This certificate should not be valid
-      if communicator.verify_cert(cafile=os.path.join(project_root_dir, 'test', 'certs', 'test-ca-cert.pem'), certfile=os.path.join(project_root_dir, 'test', 'certs', 'test-self-sign.cert')):
+      if communicator.verify_cert_m2crypto(cafile=os.path.join(project_root_dir, 'test', 'certs', 'test-ca-cert.pem'), certfile=os.path.join(project_root_dir, 'test', 'certs', 'test-self-sign.cert')):
          self.fail("A certificate that should not be valid was verified.")
+
+   def test_03cliverifycert(self):
+      "(w/CLI) SSL certificates signed by the CA get verified correctly"
+      import communicator
+      global project_root_dir
+      # This certificate should be valid
+      if not communicator.verify_cert_cli(cafile=os.path.join(project_root_dir, 'test', 'certs', 'test-ca-cert.pem'), certfile=os.path.join(project_root_dir, 'test', 'certs', 'alice.cert')):
+         self.fail("A certificate that should be valid could not be verified.  Note that you can ignore this failure if the same test via the M2Crypto method succeeded.")
+
+   def test_04cliverifycert_fail(self):
+      "(w/CLI) Self-signed SSL certificates do not get verified"
+      import communicator
+      global project_root_dir
+      # This certificate should not be valid
+      if communicator.verify_cert_cli(cafile=os.path.join(project_root_dir, 'test', 'certs', 'test-ca-cert.pem'), certfile=os.path.join(project_root_dir, 'test', 'certs', 'test-self-sign.cert')):
+         self.fail("A certificate that should not be valid was verified.  Note that you can ignore this failure if the same test via the M2Crypto method succeeded.")
 
    def test_06encrypt(self):
       "Encrypting a string using a public key seems to work"
