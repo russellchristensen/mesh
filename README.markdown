@@ -1,20 +1,37 @@
-# mesh
+# What is mesh?
 
-**mesh** is a decentralized monitoring system.  The github organization "meshers" was created to make it easier to manage who has commit access to the repository.
+**mesh** is a decentralized, secure, powerful, fast monitoring system.
 
-## Best Acronyms for mesh we've thought of so far:
+# What's the status of development?
 
-**m**onitoring
-**e**verything
-**s**hall
-**h**elp
+_Design/Alpha Development!_
 
-**m**ay
-**e**verything
-**s**tay
-**h**ealthy
+We're very actively designing, prototyping, and changing things all the time.  Developers welcome!
 
-**m**any
-**e**yes
-**s**canning
-**h**ardware
+# Getting Started
+
+#### You must have...
+* OS X, Linux or similar OS.
+* Git
+* Python 2.5+
+
+####Clone the mesh repository onto your machine:
+
+> git clone git://github.com/meshers/mesh.git
+
+#### Run the tests and see what you are missing:
+
+> cd mesh
+> tests/run.py -v
+
+#### Most likely, you'll need to install some or all of these packages:
+
+* M2Crypto
+* ZeroMQ
+* PyZMQ
+
+#### Once the tests pass, you're ready!
+
+> src/mesh.py
+# Resources
+* [PDF version of the Mesh Messaging Design Overview](https://github.com/meshers/mesh/blob/master/docs/messaging-design-overview.pdf)
