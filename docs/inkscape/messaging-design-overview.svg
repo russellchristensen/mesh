@@ -10,28 +10,28 @@
    xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   sodipodi:docname="design-overview.svg"
+   sodipodi:docname="messaging-design-overview.svg"
    inkscape:version="0.48.0 r9654"
    version="1.1"
    id="svg2993"
    height="612pt"
    width="792pt">
   <sodipodi:namedview
-     inkscape:document-units="in"
+     inkscape:document-units="px"
      pagecolor="#ffffff"
      bordercolor="#666666"
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.82831535"
-     inkscape:cx="440.44501"
-     inkscape:cy="504.67274"
+     inkscape:zoom="1.0389902"
+     inkscape:cx="431.12929"
+     inkscape:cy="384.94525"
      inkscape:current-layer="layer1"
      id="namedview2997"
      showgrid="false"
-     inkscape:window-width="1354"
-     inkscape:window-height="1092"
-     inkscape:window-x="10"
+     inkscape:window-width="1920"
+     inkscape:window-height="1095"
+     inkscape:window-x="0"
      inkscape:window-y="0"
      inkscape:window-maximized="0"
      showguides="true"
@@ -510,6 +510,20 @@
          id="path10983"
          inkscape:connector-curvature="0" />
     </marker>
+    <marker
+       style="overflow:visible"
+       id="Arrow2Lend-98"
+       refX="0"
+       refY="0"
+       orient="auto"
+       inkscape:stockid="Arrow2Lend">
+      <path
+         inkscape:connector-curvature="0"
+         transform="matrix(-1.1,0,0,-1.1,-1.1,0)"
+         d="M 8.7185878,4.0337352 -2.2072895,0.01601326 8.7185884,-4.0017078 c -1.7454984,2.3720609 -1.7354408,5.6174519 -6e-7,8.035443 z"
+         style="font-size:12px;fill-rule:evenodd;stroke-width:0.625;stroke-linejoin:round"
+         id="path4191-65" />
+    </marker>
   </defs>
   <metadata
      id="metadata2999">
@@ -519,7 +533,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -528,19 +542,19 @@
      inkscape:groupmode="layer"
      inkscape:label="Layer 1">
     <rect
-       style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1.24488151;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1.51162732;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
        id="rect4131"
        width="301.23792"
-       height="40.316738"
-       x="496.93057"
-       y="594.07141" />
+       height="59.445473"
+       x="492.93057"
+       y="585.78168" />
     <rect
        y="451.89542"
-       x="495.39072"
-       height="40.316738"
+       x="487.39072"
+       height="59.244324"
        width="301.23792"
        id="rect4113"
-       style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1.24488151;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+       style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1.50906754;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
     <rect
        y="134.46432"
        x="490.65207"
@@ -549,19 +563,19 @@
        id="rect4083"
        style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1.25205243;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
     <rect
-       y="334.52249"
-       x="119.53323"
+       y="357.52444"
+       x="127.65157"
        height="59.804905"
        width="282.2197"
        id="rect4713"
        style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.78915727;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
     <rect
-       y="171.87418"
-       x="145.35039"
-       height="93.877167"
-       width="249.54735"
+       y="171.8909"
+       x="145.36711"
+       height="127.13539"
+       width="248.202"
        id="rect4661"
-       style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1.00391674;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+       style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1.16513717;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
     <g
        transform="translate(-355.67851,18.355247)"
        id="g4227">
@@ -900,381 +914,49 @@
            id="flowPara4108">TCP CONN</flowPara></flowRoot>    </g>
     <text
        sodipodi:linespacing="125%"
-       id="text4323"
-       y="470.50333"
-       x="-194.53438"
-       style="font-size:40px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000ce8;fill-opacity:1;stroke:none;font-family:Charcoal CY;-inkscape-font-specification:Charcoal CY"
-       xml:space="preserve"><tspan
-         y="470.50333"
-         x="-194.53438"
-         id="tspan4325"
-         sodipodi:role="line">x N</tspan></text>
-    <text
-       sodipodi:linespacing="125%"
        id="text4327"
-       y="158.40012"
-       x="199.44069"
-       style="font-size:28px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#9d5912;fill-opacity:1;stroke:none;font-family:Charcoal CY;-inkscape-font-specification:Charcoal CY"
+       y="161.02396"
+       x="144.99612"
+       style="font-size:24px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#9d5912;fill-opacity:1;stroke:none;font-family:Charcoal CY;-inkscape-font-specification:Charcoal CY"
        xml:space="preserve"><tspan
-         y="158.40012"
-         x="199.44069"
+         y="161.02396"
+         x="144.99612"
          id="tspan4329"
          sodipodi:role="line">port_assigner</tspan></text>
-    <g
-       id="g4331"
-       transform="translate(-5.1545222,-37.592448)">
-      <rect
-         style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1.26485789;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
-         id="rect4333"
-         width="81.843178"
-         height="18.91515"
-         x="150.04584"
-         y="283.54364" />
-      <rect
-         style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1.26576018;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
-         id="rect4335"
-         width="81.843185"
-         height="39.94455"
-         x="150.04584"
-         y="243.49683" />
-      <flowRoot
-         xml:space="preserve"
-         style="font-size:28px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Charcoal CY;-inkscape-font-specification:Charcoal CY"
-         id="flowRoot4337"
-         transform="translate(15.93817,212.82338)"><flowRegion
-           id="flowRegion4339"><use
-             x="0"
-             y="0"
-             xlink:href="#rect3770"
-             id="use4341"
-             width="990"
-             height="765" /></flowRegion><flowPara
-           id="flowPara4343">REP</flowPara></flowRoot>      <flowRoot
-         xml:space="preserve"
-         style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Charcoal CY;-inkscape-font-specification:Charcoal CY"
-         id="flowRoot4345"
-         transform="translate(6.2980483,248.96347)"><flowRegion
-           id="flowRegion4347"><use
-             x="0"
-             y="0"
-             xlink:href="#rect3770"
-             id="use4349"
-             width="990"
-             height="765" /></flowRegion><flowPara
-           id="flowPara4351">TCP BIND</flowPara></flowRoot>    </g>
-    <g
-       transform="translate(0,21.258745)"
-       id="g4616">
-      <rect
-         y="392.15445"
-         x="-102.1803"
-         height="39.94455"
-         width="81.843185"
-         id="rect4401"
-         style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1.26576018;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
-      <flowRoot
-         transform="translate(-246.28797,361.48099)"
-         id="flowRoot4403"
-         style="font-size:28px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Charcoal CY;-inkscape-font-specification:Charcoal CY"
-         xml:space="preserve"><flowRegion
-           id="flowRegion4405"><use
-             height="765"
-             width="990"
-             id="use4407"
-             xlink:href="#rect3770"
-             y="0"
-             x="0" /></flowRegion><flowPara
-           id="flowPara4409">PUSH </flowPara></flowRoot>    </g>
-    <g
-       transform="translate(0,32.872737)"
-       id="g4609">
-      <rect
-         style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1.26576018;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
-         id="rect4423"
-         width="81.843185"
-         height="39.94455"
-         x="-102.1803"
-         y="325.3829" />
-      <flowRoot
-         xml:space="preserve"
-         style="font-size:28px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Charcoal CY;-inkscape-font-specification:Charcoal CY"
-         id="flowRoot4425"
-         transform="translate(-244.28797,294.70946)"><flowRegion
-           id="flowRegion4427"><use
-             x="0"
-             y="0"
-             xlink:href="#rect3770"
-             id="use4429"
-             width="990"
-             height="765" /></flowRegion><flowPara
-           id="flowPara4431">PULL </flowPara></flowRoot>    </g>
-    <g
-       transform="translate(0,3.8377564)"
-       id="g4623">
-      <rect
-         style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1.26576018;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
-         id="rect4467"
-         width="81.843185"
-         height="39.94455"
-         x="-102.1803"
-         y="463.5127" />
-      <flowRoot
-         xml:space="preserve"
-         style="font-size:28px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Charcoal CY;-inkscape-font-specification:Charcoal CY"
-         id="flowRoot4469"
-         transform="translate(-238.28797,432.83923)"><flowRegion
-           id="flowRegion4471"><use
-             x="0"
-             y="0"
-             xlink:href="#rect3770"
-             id="use4473"
-             width="990"
-             height="765" /></flowRegion><flowPara
-           id="flowPara4475">REQ</flowPara></flowRoot>    </g>
-    <g
-       transform="translate(0,-11.405608)"
-       id="g4630">
-      <rect
-         y="533.84662"
-         x="-102.1803"
-         height="39.94455"
-         width="81.843185"
-         id="rect4511"
-         style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1.26576018;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
-      <flowRoot
-         transform="translate(-236.28797,503.17319)"
-         id="flowRoot4513"
-         style="font-size:28px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Charcoal CY;-inkscape-font-specification:Charcoal CY"
-         xml:space="preserve"><flowRegion
-           id="flowRegion4515"><use
-             height="765"
-             width="990"
-             id="use4517"
-             xlink:href="#rect3770"
-             y="0"
-             x="0" /></flowRegion><flowPara
-           id="flowPara4519">REP</flowPara></flowRoot>    </g>
-    <g
-       id="g4637"
-       transform="translate(414.49635,-166.58974)">
-      <rect
-         style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1.26576018;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
-         id="rect4639"
-         width="81.843185"
-         height="39.94455"
-         x="-102.1803"
-         y="392.15445" />
-      <flowRoot
-         xml:space="preserve"
-         style="font-size:28px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Charcoal CY;-inkscape-font-specification:Charcoal CY"
-         id="flowRoot4641"
-         transform="translate(-246.28797,361.48099)"><flowRegion
-           id="flowRegion4643"><use
-             x="0"
-             y="0"
-             xlink:href="#rect3770"
-             id="use4645"
-             width="990"
-             height="765" /></flowRegion><flowPara
-           id="flowPara4647">PUSH </flowPara></flowRoot>    </g>
-    <g
-       id="g4649"
-       transform="translate(414.49636,-153.52399)">
-      <rect
-         y="325.3829"
-         x="-102.1803"
-         height="39.94455"
-         width="81.843185"
-         id="rect4651"
-         style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1.26576018;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
-      <flowRoot
-         transform="translate(-244.28797,294.70946)"
-         id="flowRoot4653"
-         style="font-size:28px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Charcoal CY;-inkscape-font-specification:Charcoal CY"
-         xml:space="preserve"><flowRegion
-           id="flowRegion4655"><use
-             height="765"
-             width="990"
-             id="use4657"
-             xlink:href="#rect3770"
-             y="0"
-             x="0" /></flowRegion><flowPara
-           id="flowPara4659">PULL </flowPara></flowRoot>    </g>
     <text
        sodipodi:linespacing="125%"
        id="text4663"
-       y="320.07346"
-       x="121.67188"
-       style="font-size:28px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#9d5912;fill-opacity:1;stroke:none;font-family:Charcoal CY;-inkscape-font-specification:Charcoal CY"
+       y="349.63501"
+       x="129.79021"
+       style="font-size:24px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#9d5912;fill-opacity:1;stroke:none;font-family:Charcoal CY;-inkscape-font-specification:Charcoal CY"
        xml:space="preserve"><tspan
-         y="320.07346"
-         x="121.67188"
+         y="349.63501"
+         x="129.79021"
          id="tspan4665"
-         sodipodi:role="line">inbound_pull_proxy</tspan></text>
-    <g
-       id="g4667"
-       transform="translate(-30.507899,299.51791)">
-      <rect
-         y="75.079903"
-         x="150.04584"
-         height="18.91515"
-         width="81.843178"
-         id="rect4669"
-         style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1.26485789;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
-      <rect
-         y="35.033096"
-         x="150.04584"
-         height="39.94455"
-         width="81.843185"
-         id="rect4671"
-         style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1.26576018;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
-      <flowRoot
-         transform="translate(7.3020531,4.0397347)"
-         id="flowRoot4673"
-         style="font-size:28px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Charcoal CY;-inkscape-font-specification:Charcoal CY"
-         xml:space="preserve"><flowRegion
-           id="flowRegion4675"><use
-             height="765"
-             width="990"
-             id="use4677"
-             xlink:href="#rect3770"
-             y="0"
-             x="0" /></flowRegion><flowPara
-           id="flowPara4679">PULL </flowPara></flowRoot>      <flowRoot
-         transform="translate(5.6619308,40.179831)"
-         id="flowRoot4681"
-         style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Charcoal CY;-inkscape-font-specification:Charcoal CY"
-         xml:space="preserve"><flowRegion
-           id="flowRegion4683"><use
-             height="765"
-             width="990"
-             id="use4685"
-             xlink:href="#rect3770"
-             y="0"
-             x="0" /></flowRegion><flowPara
-           id="flowPara4687">TCP BIND</flowPara></flowRoot>    </g>
-    <g
-       id="g4689"
-       transform="translate(421.51046,-57.338548)">
-      <rect
-         style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1.26576018;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
-         id="rect4691"
-         width="81.843185"
-         height="39.94455"
-         x="-102.1803"
-         y="392.15445" />
-      <flowRoot
-         xml:space="preserve"
-         style="font-size:28px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Charcoal CY;-inkscape-font-specification:Charcoal CY"
-         id="flowRoot4693"
-         transform="translate(-246.28797,361.48099)"><flowRegion
-           id="flowRegion4695"><use
-             x="0"
-             y="0"
-             xlink:href="#rect3770"
-             id="use4697"
-             width="990"
-             height="765" /></flowRegion><flowPara
-           id="flowPara4699">PUSH </flowPara></flowRoot>    </g>
-    <text
-       sodipodi:linespacing="125%"
-       id="text4701"
-       y="394.80402"
-       x="-185.09801"
-       style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Charcoal CY;-inkscape-font-specification:Charcoal CY"
-       xml:space="preserve"><tspan
-         y="394.80402"
-         x="-185.09801"
-         id="tspan4703"
-         sodipodi:role="line">:??</tspan></text>
+         sodipodi:role="line">pull_proxy</tspan></text>
     <rect
        style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.81780189;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
        id="rect4715"
        width="303.30157"
        height="59.761086"
-       x="116.23766"
-       y="484.09647" />
+       x="117.59072"
+       y="479.13525" />
     <text
        xml:space="preserve"
-       style="font-size:28px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#9d5912;fill-opacity:1;stroke:none;font-family:Charcoal CY;-inkscape-font-specification:Charcoal CY"
-       x="118.97511"
-       y="471.90237"
+       style="font-size:24px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#9d5912;fill-opacity:1;stroke:none;font-family:Charcoal CY;-inkscape-font-specification:Charcoal CY"
+       x="120.32817"
+       y="466.94116"
        id="text4717"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan4719"
-         x="118.97511"
-         y="471.90237">outbound_pull_proxy</tspan></text>
-    <g
-       transform="translate(439.46432,92.036502)"
-       id="g4743">
-      <rect
-         y="392.15445"
-         x="-102.1803"
-         height="39.94455"
-         width="81.843185"
-         id="rect4745"
-         style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1.26576018;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
-      <flowRoot
-         transform="translate(-246.28797,361.48099)"
-         id="flowRoot4747"
-         style="font-size:28px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Charcoal CY;-inkscape-font-specification:Charcoal CY"
-         xml:space="preserve"><flowRegion
-           id="flowRegion4749"><use
-             height="765"
-             width="990"
-             id="use4751"
-             xlink:href="#rect3770"
-             y="0"
-             x="0" /></flowRegion><flowPara
-           id="flowPara4753">PUSH </flowPara></flowRoot>    </g>
-    <g
-       id="g10085"
-       transform="translate(4.1302614,19.274552)">
-      <rect
-         style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1.26485789;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
-         id="rect4761"
-         width="81.843178"
-         height="18.91515"
-         x="111.7568"
-         y="505.40167" />
-      <rect
-         style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1.26576018;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
-         id="rect4763"
-         width="81.843185"
-         height="39.94455"
-         x="111.7568"
-         y="465.35486" />
-      <flowRoot
-         xml:space="preserve"
-         style="font-size:28px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Charcoal CY;-inkscape-font-specification:Charcoal CY"
-         id="flowRoot4765"
-         transform="translate(-30.35088,434.68142)"><flowRegion
-           id="flowRegion4767"><use
-             x="0"
-             y="0"
-             xlink:href="#rect3770"
-             id="use4769"
-             width="990"
-             height="765" /></flowRegion><flowPara
-           id="flowPara4771">PULL </flowPara></flowRoot>      <flowRoot
-         xml:space="preserve"
-         style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Charcoal CY;-inkscape-font-specification:Charcoal CY"
-         id="flowRoot4773"
-         transform="translate(-33.991,470.82152)"><flowRegion
-           id="flowRegion4775"><use
-             x="0"
-             y="0"
-             xlink:href="#rect3770"
-             id="use4777"
-             width="990"
-             height="765" /></flowRegion><flowPara
-           id="flowPara4779">TCP CONN</flowPara></flowRoot>    </g>
+         x="120.32817"
+         y="466.94116">pull_proxy</tspan></text>
     <flowRoot
        xml:space="preserve"
        style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Charcoal CY;-inkscape-font-specification:Charcoal CY"
        id="flowRoot10063"
-       transform="translate(-0.93827658,595.27833)"><flowRegion
+       transform="translate(-18.076971,556.49076)"><flowRegion
          id="flowRegion10065"><use
            x="0"
            y="0"
@@ -1284,7 +966,7 @@
            height="765" /></flowRegion><flowPara
          id="flowPara10069">Legend:</flowPara></flowRoot>    <text
        xml:space="preserve"
-       style="font-size:28px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#9d5912;fill-opacity:1;stroke:none;font-family:Charcoal CY;-inkscape-font-specification:Charcoal CY"
+       style="font-size:24px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#9d5912;fill-opacity:1;stroke:none;font-family:Charcoal CY;-inkscape-font-specification:Charcoal CY"
        x="502.29459"
        y="121.19424"
        id="text4781"
@@ -1293,201 +975,6 @@
          id="tspan4783"
          x="502.29459"
          y="121.19424">communicator</tspan></text>
-    <g
-       id="g3197"
-       transform="translate(593.38381,-17.689228)">
-      <rect
-         y="325.3829"
-         x="-102.1803"
-         height="39.94455"
-         width="81.843185"
-         id="rect3199"
-         style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1.26576018;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
-      <flowRoot
-         transform="translate(-244.28797,294.70946)"
-         id="flowRoot3201"
-         style="font-size:28px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Charcoal CY;-inkscape-font-specification:Charcoal CY"
-         xml:space="preserve"><flowRegion
-           id="flowRegion3203"><use
-             height="765"
-             width="990"
-             id="use3205"
-             xlink:href="#rect3770"
-             y="0"
-             x="0" /></flowRegion><flowPara
-           id="flowPara3207">PULL </flowPara></flowRoot>    </g>
-    <g
-       id="g3209"
-       transform="translate(593.38381,-165.76765)">
-      <rect
-         style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1.26576018;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
-         id="rect3211"
-         width="81.843185"
-         height="39.94455"
-         x="-102.1803"
-         y="392.15445" />
-      <flowRoot
-         xml:space="preserve"
-         style="font-size:28px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Charcoal CY;-inkscape-font-specification:Charcoal CY"
-         id="flowRoot3213"
-         transform="translate(-246.28797,361.48099)"><flowRegion
-           id="flowRegion3215"><use
-             x="0"
-             y="0"
-             xlink:href="#rect3770"
-             id="use3217"
-             width="990"
-             height="765" /></flowRegion><flowPara
-           id="flowPara3219">PUSH </flowPara></flowRoot>    </g>
-    <g
-       transform="translate(719.68597,-83.743828)"
-       id="g3221">
-      <rect
-         y="392.15445"
-         x="-102.1803"
-         height="39.94455"
-         width="81.843185"
-         id="rect3223"
-         style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1.26576018;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
-      <flowRoot
-         transform="translate(-246.28797,361.48099)"
-         id="flowRoot3225"
-         style="font-size:28px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Charcoal CY;-inkscape-font-specification:Charcoal CY"
-         xml:space="preserve"><flowRegion
-           id="flowRegion3227"><use
-             height="765"
-             width="990"
-             id="use3229"
-             xlink:href="#rect3770"
-             y="0"
-             x="0" /></flowRegion><flowPara
-           id="flowPara3231">PUSH </flowPara></flowRoot>    </g>
-    <g
-       id="g3233"
-       transform="translate(493.21312,32.396102)">
-      <rect
-         y="141.85144"
-         x="253.49821"
-         height="18.91515"
-         width="81.843178"
-         id="rect3235"
-         style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1.26485789;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
-      <rect
-         y="101.80463"
-         x="253.49821"
-         height="39.94455"
-         width="81.843185"
-         id="rect3237"
-         style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1.26576018;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
-      <flowRoot
-         transform="translate(109.39054,71.131185)"
-         id="flowRoot3239"
-         style="font-size:28px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Charcoal CY;-inkscape-font-specification:Charcoal CY"
-         xml:space="preserve"><flowRegion
-           id="flowRegion3241"><use
-             height="765"
-             width="990"
-             id="use3243"
-             xlink:href="#rect3770"
-             y="0"
-             x="0" /></flowRegion><flowPara
-           id="flowPara3245">PUSH </flowPara></flowRoot>      <flowRoot
-         transform="translate(107.75042,107.27128)"
-         id="flowRoot3247"
-         style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Charcoal CY;-inkscape-font-specification:Charcoal CY"
-         xml:space="preserve"><flowRegion
-           id="flowRegion3249"><use
-             height="765"
-             width="990"
-             id="use3251"
-             xlink:href="#rect3770"
-             y="0"
-             x="0" /></flowRegion><flowPara
-           id="flowPara3253">TCP CONN</flowPara></flowRoot>    </g>
-    <g
-       id="g3255"
-       transform="translate(597.73905,145.26189)">
-      <rect
-         style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1.26485789;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
-         id="rect3257"
-         width="81.843178"
-         height="18.91515"
-         x="150.04584"
-         y="141.85144" />
-      <rect
-         style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1.26576018;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
-         id="rect3259"
-         width="81.843185"
-         height="39.94455"
-         x="150.04584"
-         y="101.80463" />
-      <flowRoot
-         xml:space="preserve"
-         style="font-size:28px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Charcoal CY;-inkscape-font-specification:Charcoal CY"
-         id="flowRoot3261"
-         transform="translate(5.9381706,71.131185)"><flowRegion
-           id="flowRegion3263"><use
-             x="0"
-             y="0"
-             xlink:href="#rect3770"
-             id="use3265"
-             width="990"
-             height="765" /></flowRegion><flowPara
-           id="flowPara3267">PUSH </flowPara></flowRoot>      <flowRoot
-         xml:space="preserve"
-         style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Charcoal CY;-inkscape-font-specification:Charcoal CY"
-         id="flowRoot3269"
-         transform="translate(6.2980483,107.27128)"><flowRegion
-           id="flowRegion3271"><use
-             x="0"
-             y="0"
-             xlink:href="#rect3770"
-             id="use3273"
-             width="990"
-             height="765" /></flowRegion><flowPara
-           id="flowPara3275">TCP BIND</flowPara></flowRoot>    </g>
-    <g
-       id="g3285"
-       transform="translate(236.97942,-38.739598)">
-      <rect
-         style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1.26485789;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
-         id="rect3287"
-         width="81.843178"
-         height="18.91515"
-         x="253.49821"
-         y="213.20967" />
-      <rect
-         style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1.26576018;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
-         id="rect3289"
-         width="81.843185"
-         height="39.94455"
-         x="253.49821"
-         y="173.16287" />
-      <flowRoot
-         xml:space="preserve"
-         style="font-size:28px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Charcoal CY;-inkscape-font-specification:Charcoal CY"
-         id="flowRoot3291"
-         transform="translate(117.39054,142.48942)"><flowRegion
-           id="flowRegion3293"><use
-             x="0"
-             y="0"
-             xlink:href="#rect3770"
-             id="use3295"
-             width="990"
-             height="765" /></flowRegion><flowPara
-           id="flowPara3297">REQ</flowPara></flowRoot>      <flowRoot
-         xml:space="preserve"
-         style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Charcoal CY;-inkscape-font-specification:Charcoal CY"
-         id="flowRoot3299"
-         transform="translate(107.75042,178.62952)"><flowRegion
-           id="flowRegion3301"><use
-             x="0"
-             y="0"
-             xlink:href="#rect3770"
-             id="use3303"
-             width="990"
-             height="765" /></flowRegion><flowPara
-           id="flowPara3305">TCP CONN</flowPara></flowRoot>    </g>
     <text
        sodipodi:linespacing="125%"
        id="text3311"
@@ -1499,7 +986,7 @@
          y="171.99832"
          x="576.13586"
          id="tspan3313"
-         sodipodi:role="line">(recreated as needed,</tspan><tspan
+         sodipodi:role="line">(created as needed,</tspan><tspan
          id="tspan4149"
          style="font-size:11px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#ff0d0d;fill-opacity:1;font-family:Charcoal CY;-inkscape-font-specification:Charcoal CY"
          y="185.74832"
@@ -1509,142 +996,40 @@
        sodipodi:linespacing="125%"
        id="text4085"
        y="440.34842"
-       x="502.29459"
-       style="font-size:28px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#9d5912;fill-opacity:1;stroke:none;font-family:Charcoal CY;-inkscape-font-specification:Charcoal CY"
+       x="498.29459"
+       style="font-size:24px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#9d5912;fill-opacity:1;stroke:none;font-family:Charcoal CY;-inkscape-font-specification:Charcoal CY"
        xml:space="preserve"><tspan
          y="440.34842"
-         x="502.29459"
+         x="498.29459"
          id="tspan4087"
-         sodipodi:role="line">meshmaster</tspan></text>
-    <g
-       id="g4089"
-       transform="translate(597.01318,59.979332)">
-      <rect
-         style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1.26576018;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
-         id="rect4091"
-         width="81.843185"
-         height="39.94455"
-         x="-102.1803"
-         y="392.15445" />
-      <flowRoot
-         xml:space="preserve"
-         style="font-size:28px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Charcoal CY;-inkscape-font-specification:Charcoal CY"
-         id="flowRoot4093"
-         transform="translate(-246.28797,361.48099)"><flowRegion
-           id="flowRegion4095"><use
-             x="0"
-             y="0"
-             xlink:href="#rect3770"
-             id="use4097"
-             width="990"
-             height="765" /></flowRegion><flowPara
-           id="flowPara4099">PUSH </flowPara></flowRoot>    </g>
-    <g
-       transform="translate(816.22729,126.75979)"
-       id="g4101">
-      <rect
-         style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1.26576018;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
-         id="rect4103"
-         width="81.843185"
-         height="39.94455"
-         x="-102.1803"
-         y="325.3829" />
-      <flowRoot
-         xml:space="preserve"
-         style="font-size:28px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Charcoal CY;-inkscape-font-specification:Charcoal CY"
-         id="flowRoot4105"
-         transform="translate(-244.28797,294.70946)"><flowRegion
-           id="flowRegion4107"><use
-             x="0"
-             y="0"
-             xlink:href="#rect3770"
-             id="use4109"
-             width="990"
-             height="765" /></flowRegion><flowPara
-           id="flowPara4111">PULL </flowPara></flowRoot>    </g>
+         sodipodi:role="line">master</tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:28px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#9d5912;fill-opacity:1;stroke:none;font-family:Charcoal CY;-inkscape-font-specification:Charcoal CY"
-       x="502.80789"
-       y="583.40881"
+       style="font-size:24px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#9d5912;fill-opacity:1;stroke:none;font-family:Charcoal CY;-inkscape-font-specification:Charcoal CY"
+       x="498.80789"
+       y="575.29047"
        id="text4115"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan4117"
-         x="502.80789"
-         y="583.40881">(plugins)</tspan></text>
-    <g
-       transform="translate(817.71962,202.15533)"
-       id="g4119">
-      <rect
-         y="392.15445"
-         x="-102.1803"
-         height="39.94455"
-         width="81.843185"
-         id="rect4121"
-         style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1.26576018;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
-      <flowRoot
-         transform="translate(-246.28797,361.48099)"
-         id="flowRoot4123"
-         style="font-size:28px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Charcoal CY;-inkscape-font-specification:Charcoal CY"
-         xml:space="preserve"><flowRegion
-           id="flowRegion4125"><use
-             height="765"
-             width="990"
-             id="use4127"
-             xlink:href="#rect3770"
-             y="0"
-             x="0" /></flowRegion><flowPara
-           id="flowPara4129">PUSH </flowPara></flowRoot>    </g>
-    <text
-       xml:space="preserve"
-       style="font-size:40px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000ce8;fill-opacity:1;stroke:none;font-family:Charcoal CY;-inkscape-font-specification:Charcoal CY"
-       x="756.48682"
-       y="228.20071"
-       id="text4137"
-       sodipodi:linespacing="125%"><tspan
-         sodipodi:role="line"
-         id="tspan4139"
-         x="756.48682"
-         y="228.20071">x N</tspan></text>
-    <text
-       sodipodi:linespacing="125%"
-       id="text4141"
-       y="339.66782"
-       x="760.08252"
-       style="font-size:40px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000ce8;fill-opacity:1;stroke:none;font-family:Charcoal CY;-inkscape-font-specification:Charcoal CY"
-       xml:space="preserve"><tspan
-         y="339.66782"
-         x="760.08252"
-         id="tspan4143"
-         sodipodi:role="line">x N</tspan></text>
+         x="498.80789"
+         y="575.29047">(plugins)</tspan></text>
     <text
        sodipodi:linespacing="125%"
        id="text4151"
-       y="299.18512"
-       x="666.65259"
+       y="329.98425"
+       x="691.19568"
        style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Charcoal CY;-inkscape-font-specification:Charcoal CY"
        xml:space="preserve"><tspan
          style="font-size:11px"
          id="tspan4157"
-         y="299.18512"
-         x="666.65259"
+         y="329.98425"
+         x="691.19568"
          sodipodi:role="line">(unique ports)</tspan></text>
-    <text
-       xml:space="preserve"
-       style="font-size:40px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000ce8;fill-opacity:1;stroke:none;font-family:Charcoal CY;-inkscape-font-specification:Charcoal CY"
-       x="639.6261"
-       y="585.0752"
-       id="text4161"
-       sodipodi:linespacing="125%"><tspan
-         sodipodi:role="line"
-         id="tspan4163"
-         x="639.6261"
-         y="585.0752">x N</tspan></text>
     <path
        inkscape:connector-curvature="0"
        id="path4868"
-       d="m 490.76993,470.55953 c -37.58502,-39.7145 10.99553,-87.1908 30.56356,-120.45642"
+       d="m 486.76993,470.55953 c -37.58502,-39.7145 10.99553,-87.1908 30.56356,-120.45642"
        style="color:#000000;fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;marker-end:url(#Arrow2Lend);visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
     <path
        inkscape:connector-curvature="0"
@@ -1654,108 +1039,22 @@
     <path
        inkscape:connector-curvature="0"
        id="path4906"
-       d="m 400.87709,353.69882 c 41.73241,0.27205 49.57173,-25.89732 86.29713,-19.77642"
+       d="m 410.86827,379.5521 c 40.46653,-10.20429 41.49125,-37.50339 78.57789,-40.7899"
        style="color:#000000;fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;marker-end:url(#Arrow2Lend);visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
     <path
        inkscape:connector-curvature="0"
        id="path4954"
-       d="m 660.66739,349.20418 c 4.48592,52.81465 176.43867,50.74145 151.91889,99.78105 -4.50163,9.0033 -6.68343,11.5167 -15.28178,14.3829"
+       d="m 654.66739,349.20418 c 4.48592,52.81465 176.43867,50.74145 151.91889,99.78105 -4.50163,9.0033 -6.68343,11.5167 -15.28178,14.3829"
        style="color:#000000;fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;marker-end:url(#Arrow2Lend);visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
     <path
        inkscape:connector-curvature="0"
        id="path4982"
-       d="m 798.20343,614.38803 c 68.00818,-31.849 62.66664,-130.7668 -3.59571,-140.2328"
-       style="color:#000000;fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;marker-end:url(#Arrow2Lend);visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
-    <path
-       inkscape:connector-curvature="0"
-       id="path5006"
-       d="m 396.06302,194.57755 c 42.97287,1.27676 61.03909,47.75904 91.6907,52.13784"
+       d="m 794.20343,614.38803 c 68.00818,-31.849 62.66664,-130.7668 -3.59571,-140.2328"
        style="color:#000000;fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;marker-end:url(#Arrow2Lend);visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
     <path
        inkscape:connector-curvature="0"
        id="path5018"
        d="m 395.1641,245.81646 c 51.71945,7.62962 39.25048,67.1196 91.69069,74.61106"
-       style="color:#000000;fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;marker-end:url(#Arrow2Lend);visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
-    <g
-       transform="translate(7.1243354,17.029002)"
-       id="g5252">
-      <path
-         sodipodi:type="arc"
-         style="color:#000000;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.99000001;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
-         id="path5030"
-         sodipodi:cx="588.34863"
-         sodipodi:cy="653.98236"
-         sodipodi:rx="4.9441061"
-         sodipodi:ry="4.9441061"
-         d="m 593.29274,653.98236 c 0,2.73056 -2.21355,4.94411 -4.94411,4.94411 -2.73055,0 -4.9441,-2.21355 -4.9441,-4.94411 0,-2.73055 2.21355,-4.94411 4.9441,-4.94411 2.73056,0 4.94411,2.21356 4.94411,4.94411 z"
-         transform="matrix(0.70293323,0,0,0.70293323,218.92711,167.92569)"
-         inkscape:tile-cx="632.49691"
-         inkscape:tile-cy="627.63162"
-         inkscape:tile-w="6.9507529"
-         inkscape:tile-h="6.9507529"
-         inkscape:tile-x0="629.02154"
-         inkscape:tile-y0="624.15625" />
-      <use
-         height="765"
-         width="990"
-         x="0"
-         y="0"
-         inkscape:tiled-clone-of="#path5030"
-         xlink:href="#path5030"
-         id="use5246" />
-      <use
-         height="765"
-         width="990"
-         x="0"
-         y="0"
-         inkscape:tiled-clone-of="#path5030"
-         xlink:href="#path5030"
-         transform="translate(0,13.901506)"
-         id="use5248" />
-      <use
-         height="765"
-         width="990"
-         x="0"
-         y="0"
-         inkscape:tiled-clone-of="#path5030"
-         xlink:href="#path5030"
-         transform="translate(0,27.803012)"
-         id="use5250" />
-    </g>
-    <rect
-       y="683.14502"
-       x="496.93057"
-       height="40.316738"
-       width="301.23792"
-       id="rect5258"
-       style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1.24488151;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
-    <g
-       id="g5260"
-       transform="translate(817.71962,291.229)">
-      <rect
-         style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1.26576018;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
-         id="rect5262"
-         width="81.843185"
-         height="39.94455"
-         x="-102.1803"
-         y="392.15445" />
-      <flowRoot
-         xml:space="preserve"
-         style="font-size:28px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Charcoal CY;-inkscape-font-specification:Charcoal CY"
-         id="flowRoot5264"
-         transform="translate(-246.28797,361.48099)"><flowRegion
-           id="flowRegion5266"><use
-             x="0"
-             y="0"
-             xlink:href="#rect3770"
-             id="use5268"
-             width="990"
-             height="765" /></flowRegion><flowPara
-           id="flowPara5270">PUSH </flowPara></flowRoot>    </g>
-    <path
-       inkscape:connector-curvature="0"
-       id="path5272"
-       d="m 799.80518,702.68603 c 99.94049,-57.3828 133.33564,-214.1689 -2.24556,-233.5377"
        style="color:#000000;fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;marker-end:url(#Arrow2Lend);visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
     <path
        inkscape:connector-curvature="0"
@@ -1780,32 +1079,32 @@
     <path
        inkscape:connector-curvature="0"
        id="path5315"
-       d="m 59.78754,350.14779 c 16.57248,8.33826 41.8153,3.96848 56.14125,11.13146"
+       d="m 67.905869,373.14972 c 16.57248,8.33826 41.815301,3.96848 56.141251,11.13146"
        style="color:#000000;fill:none;stroke:#158e25;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;marker-end:url(#Arrow2Lend-67k);visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
     <path
        inkscape:connector-curvature="0"
        id="path5319"
-       d="m 60.27151,376.28253 c 17.50387,6.0784 36.20961,7.7436 54.68933,7.7436"
+       d="m 68.389839,399.28446 c 17.50387,6.0784 36.209611,7.7436 54.689331,7.7436"
        style="color:#000000;fill:none;stroke:#ffb801;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;marker-end:url(#Arrow2Lend-67L);visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
     <path
        inkscape:connector-curvature="0"
        id="path5321"
-       d="m 65.59525,497.27663 c 15.08397,3.6232 31.39854,5.4372 45.97775,7.2596"
+       d="m 66.948305,492.31543 c 15.08397,3.6232 31.39854,5.4372 45.977745,7.2596"
        style="color:#000000;fill:none;stroke:#158e25;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;marker-end:url(#Arrow2Lend-67k);visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
     <path
        inkscape:connector-curvature="0"
        id="path5323"
-       d="m 111.573,532.60683 c -14.72679,-6.0417 -30.58581,-7.2596 -44.52582,-7.2596"
+       d="m 112.92605,527.64563 c -14.726785,-6.0417 -30.585805,-7.2596 -44.525815,-7.2596"
        style="color:#000000;fill:none;stroke:#ffb801;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;marker-end:url(#Arrow2Lend-67L);visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
     <path
        inkscape:connector-curvature="0"
        id="path5325"
-       d="M 142.52045,225.76588 C 125.49653,223.35485 98.205993,218.63576 85.895223,215.1184"
+       d="M 143.13559,251.71375 C 126.11167,249.30272 98.821136,244.58363 86.510366,241.06627"
        style="color:#000000;fill:none;stroke:#158e25;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;marker-start:url(#Arrow2Lstartn);marker-end:url(#Arrow2Lend-67km);visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
     <path
        inkscape:connector-curvature="0"
        id="path5327"
-       d="m 91.218963,244.05266 c 16.216917,4.71129 36.336447,11.61543 51.301487,11.61543"
+       d="m 91.834106,270.00053 c 16.216914,4.71129 36.336444,11.61543 51.301484,11.61543"
        style="color:#000000;fill:none;stroke:#ffb801;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;marker-end:url(#Arrow2Lend-67L);visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
     <path
        inkscape:connector-curvature="0"
@@ -1820,54 +1119,54 @@
     <text
        xml:space="preserve"
        style="font-size:13.69447231px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#ffb801;fill-opacity:1;stroke:none;font-family:Charcoal CY;-inkscape-font-specification:Charcoal CY"
-       x="148.27373"
-       y="669.5675"
+       x="131.13504"
+       y="630.77991"
        id="text10049"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan10051"
-         x="148.27373"
-         y="669.5675">Direction  TCP connection is established</tspan></text>
+         x="131.13504"
+         y="630.77991">Direction  TCP connection is established</tspan></text>
     <path
        style="color:#000000;fill:none;stroke:#ffb801;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;marker-end:url(#Arrow2Lend-67L);visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
-       d="m 144.83383,666.37323 c -14.72679,-6.0417 -30.58581,-7.2596 -44.52582,-7.2596"
+       d="m 127.69514,627.58566 c -14.72679,-6.0417 -30.585815,-7.2596 -44.525825,-7.2596"
        id="path10122"
        inkscape:connector-curvature="0" />
     <text
        sodipodi:linespacing="125%"
        id="text10124"
-       y="689.94739"
-       x="148.27373"
+       y="651.15979"
+       x="131.13504"
        style="font-size:13.69447231px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#158e25;fill-opacity:1;stroke:none;font-family:Charcoal CY;-inkscape-font-specification:Charcoal CY"
        xml:space="preserve"><tspan
-         y="689.94739"
-         x="148.27373"
+         y="651.15979"
+         x="131.13504"
          id="tspan10126"
          sodipodi:role="line">Direction  ZMQ Messages flow (over TCP)</tspan></text>
     <path
        inkscape:connector-curvature="0"
        id="path10128"
-       d="m 144.83383,686.75323 c -14.72679,-6.0417 -30.58581,-7.2597 -44.52582,-7.2597"
+       d="m 127.69514,647.96566 c -14.72679,-6.0417 -30.585815,-7.2597 -44.525825,-7.2597"
        style="color:#000000;fill:none;stroke:#158e25;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;marker-end:url(#Arrow2Lend-67Lh);visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
     <text
        xml:space="preserve"
        style="font-size:13.69447231px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Charcoal CY;-inkscape-font-specification:Charcoal CY"
-       x="148.27373"
-       y="711.16663"
+       x="131.13504"
+       y="672.37903"
        id="text10907"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan10909"
-         x="148.27373"
-         y="711.16663">Direction  ZMQ Messages flow (interprocess)</tspan></text>
+         x="131.13504"
+         y="672.37903">Direction  ZMQ Messages flow (interprocess)</tspan></text>
     <path
        style="color:#000000;fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;marker-end:url(#Arrow2Lend-67Lhl);visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
-       d="m 144.83383,707.97243 c -14.72679,-6.0417 -30.58581,-7.2596 -44.52582,-7.2596"
+       d="m 127.69514,669.18486 c -14.72679,-6.0417 -30.585815,-7.2596 -44.525825,-7.2596"
        id="path10911"
        inkscape:connector-curvature="0" />
     <path
        style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 148.15707,651.87693 300.81522,0"
+       d="m 131.01838,613.08936 300.81522,0"
        id="path11700"
        inkscape:connector-curvature="0" />
     <text
@@ -1891,41 +1190,686 @@
          sodipodi:role="line"
          id="tspan11727"
          x="64.891251"
-         y="86.128052">Last updated: 15 Dec 2010</tspan></text>
+         y="86.128052">Last updated: 18 Dec 2010</tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:28px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#9d5912;fill-opacity:1;stroke:none;font-family:Charcoal CY;-inkscape-font-specification:Charcoal CY"
-       x="-216.33899"
-       y="37.24577"
+       style="font-size:24px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#9d5912;fill-opacity:1;stroke:none;font-family:Charcoal CY;-inkscape-font-specification:Charcoal CY"
+       x="-202.72757"
+       y="38.606911"
        id="text11729"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan11731"
-         x="-216.33899"
-         y="37.24577">process_name</tspan></text>
+         x="-202.72757"
+         y="38.606911">process_name</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Charcoal CY;-inkscape-font-specification:Charcoal CY"
-       x="205.72643"
-       y="387.83798"
+       x="213.84474"
+       y="410.83994"
        id="text11733"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
-         x="205.72643"
-         y="387.83798"
+         x="213.84474"
+         y="410.83994"
          id="tspan11737"
          style="font-size:11px">(fixed port?)</tspan></text>
     <text
        sodipodi:linespacing="125%"
        id="text11743"
-       y="259.92307"
-       x="228.8371"
+       y="293.21826"
+       x="230.41472"
        style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Charcoal CY;-inkscape-font-specification:Charcoal CY"
        xml:space="preserve"><tspan
          style="font-size:11px"
          id="tspan11745"
-         y="259.92307"
-         x="228.8371"
+         y="293.21826"
+         x="230.41472"
          sodipodi:role="line">(fixed port?)</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Charcoal CY;-inkscape-font-specification:Charcoal CY"
+       x="-190.31712"
+       y="680.24969"
+       id="text3823"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         x="-190.31712"
+         y="680.24969"
+         id="tspan3825"
+         style="font-size:11px">(fixed port?)</tspan></text>
+    <g
+       id="g3827"
+       transform="translate(-355.67851,326.20901)">
+      <rect
+         y="75.079903"
+         x="150.04584"
+         height="18.91515"
+         width="81.843178"
+         id="rect3829"
+         style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1.26485789;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+      <rect
+         y="35.033096"
+         x="150.04584"
+         height="39.94455"
+         width="81.843185"
+         id="rect3831"
+         style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1.26576018;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+      <flowRoot
+         transform="translate(7.3020531,4.0397347)"
+         id="flowRoot3833"
+         style="font-size:28px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Charcoal CY;-inkscape-font-specification:Charcoal CY"
+         xml:space="preserve"><flowRegion
+           id="flowRegion3835"><use
+             height="765"
+             width="990"
+             id="use3837"
+             xlink:href="#rect3770"
+             y="0"
+             x="0" /></flowRegion><flowPara
+           id="flowPara3839">PULL </flowPara></flowRoot>      <flowRoot
+         transform="translate(5.6619308,40.179831)"
+         id="flowRoot3841"
+         style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Charcoal CY;-inkscape-font-specification:Charcoal CY"
+         xml:space="preserve"><flowRegion
+           id="flowRegion3843"><use
+             height="765"
+             width="990"
+             id="use3845"
+             xlink:href="#rect3770"
+             y="0"
+             x="0" /></flowRegion><flowPara
+           id="flowPara3847">IPC BIND</flowPara></flowRoot>    </g>
+    <g
+       id="g3849"
+       transform="translate(-355.67851,326.20901)">
+      <rect
+         style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1.26485789;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         id="rect3851"
+         width="81.843178"
+         height="18.91515"
+         x="150.04584"
+         y="141.85144" />
+      <rect
+         style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1.26576018;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         id="rect3853"
+         width="81.843185"
+         height="39.94455"
+         x="150.04584"
+         y="101.80463" />
+      <flowRoot
+         xml:space="preserve"
+         style="font-size:28px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Charcoal CY;-inkscape-font-specification:Charcoal CY"
+         id="flowRoot3855"
+         transform="translate(5.9381706,71.131185)"><flowRegion
+           id="flowRegion3857"><use
+             x="0"
+             y="0"
+             xlink:href="#rect3770"
+             id="use3859"
+             width="990"
+             height="765" /></flowRegion><flowPara
+           id="flowPara3861">PUSH </flowPara></flowRoot>      <flowRoot
+         xml:space="preserve"
+         style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Charcoal CY;-inkscape-font-specification:Charcoal CY"
+         id="flowRoot3863"
+         transform="translate(6.2980483,107.27128)"><flowRegion
+           id="flowRegion3865"><use
+             x="0"
+             y="0"
+             xlink:href="#rect3770"
+             id="use3867"
+             width="990"
+             height="765" /></flowRegion><flowPara
+           id="flowPara3869">IPC BIND</flowPara></flowRoot>    </g>
+    <g
+       id="g3871"
+       transform="translate(-355.67851,326.20901)">
+      <rect
+         y="141.85144"
+         x="253.49821"
+         height="18.91515"
+         width="81.843178"
+         id="rect3873"
+         style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1.26485789;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+      <rect
+         y="101.80463"
+         x="253.49821"
+         height="39.94455"
+         width="81.843185"
+         id="rect3875"
+         style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1.26576018;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+      <flowRoot
+         transform="translate(109.39054,71.131185)"
+         id="flowRoot3877"
+         style="font-size:28px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Charcoal CY;-inkscape-font-specification:Charcoal CY"
+         xml:space="preserve"><flowRegion
+           id="flowRegion3879"><use
+             height="765"
+             width="990"
+             id="use3881"
+             xlink:href="#rect3770"
+             y="0"
+             x="0" /></flowRegion><flowPara
+           id="flowPara3883">PUSH </flowPara></flowRoot>      <flowRoot
+         transform="translate(107.75042,107.27128)"
+         id="flowRoot3885"
+         style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Charcoal CY;-inkscape-font-specification:Charcoal CY"
+         xml:space="preserve"><flowRegion
+           id="flowRegion3887"><use
+             height="765"
+             width="990"
+             id="use3889"
+             xlink:href="#rect3770"
+             y="0"
+             x="0" /></flowRegion><flowPara
+           id="flowPara3891">IPC CONN</flowPara></flowRoot>    </g>
+    <g
+       id="g3893"
+       transform="translate(-355.67851,326.20901)">
+      <rect
+         style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1.26485789;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         id="rect3895"
+         width="81.843178"
+         height="18.91515"
+         x="253.49821"
+         y="75.079903" />
+      <rect
+         style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1.26576018;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         id="rect3897"
+         width="81.843185"
+         height="39.94455"
+         x="253.49821"
+         y="35.033096" />
+      <flowRoot
+         xml:space="preserve"
+         style="font-size:28px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Charcoal CY;-inkscape-font-specification:Charcoal CY"
+         id="flowRoot3899"
+         transform="translate(111.39054,4.3596513)"><flowRegion
+           id="flowRegion3901"><use
+             x="0"
+             y="0"
+             xlink:href="#rect3770"
+             id="use3903"
+             width="990"
+             height="765" /></flowRegion><flowPara
+           id="flowPara3905">PULL </flowPara></flowRoot>      <flowRoot
+         xml:space="preserve"
+         style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Charcoal CY;-inkscape-font-specification:Charcoal CY"
+         id="flowRoot3907"
+         transform="translate(107.75042,40.499748)"><flowRegion
+           id="flowRegion3909"><use
+             x="0"
+             y="0"
+             xlink:href="#rect3770"
+             id="use3911"
+             width="990"
+             height="765" /></flowRegion><flowPara
+           id="flowPara3913">IPC CONN</flowPara></flowRoot>    </g>
+    <g
+       id="g3915"
+       transform="translate(-355.67851,326.20901)">
+      <rect
+         y="213.20967"
+         x="150.04584"
+         height="18.91515"
+         width="81.843178"
+         id="rect3917"
+         style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1.26485789;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+      <rect
+         y="173.16287"
+         x="150.04584"
+         height="39.94455"
+         width="81.843185"
+         id="rect3919"
+         style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1.26576018;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+      <flowRoot
+         transform="translate(13.93817,142.48942)"
+         id="flowRoot3921"
+         style="font-size:28px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Charcoal CY;-inkscape-font-specification:Charcoal CY"
+         xml:space="preserve"><flowRegion
+           id="flowRegion3923"><use
+             height="765"
+             width="990"
+             id="use3925"
+             xlink:href="#rect3770"
+             y="0"
+             x="0" /></flowRegion><flowPara
+           id="flowPara3927">REQ</flowPara></flowRoot>      <flowRoot
+         transform="translate(6.2980483,178.62952)"
+         id="flowRoot3929"
+         style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Charcoal CY;-inkscape-font-specification:Charcoal CY"
+         xml:space="preserve"><flowRegion
+           id="flowRegion3931"><use
+             height="765"
+             width="990"
+             id="use3933"
+             xlink:href="#rect3770"
+             y="0"
+             x="0" /></flowRegion><flowPara
+           id="flowPara3935">IPC BIND</flowPara></flowRoot>    </g>
+    <g
+       id="g3937"
+       transform="translate(-355.67851,326.20901)">
+      <rect
+         style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1.26485789;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         id="rect3939"
+         width="81.843178"
+         height="18.91515"
+         x="253.49821"
+         y="213.20967" />
+      <rect
+         style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1.26576018;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         id="rect3941"
+         width="81.843185"
+         height="39.94455"
+         x="253.49821"
+         y="173.16287" />
+      <flowRoot
+         xml:space="preserve"
+         style="font-size:28px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Charcoal CY;-inkscape-font-specification:Charcoal CY"
+         id="flowRoot3943"
+         transform="translate(117.39054,142.48942)"><flowRegion
+           id="flowRegion3945"><use
+             x="0"
+             y="0"
+             xlink:href="#rect3770"
+             id="use3947"
+             width="990"
+             height="765" /></flowRegion><flowPara
+           id="flowPara3949">REQ</flowPara></flowRoot>      <flowRoot
+         xml:space="preserve"
+         style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Charcoal CY;-inkscape-font-specification:Charcoal CY"
+         id="flowRoot3951"
+         transform="translate(107.75042,178.62952)"><flowRegion
+           id="flowRegion3953"><use
+             x="0"
+             y="0"
+             xlink:href="#rect3770"
+             id="use3955"
+             width="990"
+             height="765" /></flowRegion><flowPara
+           id="flowPara3957">IPC CONN</flowPara></flowRoot>    </g>
+    <g
+       id="g3959"
+       transform="translate(-355.67851,326.20901)">
+      <rect
+         style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1.26485789;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         id="rect3961"
+         width="81.843178"
+         height="18.91515"
+         x="150.04584"
+         y="283.54364" />
+      <rect
+         style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1.26576018;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         id="rect3963"
+         width="81.843185"
+         height="39.94455"
+         x="150.04584"
+         y="243.49683" />
+      <flowRoot
+         xml:space="preserve"
+         style="font-size:28px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Charcoal CY;-inkscape-font-specification:Charcoal CY"
+         id="flowRoot3965"
+         transform="translate(15.93817,212.82338)"><flowRegion
+           id="flowRegion3967"><use
+             x="0"
+             y="0"
+             xlink:href="#rect3770"
+             id="use3969"
+             width="990"
+             height="765" /></flowRegion><flowPara
+           id="flowPara3971">REP</flowPara></flowRoot>      <flowRoot
+         xml:space="preserve"
+         style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Charcoal CY;-inkscape-font-specification:Charcoal CY"
+         id="flowRoot3973"
+         transform="translate(6.2980483,248.96347)"><flowRegion
+           id="flowRegion3975"><use
+             x="0"
+             y="0"
+             xlink:href="#rect3770"
+             id="use3977"
+             width="990"
+             height="765" /></flowRegion><flowPara
+           id="flowPara3979">IPC BIND</flowPara></flowRoot>    </g>
+    <g
+       id="g3981"
+       transform="translate(-355.67851,326.20901)">
+      <rect
+         y="283.54364"
+         x="253.49821"
+         height="18.91515"
+         width="81.843178"
+         id="rect3983"
+         style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1.26485789;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+      <rect
+         y="243.49683"
+         x="253.49821"
+         height="39.94455"
+         width="81.843185"
+         id="rect3985"
+         style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1.26576018;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+      <flowRoot
+         transform="translate(119.39054,212.82338)"
+         id="flowRoot3987"
+         style="font-size:28px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Charcoal CY;-inkscape-font-specification:Charcoal CY"
+         xml:space="preserve"><flowRegion
+           id="flowRegion3989"><use
+             height="765"
+             width="990"
+             id="use3991"
+             xlink:href="#rect3770"
+             y="0"
+             x="0" /></flowRegion><flowPara
+           id="flowPara3993">REP</flowPara></flowRoot>      <flowRoot
+         transform="translate(107.75042,248.96347)"
+         id="flowRoot3995"
+         style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Charcoal CY;-inkscape-font-specification:Charcoal CY"
+         xml:space="preserve"><flowRegion
+           id="flowRegion3997"><use
+             height="765"
+             width="990"
+             id="use3999"
+             xlink:href="#rect3770"
+             y="0"
+             x="0" /></flowRegion><flowPara
+           id="flowPara4001">IPC CONN</flowPara></flowRoot>    </g>
+    <use
+       x="0"
+       y="0"
+       xlink:href="#g4299"
+       id="use3319"
+       transform="translate(351.1684,-22.613281)"
+       width="990"
+       height="765" />
+    <use
+       x="0"
+       y="0"
+       xlink:href="#g3871"
+       id="use3321"
+       transform="translate(682.7044,-139.17906)"
+       width="990"
+       height="765" />
+    <g
+       transform="translate(457.95639,484.34883)"
+       id="use3325">
+      <rect
+         style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1.26485789;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         id="rect3396"
+         width="81.843178"
+         height="18.91515"
+         x="253.49821"
+         y="141.85144" />
+      <rect
+         style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1.26576018;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         id="rect3398"
+         width="81.843185"
+         height="39.94455"
+         x="253.49821"
+         y="101.80463" />
+      <flowRoot
+         xml:space="preserve"
+         style="font-size:28px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Charcoal CY;-inkscape-font-specification:Charcoal CY"
+         id="flowRoot3400"
+         transform="translate(109.39054,71.131185)"><flowRegion
+           id="flowRegion3402"><use
+             x="0"
+             y="0"
+             xlink:href="#rect3770"
+             id="use3404"
+             width="990"
+             height="765" /></flowRegion><flowPara
+           id="flowPara3406">PUSH </flowPara></flowRoot>      <flowRoot
+         xml:space="preserve"
+         style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Charcoal CY;-inkscape-font-specification:Charcoal CY"
+         id="flowRoot3408"
+         transform="translate(107.75042,107.27128)"><flowRegion
+           id="flowRegion3410"><use
+             x="0"
+             y="0"
+             xlink:href="#rect3770"
+             id="use3412"
+             width="990"
+             height="765" /></flowRegion><flowPara
+           id="flowPara3414">IPC CONN</flowPara></flowRoot>    </g>
+    <use
+       x="0"
+       y="0"
+       xlink:href="#use3325"
+       id="use3327"
+       transform="translate(-224.22243,-133.77584)"
+       width="990"
+       height="765" />
+    <use
+       x="0"
+       y="0"
+       xlink:href="#use3327"
+       id="use3329"
+       transform="translate(-148.78677,26.982362)"
+       width="990"
+       height="765" />
+    <use
+       x="0"
+       y="0"
+       xlink:href="#use3329"
+       id="use3331"
+       transform="translate(-10.358494,-121.65346)"
+       width="990"
+       height="765" />
+    <use
+       x="0"
+       y="0"
+       xlink:href="#use3331"
+       id="use3333"
+       transform="translate(-16.754749,-118.78573)"
+       width="990"
+       height="765" />
+    <use
+       x="0"
+       y="0"
+       xlink:href="#g3893"
+       id="use3335"
+       transform="translate(413.51247,-188.6246)"
+       width="990"
+       height="765" />
+    <use
+       x="0"
+       y="0"
+       xlink:href="#g4227"
+       id="use3337"
+       transform="translate(333.20593,304.33022)"
+       width="990"
+       height="765" />
+    <use
+       x="0"
+       y="0"
+       xlink:href="#g4239"
+       id="use3339"
+       transform="translate(220.75913,426.58903)"
+       width="990"
+       height="765" />
+    <use
+       x="0"
+       y="0"
+       xlink:href="#g4287"
+       id="use3341"
+       transform="translate(593.55125,-56.206321)"
+       width="990"
+       height="765" />
+    <use
+       x="0"
+       y="0"
+       xlink:href="#g3849"
+       id="use3343"
+       transform="translate(696.53863,-211.48819)"
+       width="990"
+       height="765" />
+    <path
+       style="color:#000000;fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;marker-end:url(#Arrow2Lend);visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       d="M 486.8039,247.23781 C 445.7646,226.94254 449.67561,191.98414 396.3022,191.98414"
+       id="path3358"
+       inkscape:connector-curvature="0" />
+    <use
+       x="0"
+       y="0"
+       xlink:href="#g4263"
+       id="use3370"
+       transform="translate(849.76336,14.289743)"
+       width="990"
+       height="765" />
+    <use
+       x="0"
+       y="0"
+       xlink:href="#g4251"
+       id="use3372"
+       transform="translate(952.64951,125.51298)"
+       width="990"
+       height="765" />
+    <use
+       x="0"
+       y="0"
+       xlink:href="#g3827"
+       id="use3374"
+       transform="translate(696.4374,-73.100948)"
+       width="990"
+       height="765" />
+    <use
+       x="0"
+       y="0"
+       xlink:href="#use3374"
+       id="use3376"
+       transform="translate(216.17182,164.09978)"
+       width="990"
+       height="765" />
+    <text
+       xml:space="preserve"
+       style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Charcoal CY;-inkscape-font-specification:Charcoal CY"
+       x="260.05676"
+       y="348.1998"
+       id="text3378"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         x="260.05676"
+         y="348.1998"
+         id="tspan3380"
+         style="font-size:11px">(inbound TCP)</tspan></text>
+    <text
+       sodipodi:linespacing="125%"
+       id="text3382"
+       y="466.45419"
+       x="249.66176"
+       style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Charcoal CY;-inkscape-font-specification:Charcoal CY"
+       xml:space="preserve"><tspan
+         style="font-size:11px"
+         id="tspan3384"
+         y="466.45419"
+         x="249.66176"
+         sodipodi:role="line">(outbound TCP)</tspan></text>
+    <g
+       id="g4467"
+       transform="translate(-703.40734,7.3558938)">
+      <g
+         id="g5252"
+         transform="translate(3.5753537,32.363624)">
+        <path
+           inkscape:tile-y0="624.15625"
+           inkscape:tile-x0="629.02154"
+           inkscape:tile-h="6.9507529"
+           inkscape:tile-w="6.9507529"
+           inkscape:tile-cy="627.63162"
+           inkscape:tile-cx="632.49691"
+           transform="matrix(0.70293323,0,0,0.70293323,218.92711,167.92569)"
+           d="m 593.29274,653.98236 c 0,2.73056 -2.21355,4.94411 -4.94411,4.94411 -2.73055,0 -4.9441,-2.21355 -4.9441,-4.94411 0,-2.73055 2.21355,-4.94411 4.9441,-4.94411 2.73056,0 4.94411,2.21356 4.94411,4.94411 z"
+           sodipodi:ry="4.9441061"
+           sodipodi:rx="4.9441061"
+           sodipodi:cy="653.98236"
+           sodipodi:cx="588.34863"
+           id="path5030"
+           style="color:#000000;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.99000001;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+           sodipodi:type="arc" />
+        <use
+           id="use5246"
+           xlink:href="#path5030"
+           inkscape:tiled-clone-of="#path5030"
+           y="0"
+           x="0"
+           width="990"
+           height="765" />
+        <use
+           id="use5248"
+           transform="translate(0,13.901506)"
+           xlink:href="#path5030"
+           inkscape:tiled-clone-of="#path5030"
+           y="0"
+           x="0"
+           width="990"
+           height="765" />
+        <use
+           id="use5250"
+           transform="translate(0,27.803012)"
+           xlink:href="#path5030"
+           inkscape:tiled-clone-of="#path5030"
+           y="0"
+           x="0"
+           width="990"
+           height="765" />
+      </g>
+      <flowRoot
+         transform="translate(493.41481,628.40729)"
+         id="flowRoot3461"
+         style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#2668d8;fill-opacity:1;stroke:none;font-family:Charcoal CY;-inkscape-font-specification:Charcoal CY"
+         xml:space="preserve"><flowRegion
+           id="flowRegion3463"><use
+             height="765"
+             width="990"
+             id="use3465"
+             xlink:href="#rect3770"
+             y="0"
+             x="0" /></flowRegion><flowPara
+           id="flowPara3467">x</flowPara></flowRoot>      <flowRoot
+         xml:space="preserve"
+         style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#2668d8;fill-opacity:1;stroke:none;font-family:Charcoal CY;-inkscape-font-specification:Charcoal CY"
+         id="flowRoot3479"
+         transform="matrix(1.6945526,0,0,1.6945526,401.86503,599.16342)"><flowRegion
+           id="flowRegion3481"><use
+             x="0"
+             y="0"
+             xlink:href="#rect3770"
+             id="use3483"
+             width="990"
+             height="765" /></flowRegion><flowPara
+           id="flowPara3485">N</flowPara></flowRoot>    </g>
+    <use
+       x="0"
+       y="0"
+       xlink:href="#g4467"
+       id="use4482"
+       transform="translate(325.4983,-115.85533)"
+       width="990"
+       height="765" />
+    <use
+       x="0"
+       y="0"
+       xlink:href="#g4467"
+       id="use4484"
+       transform="translate(692.3735,-10.114354)"
+       width="990"
+       height="765" />
+    <use
+       x="0"
+       y="0"
+       xlink:href="#g4467"
+       id="use4486"
+       transform="translate(844.3981,-355.97032)"
+       width="990"
+       height="765" />
+    <use
+       x="0"
+       y="0"
+       xlink:href="#g4467"
+       id="use4488"
+       transform="translate(842.45931,-465.17431)"
+       width="990"
+       height="765" />
   </g>
 </svg>
