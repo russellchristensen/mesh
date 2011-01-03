@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-
 # This file is part of Mesh.
 
 # Mesh is free software: you can redistribute it and/or modify
@@ -15,13 +13,19 @@
 # You should have received a copy of the GNU General Public License
 # along with Mesh.  If not, see <http://www.gnu.org/licenses/>.
 
-import tempfile
+import meshlib, sys, time, zmq
 
-def socket_url(transport):
-   if transport == 'ipc':
-      return "ipc:///" + tempfile.NamedTemporaryFile().name + '.ipc'
-   else:
-      raise("Invalid transport: " + str(transport))
+# Connect a PUSH socket to master.py
+master_socket_url = sys.argv[1]
+zmq_context       = zmq.Context()
+push_master       = zmq_context.socket(zmq.PUSH)
+push_master.connect(master_socket_url)
 
-def send_plugin_result(msg, socket):
-   socket.send(msg)
+# Use meshlib.send_plugin_result('some message', push_master) to communicate
+# with master.py
+
+# END TEMPLATE -- Customize below.
+
+while 1:
+   meshlib.send_plugin_result("Template works", push_master)
+   time.sleep(1)

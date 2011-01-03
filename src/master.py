@@ -15,8 +15,27 @@
 # You should have received a copy of the GNU General Public License
 # along with Mesh.  If not, see <http://www.gnu.org/licenses/>.
 
-import os, subprocess, tempfile, zmq
+import meshlib, optparse, os, subprocess, sys, tempfile, time, zmq
 
+#------------------------------------------------------------------------------
+# Command-line arguments
+
+parser = optparse.OptionParser()
+parser.add_option('-t', '--test_plugin', action='store', dest='test_plugin', default=None)
+parser.add_option('-v', '--verbose', action='store_true', dest='verbose', default=False)
+(options, args) = parser.parse_args()
+
+# Vebose mode?
+if options.test_plugin:
+   print "test_plugin implies verbose"
+   options.verbose = True
+
+if options.verbose:
+   def verbose(msg):
+      pass
+else:
+   def verbose(msg):
+      print msg
 
 #------------------------------------------------------------------------------
 # ZMQ sockets
@@ -28,16 +47,17 @@ push_comm    = None
 pull_general = None
 
 # Names of interprocess sockets to bind/connect to.
-master_socket_name        = "ipc:///" + tempfile.NamedTemporaryFile().name + '-master.ipc'
-communicator_socket_name  = "ipc:///" + tempfile.NamedTemporaryFile().name + '-communicator.ipc'
-port_assigner_socket_name = "ipc:///" + tempfile.NamedTemporaryFile().name + '-port_assigner.ipc'
-print """Sockets:
-master_socket_name:        %s
-communicator_socket_name:  %s
-port_assigner_socket_name: %s""" % (
-   master_socket_name,
-   communicator_socket_name,
-   port_assigner_socket_name)
+master_socket_url        = meshlib.socket_url('ipc')
+communicator_socket_url  = meshlib.socket_url('ipc')
+port_assigner_socket_url = meshlib.socket_url('ipc')
+
+verbose ("""Sockets:
+master_socket_url:        %s
+communicator_socket_url:  %s
+port_assigner_socket_url: %s""" % (
+   master_socket_url,
+   communicator_socket_url,
+   port_assigner_socket_url))
 
 # Needs to be called first ... unless we're unit-testing.
 def create_zmq_context():
@@ -52,13 +72,36 @@ def create_zmq_sockets():
 def create_push_comm():
    global push_comm
    push_comm = zmq_context.socket(zmq.PUSH)
-   push_comm.connect(communicator_socket_name)
+   push_comm.connect(communicator_socket_url)
    push_comm.send("master alive")
 
 def create_pull_general():
    global pull_general
    pull_general = zmq_context.socket(zmq.PULL)
-   pull_general.bind(master_socket_name)
+   pull_general.bind(master_socket_url)
+
+#------------------------------------------------------------------------------
+# For testing plugin functionality
+
+if options.test_plugin:
+   create_zmq_context()
+   create_pull_general()
+   print "Running in TEST PLUGIN mode.  We will run until either the plugin sends us a message, or the plugin dies.\n"
+   plugin_process = subprocess.Popen(('/usr/bin/env', 'python', options.test_plugin, master_socket_url))
+   while 1:
+      retcode = plugin_process.poll()
+      if retcode != None:
+         print "Plugin exited with retcode", retcode
+         sys.exit()
+      try:
+         msg = pull_general.recv(flags=zmq.NOBLOCK)
+         print "Received message from plugin:\n-----------------------------\n%s" % msg
+         plugin_process.send_signal(9)
+         sys.exit()
+      except zmq._zmq.ZMQError, zmq_error:
+         if zmq_error == 'Resource temporarily unavailable':
+            pass                # That's what we expect when polling
+      time.sleep(.1)
 
 #------------------------------------------------------------------------------
 # Child-process stuff
