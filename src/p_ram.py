@@ -1,11 +1,36 @@
-#!/usr/bin/env python
-import psutil as ps, time
+# This file is part of Mesh.
+
+# Mesh is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+
+# Mesh is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with Mesh.  If not, see <http://www.gnu.org/licenses/>.
+
+import meshlib, sys, time, zmq
+
+# Connect a PUSH socket to master.py
+master_socket_url = sys.argv[1]
+zmq_context       = zmq.Context()
+push_master       = zmq_context.socket(zmq.PUSH)
+push_master.connect(master_socket_url)
+
+# Use meshlib.send_plugin_result('some message', push_master) to communicate
+# with master.py
+
+# END TEMPLATE -- Customize below.
+
+import psutil
 
 while 1:
-   total = ps.TOTAL_PHYMEM / 1024
-   avail = ps.avail_phymem() / 1024
-   used  = ps.used_phymem() / 1024
-   print "|Total: %s| |Available: %s| |Used: %s|" % (total, avail, used)
+   total = psutil.TOTAL_PHYMEM / 1024
+   avail = psutil.avail_phymem() / 1024
+   used  = psutil.used_phymem() / 1024
+   meshlib.send_plugin_result("|Total: %s| |Available: %s| |Used: %s|" % (total, avail, used), push_master)
    time.sleep(1)
-
-
