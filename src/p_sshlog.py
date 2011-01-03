@@ -56,10 +56,5 @@ while True:
    # Parse the line
    # [0] at the end is because re.findall returns a list
    timestamp, server_name, num, line_type, line_contents = findall(parse, line)[0]
-   # Create datetime object
-   timestamp = datetime.strptime(timestamp, '%b %d %H:%M:%S')
-   # Replace the year of timestamp with the current year
-   # because the ssh log doesn't specify a year
-   timestamp = timestamp.replace(year=datetime.now().year)
 
    print timestamp, server_name, num, line_type, line_contents
