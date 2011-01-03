@@ -92,7 +92,7 @@ class Test01Code(unittest.TestCase):
       "GPL 3 Compliance"
       global project_root_dir
       # Iterate through the python files and check for compliance
-      source_files = glob.glob('test/*.py') + glob.glob('src/*.py')
+      source_files = glob.glob(os.path.join(project_root_dir, 'test', '*.py')) + glob.glob(os.path.join(project_root_dir, 'src', '*.py'))
       for fname in source_files:
          header = open(os.path.join(project_root_dir, fname), 'r').read(1024)
          if not "# This file is part of Mesh." in header:
