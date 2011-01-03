@@ -3,55 +3,68 @@ Services
   * SSH, postgres, mysql, dovecot, postfix, apache, asterisk, lighttpd, aolserver, vm's, dhcp, samba
 
 SSH
-illegal logins
+- illegal logins
+
 I/O Disk
+
 Disk Usage
-user quota
-zfs quota
-btrfs quota
-individual usage
-whole disk
+- user quota
+- zfs quota
+- btrfs quota
+- individual usage
+- whole disk
+
 Postgres/MySQL
-connections
-number of currently-running queries
+- connections
+- number of currently-running queries
+
 Hardware
-cpu usage
-memory
-fans
-temperature
-network traffic
+- cpu usage
+- memory
+- fans
+- temperature
+- network traffic
+
 OS
-uptime
-segfault
-updates
-zombies
-process cpu usage
-users logged in
-mail
-in/out load
-users connected
-login errors
-tls errors (connecting to First Data)
-webserver
-errors (404)
-hack attempts
-load
-asterisk
-registered devices (unexpected devices registering?)
-unsuccessful registration attempts
-lagged/unreachable devices
-running
-queue activity
-asterisk warnings/errors
-call recordings
-xen
-vm's running
-vm top
-free space vm
-dhcp
-unsuccessful dhcp requests
-users
-unaccessed user accounts
-user accounts without home directories
+- uptime
+- segfault
+- updates
+- zombies
+- process cpu usage
+- users logged in
+
+Mail
+- in/out load
+- users connected
+- login errors
+- tls errors
+
+Webserver
+- errors (404)
+- hack attempts
+- load
+
+Asterisk
+- registered devices (unexpected devices registering?)
+- unsuccessful registration attempts
+- lagged/unreachable devices
+- running
+- queue activity
+- asterisk warnings/errors
+- call recordings
+- t1 load
+
+Xen
+- vm's running
+- vm top
+- free space vm
+
+Dhcp
+- unsuccessful dhcp requests
+
+Users
+- unaccessed user accounts
+- user accounts without home directories
+
 Samba
-unsuccessful logins
+- unsuccessful logins
