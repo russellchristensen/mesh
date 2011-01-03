@@ -231,6 +231,38 @@ Tp7tERNH08s4Wb7hvIj6p/EloWtb/CA01EfQwA==
       if message != decrypted_message:
          self.fail('Input string came back differently when decrypted: "%s" != "%s"' % (message, decrypted_message))
       
+class Test04ssh(unittest.TestCase):
+
+   def test_00banner(self):
+      "[SSH TESTS]"
+
+   def test_01sshisrunning(self):
+      "Check if sshd is running"
+      import subprocess
+      possible_ssh_names = ['/usr/bin/ssh-agent -l', '/usr/sbin/sshd']
+      # Get process list, pull only those with ssh
+      proc1 = subprocess.Popen(['ps', 'aux'], stdout=subprocess.PIPE)
+      proc2 = subprocess.Popen(['grep', 'ssh'], stdin=proc1.stdout, stdout=subprocess.PIPE) 
+      # Run through each line searching for any of the possible names
+      # If a name is found, sshd is running
+      for line in proc2.stdout.readlines():
+         for name in possible_ssh_names:
+            if name in line:return True
+      self.fail('No sshd process was found.')
+
+   def test_03sshlogexists(self):
+      "Check if the ssh log file exists and is readable"
+      import os.path
+      log_locations = ['/var/log/secure.log', '/var/log/secure']
+      # Check if either log file exists
+      for location in log_locations:
+         if os.path.isfile(location):
+            try:
+               open(location).read()
+               return True
+            except:
+               self.fail('SSH log file "%s" is not readable' % (location))
+      self.fail('No ssh log file found!')
 
 if __name__ == '__main__':
    unittest.main()
