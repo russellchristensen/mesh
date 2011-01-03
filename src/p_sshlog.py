@@ -54,14 +54,13 @@ def get_ssh_line():
    line = proc.stdout.readline()
    while True:
       # Keep the process active, and keep yielding one line at a time
-      yield str(line)
+      if 'ssh' in str(line): yield str(line)
       line = proc.stdout.readline()
 
 for line in get_ssh_line():
    # Try to parse the line, if the parse fails, the string wasn't an ssh entry
    # Also, [0] at the end is because re.findall returns a list
-   try: timestamp, server_name, num, line_type, line_contents = findall(parse, line)[0]
-   except IndexError: continue
+   timestamp, server_name, num, line_type, line_contents = findall(parse, line)[0]
    # Create datetime object
    timestamp = datetime.strptime(timestamp, '%b %d %H:%M:%S')
    # Replace the year of timestamp with the current year
