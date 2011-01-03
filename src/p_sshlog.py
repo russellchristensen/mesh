@@ -48,18 +48,13 @@ except:
    print 'This is not fatal, but you may have rogue "tail" processes running'
    print "if this plugin doens't close properly"
 
-def get_ssh_line():
-   'Yield the tail lines, one line at a time'
-   # Read a line
+while True:
+   # Get a line from proc
    line = proc.stdout.readline()
-   while True:
-      # Keep the process active, and keep yielding one line at a time
-      if 'ssh' in str(line): yield str(line)
-      line = proc.stdout.readline()
-
-for line in get_ssh_line():
-   # Try to parse the line, if the parse fails, the string wasn't an ssh entry
-   # Also, [0] at the end is because re.findall returns a list
+   # Make sure the line is an ssh log line
+   if 'ssh' not in str(line): continue
+   # Parse the line
+   # [0] at the end is because re.findall returns a list
    timestamp, server_name, num, line_type, line_contents = findall(parse, line)[0]
    # Create datetime object
    timestamp = datetime.strptime(timestamp, '%b %d %H:%M:%S')
