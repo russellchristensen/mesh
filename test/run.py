@@ -62,6 +62,13 @@ class Test00Dependencies(unittest.TestCase):
       this_version = version.LooseVersion(zmq.__version__)
       self.assertTrue(this_version >= supported_version)
 
+   def test_15psutil(self):
+      "Supported version of psutil"
+      import psutil
+      supported_version = version.StrictVersion('0.2.0')
+      this_version = version.StrictVersion(".".join([str(x) for x in psutil.version_info]))
+      self.assertTrue(this_version >= supported_version)
+
 
 global project_root_dir; project_root_dir = None ; # Gotta be a way better than a global...
 
