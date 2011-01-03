@@ -23,9 +23,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.0389902"
-     inkscape:cx="431.12929"
-     inkscape:cy="384.94525"
+     inkscape:zoom="1.4142136"
+     inkscape:cx="445.2888"
+     inkscape:cy="366.52472"
      inkscape:current-layer="layer1"
      id="namedview2997"
      showgrid="false"
@@ -542,6 +542,25 @@
      inkscape:groupmode="layer"
      inkscape:label="Layer 1">
     <rect
+       style="color:#000000;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       id="rect4402"
+       width="856.89105"
+       height="49.952312"
+       x="53.613163"
+       y="41.649117" />
+    <rect
+       style="color:#000000;fill:#dcfad9;fill-opacity:1;stroke:none;stroke-width:0.96691823000000021px;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       id="rect4332"
+       width="450.13889"
+       height="327.55289"
+       x="459.44696"
+       y="375.70279" />
+    <path
+       style="color:#000000;fill:#e2ecfc;fill-opacity:1;stroke:none;stroke-width:1.03831387000000008px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       d="m 53.624969,91.55027 0,499.6875 405.696111,0 0,-215.75 451.18752,0 0,-283.9375 -451.18752,0 -6.39322,0 -399.302891,0 z"
+       id="rect3346"
+       inkscape:connector-curvature="0" />
+    <rect
        style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1.51162732;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
        id="rect4131"
        width="301.23792"
@@ -956,7 +975,7 @@
        xml:space="preserve"
        style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Charcoal CY;-inkscape-font-specification:Charcoal CY"
        id="flowRoot10063"
-       transform="translate(-18.076971,556.49076)"><flowRegion
+       transform="translate(-18.076971,571.46309)"><flowRegion
          id="flowRegion10065"><use
            x="0"
            y="0"
@@ -978,19 +997,19 @@
     <text
        sodipodi:linespacing="125%"
        id="text3311"
-       y="171.99832"
-       x="576.13586"
+       y="157.96176"
+       x="577.07166"
        style="font-size:11px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#ff0d0d;fill-opacity:1;stroke:none;font-family:Sans"
        xml:space="preserve"><tspan
          style="font-size:11px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#ff0d0d;fill-opacity:1;font-family:Charcoal CY;-inkscape-font-specification:Charcoal CY"
-         y="171.99832"
-         x="576.13586"
+         y="157.96176"
+         x="577.07166"
          id="tspan3313"
          sodipodi:role="line">(created as needed,</tspan><tspan
          id="tspan4149"
          style="font-size:11px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#ff0d0d;fill-opacity:1;font-family:Charcoal CY;-inkscape-font-specification:Charcoal CY"
-         y="185.74832"
-         x="576.13586"
+         y="171.71176"
+         x="577.07166"
          sodipodi:role="line">then destroyed)</tspan></text>
     <text
        sodipodi:linespacing="125%"
@@ -1120,58 +1139,58 @@
        xml:space="preserve"
        style="font-size:13.69447231px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#ffb801;fill-opacity:1;stroke:none;font-family:Charcoal CY;-inkscape-font-specification:Charcoal CY"
        x="131.13504"
-       y="630.77991"
+       y="645.75226"
        id="text10049"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan10051"
          x="131.13504"
-         y="630.77991">Direction  TCP connection is established</tspan></text>
+         y="645.75226">Direction  TCP connection is established</tspan></text>
     <path
        style="color:#000000;fill:none;stroke:#ffb801;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;marker-end:url(#Arrow2Lend-67L);visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
-       d="m 127.69514,627.58566 c -14.72679,-6.0417 -30.585815,-7.2596 -44.525825,-7.2596"
+       d="m 127.69514,642.55799 c -14.72679,-6.0417 -30.585815,-7.2596 -44.525825,-7.2596"
        id="path10122"
        inkscape:connector-curvature="0" />
     <text
        sodipodi:linespacing="125%"
        id="text10124"
-       y="651.15979"
+       y="666.13214"
        x="131.13504"
        style="font-size:13.69447231px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#158e25;fill-opacity:1;stroke:none;font-family:Charcoal CY;-inkscape-font-specification:Charcoal CY"
        xml:space="preserve"><tspan
-         y="651.15979"
+         y="666.13214"
          x="131.13504"
          id="tspan10126"
          sodipodi:role="line">Direction  ZMQ Messages flow (over TCP)</tspan></text>
     <path
        inkscape:connector-curvature="0"
        id="path10128"
-       d="m 127.69514,647.96566 c -14.72679,-6.0417 -30.585815,-7.2597 -44.525825,-7.2597"
+       d="m 127.69514,662.93799 c -14.72679,-6.0417 -30.585815,-7.2597 -44.525825,-7.2597"
        style="color:#000000;fill:none;stroke:#158e25;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;marker-end:url(#Arrow2Lend-67Lh);visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
     <text
        xml:space="preserve"
        style="font-size:13.69447231px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Charcoal CY;-inkscape-font-specification:Charcoal CY"
        x="131.13504"
-       y="672.37903"
+       y="687.35138"
        id="text10907"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan10909"
          x="131.13504"
-         y="672.37903">Direction  ZMQ Messages flow (interprocess)</tspan></text>
+         y="687.35138">Direction  ZMQ Messages flow (interprocess)</tspan></text>
     <path
        style="color:#000000;fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;marker-end:url(#Arrow2Lend-67Lhl);visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
-       d="m 127.69514,669.18486 c -14.72679,-6.0417 -30.585815,-7.2596 -44.525825,-7.2596"
+       d="m 127.69514,684.15719 c -14.72679,-6.0417 -30.585815,-7.2596 -44.525825,-7.2596"
        id="path10911"
        inkscape:connector-curvature="0" />
     <path
        style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 131.01838,613.08936 300.81522,0"
+       d="m 131.01838,628.06169 300.81522,0"
        id="path11700"
        inkscape:connector-curvature="0" />
     <text
        xml:space="preserve"
-       style="font-size:40px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Bank Gothic;-inkscape-font-specification:Bank Gothic"
+       style="font-size:40px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Bank Gothic;-inkscape-font-specification:Bank Gothic"
        x="61.970715"
        y="64.710785"
        id="text11721"
@@ -1182,7 +1201,7 @@
          y="64.710785">mesh: messaging design overview</tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:18px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Bank Gothic;-inkscape-font-specification:Bank Gothic"
+       style="font-size:18px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Bank Gothic;-inkscape-font-specification:Bank Gothic"
        x="64.891251"
        y="86.128052"
        id="text11725"
@@ -1190,7 +1209,7 @@
          sodipodi:role="line"
          id="tspan11727"
          x="64.891251"
-         y="86.128052">Last updated: 18 Dec 2010</tspan></text>
+         y="86.128052">Last updated: 3 January 2011</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:24px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#9d5912;fill-opacity:1;stroke:none;font-family:Charcoal CY;-inkscape-font-specification:Charcoal CY"
@@ -1871,5 +1890,149 @@
        transform="translate(842.45931,-465.17431)"
        width="990"
        height="765" />
+    <text
+       xml:space="preserve"
+       style="font-size:24px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;color:#000000;fill:#c9daf6;fill-opacity:1;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Bank Gothic;-inkscape-font-specification:Bank Gothic"
+       x="63.63242"
+       y="117.44656"
+       id="text4328"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan4330"
+         x="63.63242"
+         y="117.44656">Communication Layer</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:24px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;color:#000000;fill:#cdf6c9;fill-opacity:1;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Bank Gothic;-inkscape-font-specification:Bank Gothic"
+       x="495.0228"
+       y="407.53552"
+       id="text4334"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan4336"
+         x="495.0228"
+         y="407.53552">Core Layer</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:24px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;color:#000000;fill:#cdf6c9;fill-opacity:1;stroke:none;stroke-width:1px;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Bank Gothic;-inkscape-font-specification:Bank Gothic"
+       x="147.85181"
+       y="187.62938"
+       id="text4338"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan4340"
+         x="147.85181"
+         y="187.62938"
+         style="font-size:12px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#000000;fill-opacity:1;font-family:Garamond;-inkscape-font-specification:Garamond Italic">Coordinates setting up TCP BIND</tspan><tspan
+         sodipodi:role="line"
+         x="147.85181"
+         y="202.62938"
+         style="font-size:12px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#000000;fill-opacity:1;font-family:Garamond;-inkscape-font-specification:Garamond Italic"
+         id="tspan4342">connections for other nodes to connect to.</tspan></text>
+    <text
+       sodipodi:linespacing="125%"
+       id="text4344"
+       y="371.04047"
+       x="215.22731"
+       style="font-size:24px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;color:#000000;fill:#cdf6c9;fill-opacity:1;stroke:none;stroke-width:1px;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Bank Gothic;-inkscape-font-specification:Bank Gothic"
+       xml:space="preserve"><tspan
+         id="tspan4348"
+         style="font-size:12px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#000000;fill-opacity:1;font-family:Garamond;-inkscape-font-specification:Garamond Italic"
+         y="371.04047"
+         x="215.22731"
+         sodipodi:role="line">Pass inbound traffic from</tspan><tspan
+         style="font-size:12px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#000000;fill-opacity:1;font-family:Garamond;-inkscape-font-specification:Garamond Italic"
+         y="386.04047"
+         x="215.22731"
+         sodipodi:role="line"
+         id="tspan4352">nodes that connect to us.</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:24px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;color:#000000;fill:#cdf6c9;fill-opacity:1;stroke:none;stroke-width:1px;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Bank Gothic;-inkscape-font-specification:Bank Gothic"
+       x="206.80537"
+       y="494.56223"
+       id="text4354"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         x="206.80537"
+         y="494.56223"
+         style="font-size:12px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#000000;fill-opacity:1;font-family:Garamond;-inkscape-font-specification:Garamond Italic"
+         id="tspan4356">Pass inbound traffic from</tspan><tspan
+         id="tspan4358"
+         sodipodi:role="line"
+         x="206.80537"
+         y="509.56223"
+         style="font-size:12px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#000000;fill-opacity:1;font-family:Garamond;-inkscape-font-specification:Garamond Italic">nodes that we connect to.</tspan></text>
+    <text
+       sodipodi:linespacing="125%"
+       id="text4360"
+       y="467.4249"
+       x="573.62756"
+       style="font-size:24px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;color:#000000;fill:#cdf6c9;fill-opacity:1;stroke:none;stroke-width:1px;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Bank Gothic;-inkscape-font-specification:Bank Gothic"
+       xml:space="preserve"><tspan
+         style="font-size:12px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#000000;fill-opacity:1;font-family:Garamond;-inkscape-font-specification:Garamond Italic"
+         y="467.4249"
+         x="573.62756"
+         sodipodi:role="line"
+         id="tspan4364">Manage plugins, events, and</tspan><tspan
+         style="font-size:12px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#000000;fill-opacity:1;font-family:Garamond;-inkscape-font-specification:Garamond Italic"
+         y="482.4249"
+         x="573.62756"
+         sodipodi:role="line"
+         id="tspan4368">remote requests we receive.</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:24px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;color:#000000;fill:#cdf6c9;fill-opacity:1;stroke:none;stroke-width:1px;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Bank Gothic;-inkscape-font-specification:Bank Gothic"
+       x="498.7659"
+       y="601.24017"
+       id="text4370"
+       sodipodi:linespacing="125%"><tspan
+         id="tspan4374"
+         sodipodi:role="line"
+         x="498.7659"
+         y="601.24017"
+         style="font-size:12px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#000000;fill-opacity:1;font-family:Garamond;-inkscape-font-specification:Garamond Italic">Each plugin monitors something specific to the</tspan><tspan
+         sodipodi:role="line"
+         x="498.7659"
+         y="616.24017"
+         style="font-size:12px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#000000;fill-opacity:1;font-family:Garamond;-inkscape-font-specification:Garamond Italic"
+         id="tspan4378">box it is running on for an event to happen.</tspan></text>
+    <text
+       sodipodi:linespacing="125%"
+       id="text4380"
+       y="195.11562"
+       x="582.0495"
+       style="font-size:24px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;color:#000000;fill:#cdf6c9;fill-opacity:1;stroke:none;stroke-width:1px;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Bank Gothic;-inkscape-font-specification:Bank Gothic"
+       xml:space="preserve"><tspan
+         style="font-size:12px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#000000;fill-opacity:1;font-family:Garamond;-inkscape-font-specification:Garamond Italic"
+         y="195.11562"
+         x="582.0495"
+         sodipodi:role="line"
+         id="tspan4388">Core of all communications.  Route</tspan><tspan
+         style="font-size:12px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#000000;fill-opacity:1;font-family:Garamond;-inkscape-font-specification:Garamond Italic"
+         y="210.11562"
+         x="582.0495"
+         sodipodi:role="line"
+         id="tspan4392">messages passing through this node.</tspan><tspan
+         style="font-size:12px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#000000;fill-opacity:1;font-family:Garamond;-inkscape-font-specification:Garamond Italic"
+         y="225.11562"
+         x="582.0495"
+         sodipodi:role="line"
+         id="tspan4394">Send event messages out.  Receive event</tspan><tspan
+         style="font-size:12px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#000000;fill-opacity:1;font-family:Garamond;-inkscape-font-specification:Garamond Italic"
+         y="240.11562"
+         x="582.0495"
+         sodipodi:role="line"
+         id="tspan4396">messages from other nodes.  Handle</tspan><tspan
+         style="font-size:12px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#000000;fill-opacity:1;font-family:Garamond;-inkscape-font-specification:Garamond Italic"
+         y="255.1156"
+         x="582.0495"
+         sodipodi:role="line"
+         id="tspan4398">mesh node topology.  Connect to other</tspan><tspan
+         style="font-size:12px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#000000;fill-opacity:1;font-family:Garamond;-inkscape-font-specification:Garamond Italic"
+         y="270.11563"
+         x="582.0495"
+         sodipodi:role="line"
+         id="tspan4400">nodes.</tspan></text>
   </g>
 </svg>
