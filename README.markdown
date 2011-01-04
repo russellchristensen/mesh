@@ -26,9 +26,10 @@ We're very actively designing, prototyping, and changing things all the time.  D
 
 #### Most likely, you'll need to install some or all of these packages:
 
-* M2Crypto
-* ZeroMQ
-* PyZMQ
+* [M2Crypto](http://chandlerproject.org/bin/view/Projects/MeTooCrypto)
+* [ZeroMQ](http://www.zeromq.org/)
+* [PyZMQ](http://www.zeromq.org/bindings:python)
+* [psutil](http://code.google.com/p/psutil/)
 
 #### Once the tests pass, you're ready!
 
