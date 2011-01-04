@@ -11,9 +11,9 @@ We're very actively designing, prototyping, and changing things all the time.  D
 # Getting Started
 
 #### You must have...
-* OS X, Linux or similar OS.
-* Git
-* Python 2.5+
+* OS X, Linux or similar OS.  Windows only if you want to help get it working.
+* [git](http://git-scm.com/)
+* [Python 2.5+](http://python.org)
 
 ####Clone the mesh repository onto your machine:
 
@@ -35,4 +35,5 @@ We're very actively designing, prototyping, and changing things all the time.  D
 
 > src/mesh.py
 # Resources
-* [PDF version of the Mesh Messaging Design Overview](https://github.com/meshers/mesh/blob/master/docs/messaging-design-overview.pdf)
+* [Mesh Messaging Design Overview (.pdf)](https://github.com/meshers/mesh/blob/master/docs/messaging-design-overview.pdf)
+* [Plugin Ideas (.txt)](https://github.com/meshers/mesh/blob/master/docs/plugin_ideas.txt)
