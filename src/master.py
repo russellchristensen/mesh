@@ -98,7 +98,7 @@ if options.test_plugin:
          print "Received message from plugin:\n-----------------------------\n%s" % msg
          plugin_process.send_signal(9)
          sys.exit()
-      except zmq._zmq.ZMQError, zmq_error:
+      except zmq.core.error.ZMQError, zmq_error:
          if zmq_error == 'Resource temporarily unavailable':
             pass                # That's what we expect when polling
       time.sleep(.1)

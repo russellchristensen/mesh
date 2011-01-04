@@ -58,7 +58,7 @@ class Test00Dependencies(unittest.TestCase):
    def test_12zmq(self):
       "Supported version of ZeroMQ"
       import zmq
-      supported_version = version.LooseVersion('2.0.9')
+      supported_version = version.LooseVersion('2.0.10')
       this_version = version.LooseVersion(zmq.__version__)
       self.assertTrue(this_version >= supported_version)
 
