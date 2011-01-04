@@ -13,19 +13,53 @@
 # You should have received a copy of the GNU General Public License
 # along with Mesh.  If not, see <http://www.gnu.org/licenses/>.
 
-import meshlib, sys, time, zmq
+import meshlib, sys, time, unittest, zmq
 
-# Connect a PUSH socket to master.py
-master_socket_url = sys.argv[1]
-zmq_context       = zmq.Context()
-push_master       = zmq_context.socket(zmq.PUSH)
-push_master.connect(master_socket_url)
+if __name__ == '__main__':
+   # Connect a PUSH socket to master.py
+   master_socket_url = sys.argv[1]
+   zmq_context       = zmq.Context()
+   push_master       = zmq_context.socket(zmq.PUSH)
+   push_master.connect(master_socket_url)
 
-# Use meshlib.send_plugin_result('some message', push_master) to communicate
-# with master.py
+# ////// Customized monitoring of...something  //////
 
-# END TEMPLATE -- Customize below.
+# This template monitors occurrences of bananas
+def banana_detected(msg):
+   if (type(msg) == str) and ('banana' in msg):
+      return True
+   return False
 
-while 1:
-   meshlib.send_plugin_result("Template works", push_master)
-   time.sleep(1)
+# Plugins will typically have an infinite main loop
+if __name__ == '__main__':
+   while 1:
+      msg = "Templates love bananas"
+      if banana_detected("Templates love bananas"):
+         # Plugins communicate with master.py through meshlib.send_plugin_result()
+         meshlib.send_plugin_result("Banana detected in the following message: %s" % msg, push_master)
+      # This is just an example, so we'll fake events by pausing.  Real loops usually block in I/O of some type.
+      time.sleep(1)
+
+# ////// Customized unit-testing of everything above.  It's common for unit tests to take _more_ code than the code they test.  //////
+class TestPlugin(unittest.TestCase):
+   # First, test setup requirements (do files/commands/libraries exist, etc.)
+   def test_00search_strings(self):
+      """We can search strings."""
+      self.assertTrue('substring' in 'this long string has a substring in it')
+      
+   # Next, test all functionality
+   def test_03banana_detected(self):
+      """We can detect a banana where it exists"""
+      msg1 = "May I have a banana, please?"
+      msg2 = "I love bananas"
+      for item in [msg1, msg2]:
+         if not banana_detected(item):
+            self.fail("Oh dear, we were unable to detect a banana in: '%s'" % item)
+
+   def test_06banana_not_detected(self):
+      """We don't find a banana where it doesn't exist"""
+      not_even_a_string = 500
+      msg = "What a lovely apple!"
+      for item in [not_even_a_string, msg]:
+         if banana_detected(item):
+            self.fail("Found a banana where none exists: %s" % str(item))
