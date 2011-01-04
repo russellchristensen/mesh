@@ -281,8 +281,8 @@ class Test04ssh(unittest.TestCase):
             open(location).read()
             return True
          except:
-            self.fail('SSH log file "%s" is not readable' % (location))
-      self.fail('No ssh log file found!')
+            self.fail('Asterisk log file "%s" is not readable' % (location))
+      self.fail('No asterisk log file found!')
 
 if __name__ == '__main__':
    # Parse command-line arguments

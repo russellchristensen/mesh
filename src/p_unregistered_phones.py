@@ -29,8 +29,20 @@ push_master.connect(master_socket_url)
 import re
 from time import *
 
-fh = open('/var/log/asterisk/messages')
+location = '/var/log/asterisk/messages'
+class TestPlugin:
+  def test_00logexists(self):
+    "Check if asterisk log file exists and is readable"
+    import os.path
+    if os.path.isfile(location):
+      try: 
+        open(location).read()
+        return True
+      except:
+        self.fail('Asterisk log file "%s" is not readable' % (location))
+    self.fail('No asterisk log file found!')
 
+fh = open(location)
 while 1:
   recent = fh.readline()
   phone = re.search("chan_sip.c: Registration from '<sip:(\d+)",recent, re.MULTILINE|re.DOTALL)
