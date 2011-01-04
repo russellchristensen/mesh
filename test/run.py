@@ -15,7 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with Mesh.  If not, see <http://www.gnu.org/licenses/>.
 
-import glob, os, unittest, sys, subprocess, time
+import glob, os, optparse, sys, subprocess, time, unittest
 from distutils import version
 
 global gpl_header
@@ -34,13 +34,30 @@ gpl_header = """# This file is part of Mesh.
 # You should have received a copy of the GNU General Public License
 # along with Mesh.  If not, see <http://www.gnu.org/licenses/>."""
 
+# We've got to find the root directory of the project to run tests!
+global project_root_dir
+project_root_dir = None
+curr_root_dir = os.getcwd()
+while not project_root_dir:
+   curr_root_dir, last_element = os.path.split(curr_root_dir)
+   if last_element == 'mesh':
+      project_root_dir = os.path.join(curr_root_dir, 'mesh')
+if not project_root_dir:
+   print "Error, couldn't find the project root directory.  :-("
+   sys.exit(1)
+
+# Found the project root directory!  Make it available for the rest of the tests...
+sys.path.append(os.path.join(project_root_dir, 'src'))
+sys.path.append(os.path.join(project_root_dir, 'test'))
+
 class Test00Dependencies(unittest.TestCase):
    def test_00banner(self):
       "[DEPENDENCY TESTS]"
 
    def test_01os(self):
       "Supported OS?"
-      self.assertTrue(sys.platform in ['darwin'])
+      if sys.platform not in ['darwin', 'linux2']:
+         self.fail("Unsupported OS: %s" % sys.platform)
 
    def test_03python_version(self):
       "Supported version of Python?"
@@ -69,24 +86,9 @@ class Test00Dependencies(unittest.TestCase):
       this_version = version.StrictVersion(".".join([str(x) for x in psutil.version_info]))
       self.assertTrue(this_version >= supported_version)
 
-
-global project_root_dir; project_root_dir = None ; # Gotta be a way better than a global...
-
 class Test01Code(unittest.TestCase):
    def test_00banner(self):
       "[CODE TESTS]"
-
-   def test_01projectrootdir(self):
-      "Can find the project root directory"
-      global project_root_dir
-      curr_root_dir = os.getcwd()
-      while not project_root_dir:
-         curr_root_dir, last_element = os.path.split(curr_root_dir)
-         if last_element == 'mesh':
-            project_root_dir = os.path.join(curr_root_dir, 'mesh')
-         self.assertTrue(last_element) # Once we've made it down to the root and not found mesh, it's time to fail
-      # Found the project root directory!  Make it available for the rest of the tests...
-      sys.path.append(os.path.join(project_root_dir, 'src'))
 
    def test_03license(self):
       "GPL 3 Compliance"
@@ -239,7 +241,6 @@ Tp7tERNH08s4Wb7hvIj6p/EloWtb/CA01EfQwA==
          self.fail('Input string came back differently when decrypted: "%s" != "%s"' % (message, decrypted_message))
       
 class Test04ssh(unittest.TestCase):
-
    def test_00banner(self):
       "[SSH TESTS]"
 
@@ -284,4 +285,36 @@ class Test04ssh(unittest.TestCase):
       self.fail('No ssh log file found!')
 
 if __name__ == '__main__':
-   unittest.main()
+   # Parse command-line arguments
+   parser = optparse.OptionParser()
+   parser.add_option('-a', '--test-all',     help='Test everything.',               action='store_true', dest='test_all', default=False)
+   parser.add_option('-c', '--test-core',    help='(DEFAULT) Test mesh core only.', action='store_true', dest='test_core', default=False)
+   parser.add_option('-p', '--test-plugins', help='Test all plugins.',              action='store_true', dest='test_plugins', default=False)
+   parser.add_option('-t', '--test-plugin',  help='Test a specific plugin only.',   action='store', dest='test_plugin', default='')
+   parser.add_option('-v', '--verbose',      help='Verbose output',                 action='store_true', dest='verbose', default=False)
+   (options, args) = parser.parse_args()
+
+   # Set verbosity
+   if options.verbose:
+      verbosity = 2
+   else:
+      verbosity = 1
+
+   # Run selected unit tests
+   suite_list = []
+   if options.test_all or options.test_core:
+      pass                      # /// FINISH THIS!!!
+#       for item in globals():
+#          if item.startswith('Test'):
+#             suite_list.append(unittest.loadTestsFromTestCase(
+   if options.test_plugins:
+      for plugin in glob.glob(os.path.join(project_root_dir, 'src', 'p_*')):
+         print plugin
+         module_to_test = __import__(plugin)
+         suite = unittest.TestLoader().loadTestsFromModule(module_to_test)
+         unittest.TextTestRunner(verbosity=verbosity).run(suite)         
+   elif options.test_plugin:
+      module_to_test = __import__(options.test_plugin)
+      suite = unittest.TestLoader().loadTestsFromModule(module_to_test)
+      unittest.TextTestRunner(verbosity=verbosity).run(suite)
+   
