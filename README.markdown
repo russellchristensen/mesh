@@ -34,6 +34,7 @@ We're very actively designing, prototyping, and changing things all the time.  D
 #### Once the tests pass, you're ready!
 
 > src/mesh.py
+
 # Resources
 * [Mesh Messaging Design Overview (.pdf)](https://github.com/meshers/mesh/blob/master/docs/messaging-design-overview.pdf)
 * [Plugin Ideas (.txt)](https://github.com/meshers/mesh/blob/master/docs/plugin_ideas.txt)
