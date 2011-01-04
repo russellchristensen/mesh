@@ -271,5 +271,17 @@ class Test04ssh(unittest.TestCase):
                self.fail('SSH log file "%s" is not readable' % (location))
       self.fail('No ssh log file found!')
 
+   def test_04asterisklogexists(self):
+      "Check if asterisk log file exists and is readable"
+      import os.path
+      location = '/var/log/asterisk/messages'
+      if os.path.isfile(location):
+         try:
+            open(location).read()
+            return True
+         except:
+            self.fail('SSH log file "%s" is not readable' % (location))
+      self.fail('No ssh log file found!')
+
 if __name__ == '__main__':
    unittest.main()
