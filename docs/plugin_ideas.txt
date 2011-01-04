@@ -17,6 +17,7 @@ Disk Usage
 Postgres/MySQL
 - connections
 - number of currently-running queries
+- PITR/replication status
 
 Hardware
 - cpu usage
