@@ -13,7 +13,7 @@ We're very actively designing, prototyping, and changing things all the time.  D
 #### You must have...
 * OS X, Linux or similar OS.  Windows only if you want to help get it working.
 * [git](http://git-scm.com/)
-* [Python 2.5+](http://python.org)
+* [Python 2.6+](http://python.org)
 
 ####Clone the mesh repository onto your machine:
 
