@@ -21,7 +21,7 @@ import meshlib, optparse, os, subprocess, sys, tempfile, time, zmq
 # Command-line arguments
 
 parser = optparse.OptionParser()
-parser.add_option('-t', '--test_plugin', action='store', dest='test_plugin', default=None)
+parser.add_option('-t', '--test-plugin', action='store', dest='test_plugin', default=None)
 parser.add_option('-v', '--verbose', action='store_true', dest='verbose', default=False)
 (options, args) = parser.parse_args()
 
