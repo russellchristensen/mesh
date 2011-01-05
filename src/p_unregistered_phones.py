@@ -16,10 +16,11 @@
 import meshlib, sys, time, zmq
 
 # Connect a PUSH socket to master.py
-master_socket_url = sys.argv[1]
-zmq_context       = zmq.Context()
-push_master       = zmq_context.socket(zmq.PUSH)
-push_master.connect(master_socket_url)
+if __name__=='__main__':
+  master_socket_url = sys.argv[1]
+  zmq_context       = zmq.Context()
+  push_master       = zmq_context.socket(zmq.PUSH)
+  push_master.connect(master_socket_url)
 
 # Use meshlib.send_plugin_result('some message', push_master) to communicate
 # with master.py
@@ -30,7 +31,7 @@ import re
 from time import *
 
 location = '/var/log/asterisk/messages'
-class TestPlugin:
+class TestPlugini(unittest.TestCase):
   def test_00logexists(self):
     "Check if asterisk log file exists and is readable"
     import os.path
@@ -42,12 +43,13 @@ class TestPlugin:
         self.fail('Asterisk log file "%s" is not readable' % (location))
     self.fail('No asterisk log file found!')
 
-fh = open(location)
-while 1:
-  recent = fh.readline()
-  phone = re.search("chan_sip.c: Registration from '<sip:(\d+)",recent, re.MULTILINE|re.DOTALL)
-  if phone:
-    curTime = strftime("%b %d %H:%M").split(' ')
-    curTime = '%s  %s %s' %(curTime[0], curTime[1].lstrip('0'), curTime[2])
-    if re.search(curTime,recent, re.MULTILINE|re.DOTALL):
-      meshlib.send_plugin_result('%s failed registration' % phone.group(1), push_master)
+if __name__=='__main__':
+  fh = open(location)
+  while 1:
+    recent = fh.readline()
+    phone = re.search("chan_sip.c: Registration from '<sip:(\d+)",recent, re.MULTILINE|re.DOTALL)
+    if phone:
+      curTime = strftime("%b %d %H:%M").split(' ')
+      curTime = '%s  %s %s' %(curTime[0], curTime[1].lstrip('0'), curTime[2])
+      if re.search(curTime,recent, re.MULTILINE|re.DOTALL):
+        meshlib.send_plugin_result('%s failed registration' % phone.group(1), push_master)

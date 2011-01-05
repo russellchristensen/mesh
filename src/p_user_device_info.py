@@ -16,10 +16,11 @@
 import meshlib, sys, time, zmq
 
 # Connect a PUSH socket to master.py
-master_socket_url = sys.argv[1]
-zmq_context       = zmq.Context()
-push_master       = zmq_context.socket(zmq.PUSH)
-push_master.connect(master_socket_url)
+if __name__=='__main__':
+  master_socket_url = sys.argv[1]
+  zmq_context       = zmq.Context()
+  push_master       = zmq_context.socket(zmq.PUSH)
+  push_master.connect(master_socket_url)
 
 # Use meshlib.send_plugin_result('some message', push_master) to communicate
 # with master.py
@@ -28,24 +29,25 @@ push_master.connect(master_socket_url)
 
 import re, subprocess
 
-class TestPlugin:
+class TestPlugin(unittest.Testcase):
   def test_00asteriskexists(self):
     "Check if asterisk exists"
     import os.path
     location = '/usr/sbin/asterisk'
     self.assertTrue(os.path.exists(location))
 
-devices = ['Cisco-CP7960G/8.0','Linksys/SPA3102-3.3.6(GW)','PolycomSoundPointIP-SPIP_550-UA/3.0.4.0061', 'Sipura/SPA2002-3.1.2(a)']
-while 1:
-  users = []
-  user_info = subprocess.Popen(['asterisk', '-rx', 'sip show peers'], stdout=subprocess.PIPE).communicate()[0].lstrip('\x1b[0;37m').rstrip('\x1b[0m').splitlines()
-  for user in user_info:
-    user = re.search('(\d\d\d\d)',user,re.DOTALL|re.MULTILINE)
-    if user:
-      users.append(user.groups(1))
+if __name__=='__main__':
+  devices = ['Cisco-CP7960G/8.0','Linksys/SPA3102-3.3.6(GW)','PolycomSoundPointIP-SPIP_550-UA/3.0.4.0061', 'Sipura/SPA2002-3.1.2(a)']
+  while 1:
+    users = []
+    user_info = subprocess.Popen(['asterisk', '-rx', 'sip show peers'], stdout=subprocess.PIPE).communicate()[0].lstrip('\x1b[0;37m').rstrip('\x1b[0m').splitlines()
+    for user in user_info:
+      user = re.search('(\d\d\d\d)',user,re.DOTALL|re.MULTILINE)
+      if user:
+        users.append(user.groups(1))
 
-  for user in users:
-    device_info = subprocess.Popen(['asterisk', '-rx', 'sip show peer %s' %user], stdout=subprocess.PIPE).communicate()[0]
-    device = re.search('\n  Useragent    : (.*)\n  Reg. Contact', device_info, re.DOTALL|re.MULTILINE)
-    if device and not device.groups(0)[0] in devices:
-      meshlib.send_plugin_result('%s in use by %s is not an approved device' % (device.groups(0)[0], user[0]), push_master)    
+    for user in users:
+      device_info = subprocess.Popen(['asterisk', '-rx', 'sip show peer %s' %user], stdout=subprocess.PIPE).communicate()[0]
+      device = re.search('\n  Useragent    : (.*)\n  Reg. Contact', device_info, re.DOTALL|re.MULTILINE)
+      if device and not device.groups(0)[0] in devices:
+        meshlib.send_plugin_result('%s in use by %s is not an approved device' % (device.groups(0)[0], user[0]), push_master)    
