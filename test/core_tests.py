@@ -237,3 +237,67 @@ Tp7tERNH08s4Wb7hvIj6p/EloWtb/CA01EfQwA==
       decrypted_message = communicator.decrypt(cryptogram, self.bob_key)
       if message != decrypted_message:
          self.fail('Input string came back differently when decrypted: "%s" != "%s"' % (message, decrypted_message))
+
+
+class Test04master(unittest.TestCase):
+   def setUp(self):
+      pass
+
+   def test_00banner(self):
+      "[MASTER]"
+
+   def test_03import(self):
+      "Importing master.py works"
+      import master
+
+   def test_06create_zmq_context(self):
+      "Function create_zmq_context() works"
+      import master, zmq
+      master.create_zmq_context()
+      self.assertTrue(type(master.zmq_context) == zmq.core.context.Context)
+
+   def test_09create_push_comm(self):
+      "Function create_push_comm() works"
+      import master, zmq
+      master.create_push_comm()
+      if type(master.push_comm) != zmq.core.socket.Socket:
+         self.fail("push_comm socket is wrong type: %s" % str(type(master.push_comm)))
+
+   def test_12create_push_comm(self):
+      "Function create_pull_general() works"
+      import master, zmq
+      master.create_pull_general()
+      if type(master.pull_general) != zmq.core.socket.Socket:
+         self.fail("pull_general socket is wrong type: %s" % str(type(master.pull_general)))
+
+   def test_15start_port_assigner(self):
+      "Function start_port_assigner works"
+      import master
+      master.start_port_assigner()
+
+   def test_18start_communicator(self):
+      "Function start_communicator works"
+      import master
+      master.start_communicator()
+
+   def test_21start_inbound_pull_proxy(self):
+      "Function start_inbound_pull_proxy works"
+      import master
+      master.start_inbound_pull_proxy()
+
+   def test_24start_outbound_pull_proxy(self):
+      "Function start_outbound_pull_proxy works"
+      import master
+      master.start_outbound_pull_proxy('test')
+
+   def test_27process_message(self):
+      "Function process_message works"
+      import master, sys, StringIO
+      fake_stdout = StringIO.StringIO()
+      real_stdout = sys.stdout
+      sys.stdout = fake_stdout
+      msg = "test message"
+      master.process_message(msg)
+      sys.stdout = real_stdout
+      if fake_stdout.getvalue() != ('Received: %s\n' % msg):
+         self.fail("Unexpected output by process_message()")

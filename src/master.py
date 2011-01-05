@@ -17,25 +17,31 @@
 
 import meshlib, optparse, os, subprocess, sys, tempfile, time, zmq
 
+# This can be overridden by command-line arguments
+def verbose(msg):
+   pass
+
+# To help with unit testing
+class Dummy(object):
+   pass
+
 #------------------------------------------------------------------------------
 # Command-line arguments
 
-parser = optparse.OptionParser()
-parser.add_option('-t', '--test-plugin', help='Name of single plugin (without .py) to run to test.', action='store', dest='test_plugin', default=None)
-parser.add_option('-v', '--verbose',     help='Verbose mode.', action='store_true', dest='verbose', default=False)
-(options, args) = parser.parse_args()
+if __name__ == '__main__':
+   parser = optparse.OptionParser()
+   parser.add_option('-t', '--try-plugin', help='Name of single plugin (without .py) to run to test.', action='store', dest='test_plugin', default=None)
+   parser.add_option('-v', '--verbose',    help='Verbose mode.', action='store_true', dest='verbose', default=False)
+   (options, args) = parser.parse_args()
 
-# Vebose mode?
-if options.test_plugin:
-   print "Note: --test_plugin implies --verbose"
-   options.verbose = True
+   # Vebose mode?
+   if options.test_plugin:
+      print "Note: --test_plugin implies --verbose"
+      options.verbose = True
 
-if options.verbose:
-   def verbose(msg):
-      pass
-else:
-   def verbose(msg):
-      print msg
+   if options.verbose:
+      def verbose(msg):
+         print msg
 
 #------------------------------------------------------------------------------
 # ZMQ sockets
@@ -81,27 +87,28 @@ def create_pull_general():
    pull_general.bind(master_socket_url)
 
 #------------------------------------------------------------------------------
-# For testing plugin functionality
+# For plugin trial runs
 
-if options.test_plugin:
-   create_zmq_context()
-   create_pull_general()
-   print "Running in TEST PLUGIN mode.  We will run until either '%s' detects an event or dies.\n" % options.test_plugin
-   plugin_process = subprocess.Popen(('/usr/bin/env', 'python', options.test_plugin + '.py', master_socket_url))
-   while 1:
-      retcode = plugin_process.poll()
-      if retcode != None:
-         print "Plugin exited with retcode", retcode
-         sys.exit()
-      try:
-         msg = pull_general.recv(flags=zmq.NOBLOCK)
-         print "Received message from plugin '%s':\n-----------------------------\n%s" % (options.test_plugin, msg)
-         plugin_process.send_signal(9)
-         sys.exit()
-      except zmq.core.error.ZMQError, zmq_error:
-         if zmq_error == 'Resource temporarily unavailable':
-            pass                # That's what we expect when polling
-      time.sleep(.1)
+if __name__ == '__main__':
+   if options.test_plugin:
+      create_zmq_context()
+      create_pull_general()
+      print "Running in TRY PLUGIN mode.  We will run until either '%s' detects an event or dies.\n" % options.test_plugin
+      plugin_process = subprocess.Popen(('/usr/bin/env', 'python', options.test_plugin + '.py', master_socket_url))
+      while 1:
+         retcode = plugin_process.poll()
+         if retcode != None:
+            print "Plugin exited with retcode", retcode
+            sys.exit()
+         try:
+            msg = pull_general.recv(flags=zmq.NOBLOCK)
+            print "Received message from plugin '%s':\n-----------------------------\n%s" % (options.test_plugin, msg)
+            plugin_process.send_signal(9)
+            sys.exit()
+         except zmq.core.error.ZMQError, zmq_error:
+            if zmq_error == 'Resource temporarily unavailable':
+               pass                # That's what we expect when polling
+         time.sleep(.1)
 
 #------------------------------------------------------------------------------
 # Child-process stuff
@@ -114,22 +121,22 @@ outbound_pull_proxies = {}      # pull_proxy.py instances with the 'outbound' op
 
 def start_port_assigner():
    global port_assigner
-   port_assigner = subprocess.Popen(('/usr/bin/env', 'python', 'port_assigner.py'))
+   port_assigner = subprocess.Popen(('/usr/bin/env', 'python', os.path.join(meshlib.project_root_dir, 'src', 'port_assigner.py')))
 
 def start_communicator():   
    global communicator
-   communicator = subprocess.Popen(('/usr/bin/env', 'python', 'communicator.py'))
+   communicator = subprocess.Popen(('/usr/bin/env', 'python', os.path.join(meshlib.project_root_dir, 'src', 'communicator.py')))
    
 def start_inbound_pull_proxy():
    global inbound_pull_proxy
-   inbound_pull_proxy = subprocess.Popen(('/usr/bin/env', 'python', 'pull_proxy.py', 'inbound'))
+   inbound_pull_proxy = subprocess.Popen(('/usr/bin/env', 'python', os.path.join(meshlib.project_root_dir, 'src', 'pull_proxy.py'), 'inbound'))
 
 def start_outbound_pull_proxy(unique_name):
    if outbound_pull_proxies.has_key(unique_name):
       return "'%s' is already taken!!!"
    else:
       outbound_pull_proxies[unique_name] = subprocess.Popen(
-         ('/usr/bin/env', 'python', 'pull_proxy.py', 'outbound', unique_name))
+         ('/usr/bin/env', 'python', os.path.join(meshlib.project_root_dir, 'src', 'pull_proxy.py'), 'outbound', unique_name))
 
 def start_children():
    start_port_assigner()
