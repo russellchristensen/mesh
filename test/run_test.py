@@ -29,7 +29,7 @@ parser.add_option('-v', '--verbose',      help='Verbose output',                
 (options, args) = parser.parse_args()
 
 # Default to running core unit tests
-if not (options.test_all + options.test_core + options.test_plugins + options.test_plugin):
+if not (options.test_all + options.test_core + options.test_plugins) and not options.test_plugin:
    options.test_core = True
 
 # Set verbosity
@@ -43,10 +43,12 @@ suite_list = []
 if options.test_all or options.test_core:
    suite_list.append(unittest.TestLoader().loadTestsFromModule(core_tests))
 # Run all plugins' unit tests?
-if options.test_plugins:
+if options.test_all or options.test_plugins:
    for full_path in glob.glob(os.path.join(core_tests.project_root_dir, 'src', 'p_*')):
       module_name = os.path.split(full_path)[1][:-3]
+      print "Importing '%s' ... " % module_name,
       module_to_test = __import__(module_name)
+      print "done."
       suite_list.append(unittest.TestLoader().loadTestsFromModule(module_to_test))
 # Run a specific plugin's unit tests?
 elif options.test_plugin:
