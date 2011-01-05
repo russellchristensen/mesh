@@ -21,13 +21,13 @@ import meshlib, optparse, os, subprocess, sys, tempfile, time, zmq
 # Command-line arguments
 
 parser = optparse.OptionParser()
-parser.add_option('-t', '--test-plugin', action='store', dest='test_plugin', default=None)
-parser.add_option('-v', '--verbose', action='store_true', dest='verbose', default=False)
+parser.add_option('-t', '--test-plugin', help='Name of single plugin (without .py) to run to test.', action='store', dest='test_plugin', default=None)
+parser.add_option('-v', '--verbose',     help='Verbose mode.', action='store_true', dest='verbose', default=False)
 (options, args) = parser.parse_args()
 
 # Vebose mode?
 if options.test_plugin:
-   print "test_plugin implies verbose"
+   print "Note: --test_plugin implies --verbose"
    options.verbose = True
 
 if options.verbose:
@@ -86,8 +86,8 @@ def create_pull_general():
 if options.test_plugin:
    create_zmq_context()
    create_pull_general()
-   print "Running in TEST PLUGIN mode.  We will run until either the plugin sends us a message, or the plugin dies.\n"
-   plugin_process = subprocess.Popen(('/usr/bin/env', 'python', options.test_plugin, master_socket_url))
+   print "Running in TEST PLUGIN mode.  We will run until either '%s' detects an event or dies.\n" % options.test_plugin
+   plugin_process = subprocess.Popen(('/usr/bin/env', 'python', options.test_plugin + '.py', master_socket_url))
    while 1:
       retcode = plugin_process.poll()
       if retcode != None:
@@ -95,7 +95,7 @@ if options.test_plugin:
          sys.exit()
       try:
          msg = pull_general.recv(flags=zmq.NOBLOCK)
-         print "Received message from plugin:\n-----------------------------\n%s" % msg
+         print "Received message from plugin '%s':\n-----------------------------\n%s" % (options.test_plugin, msg)
          plugin_process.send_signal(9)
          sys.exit()
       except zmq.core.error.ZMQError, zmq_error:
