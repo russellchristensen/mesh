@@ -18,6 +18,7 @@ Postgres/MySQL
 - connections
 - number of currently-running queries
 - PITR/replication status
+- result of custom query
 
 Hardware
 - cpu usage
