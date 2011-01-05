@@ -161,7 +161,7 @@ class Test02zmq(unittest.TestCase):
       else:
          self.fail("ZMQ Request/Reply pattern failed with with retcodes %s/%s" % (str(rep_retcode), str(req_retcode)))
 
-class Test03crypto(unittest.TestCase):
+class Test03meshlib(unittest.TestCase):
    def setUp(self):
       import M2Crypto
       self.alice_key  = M2Crypto.RSA.load_key(os.path.join(project_root_dir, 'test', 'certs', 'alice.key'))
@@ -171,52 +171,53 @@ class Test03crypto(unittest.TestCase):
       self.ca_cert    = M2Crypto.X509.load_cert(os.path.join(project_root_dir, 'test', 'certs', 'test-ca-cert.pem'))
 
    def test_00banner(self):
-      "[CRYPTOGRAPHY TESTS]"
+      "[MESHLIB]"
+      import meshlib
 
    def test_01m2verifycert(self):
       "(w/M2Crytpo [optional]) SSL certificates signed by the CA get verified correctly"
-      import communicator
+      import meshlib
       global project_root_dir
       # This certificate should be valid
-      if not communicator.verify_cert_m2crypto(cafile=os.path.join(project_root_dir, 'test', 'certs', 'test-ca-cert.pem'), certfile=os.path.join(project_root_dir, 'test', 'certs', 'alice.cert')):
+      if not meshlib.verify_cert_m2crypto(cafile=os.path.join(project_root_dir, 'test', 'certs', 'test-ca-cert.pem'), certfile=os.path.join(project_root_dir, 'test', 'certs', 'alice.cert')):
          self.fail("A certificate that should be valid could not be verified.")
 
    def test_02m2verifycert_fail(self):
       "(w/M2Crypto [optional]) Self-signed SSL certificates do not get verified"
-      import communicator
+      import meshlib
       global project_root_dir
       # This certificate should not be valid
-      if communicator.verify_cert_m2crypto(cafile=os.path.join(project_root_dir, 'test', 'certs', 'test-ca-cert.pem'), certfile=os.path.join(project_root_dir, 'test', 'certs', 'test-self-sign.cert')):
+      if meshlib.verify_cert_m2crypto(cafile=os.path.join(project_root_dir, 'test', 'certs', 'test-ca-cert.pem'), certfile=os.path.join(project_root_dir, 'test', 'certs', 'test-self-sign.cert')):
          self.fail("A certificate that should not be valid was verified.")
 
    def test_03cliverifycert(self):
       "(w/CLI) SSL certificates signed by the CA get verified correctly"
-      import communicator
+      import meshlib
       global project_root_dir
       # This certificate should be valid
-      if not communicator.verify_cert_cli(cafile=os.path.join(project_root_dir, 'test', 'certs', 'test-ca-cert.pem'), certfile=os.path.join(project_root_dir, 'test', 'certs', 'alice.cert')):
+      if not meshlib.verify_cert_cli(cafile=os.path.join(project_root_dir, 'test', 'certs', 'test-ca-cert.pem'), certfile=os.path.join(project_root_dir, 'test', 'certs', 'alice.cert')):
          self.fail("A certificate that should be valid could not be verified.  Note that you can ignore this failure if the same test via the M2Crypto method succeeded.")
 
    def test_04cliverifycert_fail(self):
       "(w/CLI) Self-signed SSL certificates do not get verified"
-      import communicator
+      import meshlib
       global project_root_dir
       # This certificate should not be valid
-      if communicator.verify_cert_cli(cafile=os.path.join(project_root_dir, 'test', 'certs', 'test-ca-cert.pem'), certfile=os.path.join(project_root_dir, 'test', 'certs', 'test-self-sign.cert')):
+      if meshlib.verify_cert_cli(cafile=os.path.join(project_root_dir, 'test', 'certs', 'test-ca-cert.pem'), certfile=os.path.join(project_root_dir, 'test', 'certs', 'test-self-sign.cert')):
          self.fail("A certificate that should not be valid was verified.  Note that you can ignore this failure if the same test via the M2Crypto method succeeded.")
 
    def test_06encrypt(self):
       "Encrypting a string using a public key seems to work"
-      import communicator, M2Crypto, os
+      import meshlib, M2Crypto, os
       global project_root_dir
       data = 'Confidential data!'
-      cryptogram = communicator.encrypt(data, self.alice_cert)
+      cryptogram = meshlib.encrypt(data, self.alice_cert)
       if cryptogram == data:
          self.fail('Encryption failed spectacularly')
 
    def test_09decrypt_known(self):
       "Decrypt a known pre-encrypted string"
-      import communicator, M2Crypto, os
+      import meshlib, M2Crypto, os
       global project_root_dir
       cryptogram = """bvzkTmVVWmLfw6lvJtdrXIaXFTHoI8U+AWE906c9FC4ca7dfDiLB5TOOxhy6thDkhUw+J9AnrEoh
 FFsRRoGACYRufjm84bBDqOHMkK0rjyRFvU2uttphOTjdgqHPZJnA7iWrV7mHTBHogiaM6MpJWLQO
@@ -224,17 +225,17 @@ uNSdEHxKxqpjg9BR1xj/cYm+iqD0OFfONz7BqFgao3NDTg4a5qpS8i9m4mqFcIuAIRkZG2mC+uBN
 h3JvaGQ7Opua72ninJI79Hr2X2VWBXtA4eOQM1BsxxbHWxiLspHplStM34zvXkaUgwUdvHZjvwo5
 Tp7tERNH08s4Wb7hvIj6p/EloWtb/CA01EfQwA==
 """
-      message = communicator.decrypt(cryptogram, self.alice_key)
+      message = meshlib.decrypt(cryptogram, self.alice_key)
       if message != 'Confidential data!':
          self.fail('Failed to decrypt an encrypted string.')
 
    def test_12encrypt_decrypt(self):
       "Encrypt and then decrypt a random string"
-      import communicator, M2Crypto, os, random, string
+      import meshlib, M2Crypto, os, random, string
       # Generate a random string of 32 letters and numbers
       message = ''.join([random.choice(string.ascii_letters + string.digits) for x in range(32)])
-      cryptogram = communicator.encrypt(message, self.bob_cert)
-      decrypted_message = communicator.decrypt(cryptogram, self.bob_key)
+      cryptogram = meshlib.encrypt(message, self.bob_cert)
+      decrypted_message = meshlib.decrypt(cryptogram, self.bob_key)
       if message != decrypted_message:
          self.fail('Input string came back differently when decrypted: "%s" != "%s"' % (message, decrypted_message))
 
@@ -245,9 +246,6 @@ class Test04master(unittest.TestCase):
 
    def test_00banner(self):
       "[MASTER]"
-
-   def test_03import(self):
-      "Importing master.py works"
       import master
 
    def test_06create_zmq_context(self):
