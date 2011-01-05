@@ -47,5 +47,4 @@ if __name__=='__main__':
         problem_phones.append(problem_phone.group(1))
 
     if problem_phones:
-      print '%s phone(s) experiencing network issues: %s' % (len(problem_phones), ' '.join(problem_phones))   
       meshlib.send_plugin_result('%s phone(s) experiencing network issues: %s' % (len(problem_phones), ' '.join(problem_phones)), push_master)    
