@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-
 # This file is part of Mesh.
 
 # Mesh is free software: you can redistribute it and/or modify
@@ -15,7 +13,7 @@
 # You should have received a copy of the GNU General Public License
 # along with Mesh.  If not, see <http://www.gnu.org/licenses/>.
 
-import glob, os, optparse, sys, subprocess, time, unittest
+import glob, os, sys, subprocess, time, unittest
 from distutils import version
 
 global gpl_header
@@ -239,82 +237,3 @@ Tp7tERNH08s4Wb7hvIj6p/EloWtb/CA01EfQwA==
       decrypted_message = communicator.decrypt(cryptogram, self.bob_key)
       if message != decrypted_message:
          self.fail('Input string came back differently when decrypted: "%s" != "%s"' % (message, decrypted_message))
-      
-class Test04ssh(unittest.TestCase):
-   def test_00banner(self):
-      "[SSH TESTS]"
-
-   def test_01sshisrunning(self):
-      "Check if sshd is running"
-      import subprocess
-      possible_ssh_names = ['/usr/bin/ssh-agent -l', '/usr/sbin/sshd']
-      # Get process list, pull only those with ssh
-      proc1 = subprocess.Popen(['ps', 'aux'], stdout=subprocess.PIPE)
-      proc2 = subprocess.Popen(['grep', 'ssh'], stdin=proc1.stdout, stdout=subprocess.PIPE) 
-      # Run through each line searching for any of the possible names
-      # If a name is found, sshd is running
-      for line in proc2.stdout.readlines():
-         for name in possible_ssh_names:
-            if name in line:return True
-      self.fail('No sshd process was found.')
-
-   def test_03sshlogexists(self):
-      "Check if the ssh log file exists and is readable"
-      import os.path
-      log_locations = ['/var/log/secure.log', '/var/log/secure']
-      # Check if either log file exists
-      for location in log_locations:
-         if os.path.isfile(location):
-            try:
-               open(location).read()
-               return True
-            except:
-               self.fail('SSH log file "%s" is not readable' % (location))
-      self.fail('No ssh log file found!')
-
-   def test_04asterisklogexists(self):
-      "Check if asterisk log file exists and is readable"
-      import os.path
-      location = '/var/log/asterisk/messages'
-      if os.path.isfile(location):
-         try:
-            open(location).read()
-            return True
-         except:
-            self.fail('Asterisk log file "%s" is not readable' % (location))
-      self.fail('No asterisk log file found!')
-
-if __name__ == '__main__':
-   # Parse command-line arguments
-   parser = optparse.OptionParser()
-   parser.add_option('-a', '--test-all',     help='Test everything.',               action='store_true', dest='test_all', default=False)
-   parser.add_option('-c', '--test-core',    help='(DEFAULT) Test mesh core only.', action='store_true', dest='test_core', default=False)
-   parser.add_option('-p', '--test-plugins', help='Test all plugins.',              action='store_true', dest='test_plugins', default=False)
-   parser.add_option('-t', '--test-plugin',  help='Test a specific plugin only.',   action='store', dest='test_plugin', default='')
-   parser.add_option('-v', '--verbose',      help='Verbose output',                 action='store_true', dest='verbose', default=False)
-   (options, args) = parser.parse_args()
-
-   # Set verbosity
-   if options.verbose:
-      verbosity = 2
-   else:
-      verbosity = 1
-
-   # Run selected unit tests
-   suite_list = []
-   if options.test_all or options.test_core:
-      pass                      # /// FINISH THIS!!!
-#       for item in globals():
-#          if item.startswith('Test'):
-#             suite_list.append(unittest.loadTestsFromTestCase(
-   if options.test_plugins:
-      for plugin in glob.glob(os.path.join(project_root_dir, 'src', 'p_*')):
-         print plugin
-         module_to_test = __import__(plugin)
-         suite = unittest.TestLoader().loadTestsFromModule(module_to_test)
-         unittest.TextTestRunner(verbosity=verbosity).run(suite)         
-   elif options.test_plugin:
-      module_to_test = __import__(options.test_plugin)
-      suite = unittest.TestLoader().loadTestsFromModule(module_to_test)
-      unittest.TextTestRunner(verbosity=verbosity).run(suite)
-   
