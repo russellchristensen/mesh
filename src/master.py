@@ -21,10 +21,6 @@ import meshlib, optparse, os, subprocess, sys, tempfile, time, zmq
 def verbose(msg):
    pass
 
-# To help with unit testing
-class Dummy(object):
-   pass
-
 #------------------------------------------------------------------------------
 # Command-line arguments
 
@@ -48,7 +44,7 @@ if __name__ == '__main__':
 
 # Socket objects
 
-zmq_context  = None
+zmq_context  = zmq.Context()
 push_comm    = None
 pull_general = None
 
@@ -64,11 +60,6 @@ port_assigner_socket_url: %s""" % (
    master_socket_url,
    communicator_socket_url,
    port_assigner_socket_url))
-
-# Needs to be called first ... unless we're unit-testing.
-def create_zmq_context():
-   global zmq_context
-   zmq_context = zmq.Context()
 
 # Calls all socket creation functions
 def create_zmq_sockets():

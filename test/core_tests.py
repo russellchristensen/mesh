@@ -249,9 +249,8 @@ class Test04master(unittest.TestCase):
       import master
 
    def test_06create_zmq_context(self):
-      "Function create_zmq_context() works"
+      "ZMQ context was created"
       import master, zmq
-      master.create_zmq_context()
       self.assertTrue(type(master.zmq_context) == zmq.core.context.Context)
 
    def test_09create_push_comm(self):
