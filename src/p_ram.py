@@ -13,24 +13,41 @@
 # You should have received a copy of the GNU General Public License
 # along with Mesh.  If not, see <http://www.gnu.org/licenses/>.
 
-import meshlib, sys, time, zmq
+import meshlib, sys, time, unittest, zmq
 
-# Connect a PUSH socket to master.py
-master_socket_url = sys.argv[1]
-zmq_context       = zmq.Context()
-push_master       = zmq_context.socket(zmq.PUSH)
-push_master.connect(master_socket_url)
+# Remove the OSs your plugin doesn't support.
+# Use meshlib.get_os() if you need to know what OS you're actually on.
+supported_os = ['darwin', 'linux2', 'freebsd8', 'sunos5']
+
+if __name__ == '__main__':
+   # Connect a PUSH socket to master.py
+   master_socket_url = sys.argv[1]
+   zmq_context       = zmq.Context()
+   push_master       = zmq_context.socket(zmq.PUSH)
+   push_master.connect(master_socket_url)
+
+# ////// Customized monitoring of...something  //////
 
 # Use meshlib.send_plugin_result('some message', push_master) to communicate
 # with master.py
 
 # END TEMPLATE -- Customize below.
 
+# Plugins will typically have an infinite main loop
 import psutil
+if __name__ == '__main__':
+   while 1:
+      total = psutil.TOTAL_PHYMEM / 1024
+      avail = psutil.avail_phymem() / 1024
+      used  = psutil.used_phymem() / 1024
+      meshlib.send_plugin_result("|Total: %s| |Available: %s| |Used: %s|" % (total, avail, used), push_master)
+      time.sleep(1)
 
-while 1:
-   total = psutil.TOTAL_PHYMEM / 1024
-   avail = psutil.avail_phymem() / 1024
-   used  = psutil.used_phymem() / 1024
-   meshlib.send_plugin_result("|Total: %s| |Available: %s| |Used: %s|" % (total, avail, used), push_master)
-   time.sleep(1)
+# ////// Customized unit-testing of everything above.  It's common for unit tests to take _more_ code than the code they test.  //////
+class TestPlugin(unittest.TestCase):
+   def test_00no_output(self):
+           "Is there output?"
+           if ps.cpu_percent(interval=1) == '':
+                   self.fail("Plugin is returning no results")
+
+
