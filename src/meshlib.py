@@ -28,6 +28,9 @@ if not project_root_dir:
    print "Error, couldn't find the project root directory.  :-("
    sys.exit(1)
 
+def get_os():
+   return sys.platform
+
 # For creating ZMQ URLs
 def socket_url(transport):
    if transport == 'ipc':
