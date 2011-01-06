@@ -27,7 +27,7 @@ from datetime import datetime
 
 def iterate_list(l):
    'Iterate through a list, yield a tuple of "count, item"'
-   c = 0 
+   c = 0
    while c < len(l):
       yield c, l[c]
       c += 1
@@ -36,12 +36,12 @@ if __name__ == '__main__':
    protected_users = set(['root'])
 
    parse_last = re.compile(r'^(\w+) +([\w\/]+) +([\d\.:]+)? +([\w :\-]+)(?: - )? +\((.+)\)', re.MULTILINE)
-   
+
    # Get login history
    proc = subprocess.Popen(['last'], stdout=subprocess.PIPE)
    output = proc.stdout.read()
    proc.kill()
-   
+
    # Get existing users
    existing_users = set()
    # Get OpenSolaris users
@@ -65,8 +65,8 @@ if __name__ == '__main__':
       proc.kill()
    else:
       meshlib.send_plugin_result('Error: Your operating system is not supported!', push_master)
-   
-   last_users = {} 
+
+   last_users = {}
    oldest_entry = datetime.now()
    # Parse and store the last entries
    for user, tty, ip, d, t in re.findall(parse_last, output):
@@ -84,20 +84,20 @@ if __name__ == '__main__':
       # If entry is oldest, store it
       if d < oldest_entry:
          oldest_entry = d
-   
+
    # Sort the user's by their login times
    sorted_users = last_users.keys()
-   error = True 
+   error = True
    while error:
       error = False
       for count, user in iterate_list(sorted_users):
-         try: 
+         try:
             # Compare current and next user
             if last_users[user] > last_users[sorted_users[count+1]]:
-               error = True 
+               error = True
                sorted_users.append(sorted_users[count])
                sorted_users.pop(count)
-         except: pass 
+         except: pass
 
    # Show user's who aren't official in the system, or haven't logged in within the history of "last"
    for user in set(last_users).difference(set(existing_users)).difference(protected_users):
