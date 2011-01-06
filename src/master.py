@@ -26,13 +26,13 @@ def verbose(msg):
 
 if __name__ == '__main__':
    parser = optparse.OptionParser()
-   parser.add_option('-t', '--try-plugin', help='Name of single plugin (without .py) to run to test.', action='store', dest='test_plugin', default=None)
+   parser.add_option('-t', '--try-plugin', help='Name of single plugin (without .py) to run to try.', action='store', dest='try_plugin', default=None)
    parser.add_option('-v', '--verbose',    help='Verbose mode.', action='store_true', dest='verbose', default=False)
    (options, args) = parser.parse_args()
 
    # Vebose mode?
-   if options.test_plugin:
-      print "Note: --test_plugin implies --verbose"
+   if options.try_plugin:
+      print "Note: --try-plugin implies --verbose"
       options.verbose = True
 
    if options.verbose:
@@ -81,11 +81,10 @@ def create_pull_general():
 # For plugin trial runs
 
 if __name__ == '__main__':
-   if options.test_plugin:
-      create_zmq_context()
+   if options.try_plugin:
       create_pull_general()
-      print "Running in TRY PLUGIN mode.  We will run until either '%s' detects an event or dies.\n" % options.test_plugin
-      plugin_process = subprocess.Popen(('/usr/bin/env', 'python', options.test_plugin + '.py', master_socket_url))
+      print "Running in TRY PLUGIN mode.  We will run until either '%s' detects an event or dies.\n" % options.try_plugin
+      plugin_process = subprocess.Popen(('/usr/bin/env', 'python', options.try_plugin + '.py', master_socket_url))
       while 1:
          retcode = plugin_process.poll()
          if retcode != None:
@@ -93,7 +92,7 @@ if __name__ == '__main__':
             sys.exit()
          try:
             msg = pull_general.recv(flags=zmq.NOBLOCK)
-            print "Received message from plugin '%s':\n-----------------------------\n%s" % (options.test_plugin, msg)
+            print "Received message from plugin '%s':\n-----------------------------\n%s" % (options.try_plugin, msg)
             plugin_process.send_signal(9)
             sys.exit()
          except zmq.core.error.ZMQError, zmq_error:
