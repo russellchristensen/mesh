@@ -27,10 +27,10 @@ if __name__ == '__main__':
    push_master.connect(master_socket_url)
 
 # ////// Customized monitoring of...something  //////
-import psutil as ps
+import psutil 
 if __name__ == '__main__':
    while 1:
-         cpu = ps.cpu_percent(interval=1)  
+         cpu = psutil.cpu_percent(interval=1)  
          meshlib.send_plugin_result("CPU: %s" % cpu, push_master)
          time.sleep(1)
 
@@ -38,5 +38,5 @@ if __name__ == '__main__':
 class TestPlugin(unittest.TestCase):
    def test_00no_output(self):
            "Is there output?"
-           if ps.cpu_percent(interval=1) == '':
+           if psutil.cpu_percent(interval=1) == '':
                    self.fail("Plugin is returning no results")

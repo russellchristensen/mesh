@@ -45,9 +45,19 @@ if __name__ == '__main__':
 
 # ////// Customized unit-testing of everything above.  It's common for unit tests to take _more_ code than the code they test.  //////
 class TestPlugin(unittest.TestCase):
+   total = psutil.TOTAL_PHYMEM
+   avail = psutil.avail_phymem()
+   used  = psutil.used_phymem()
+
    def test_00no_output(self):
            "Is there output?"
-           if ps.cpu_percent(interval=1) == '':
+           total = psutil.TOTAL_PHYMEM
+           avail = psutil.avail_phymem()
+           used  = psutil.used_phymem()
+           if total == '':
                    self.fail("Plugin is returning no results")
-
+           elif avail == '':
+                   self.fail("Plugin is returning no results")
+           elif used == '':
+                   self.fail("Plugin is returning no results")
 
