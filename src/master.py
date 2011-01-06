@@ -45,7 +45,7 @@ if __name__ == '__main__':
 # Socket objects
 
 zmq_context  = zmq.Context()
-push_comm    = None
+push_communicator    = None
 pull_general = None
 
 # Names of interprocess sockets to bind/connect to.
@@ -63,14 +63,14 @@ port_assigner_socket_url: %s""" % (
 
 # Calls all socket creation functions
 def create_zmq_sockets():
-   create_push_comm()
+   create_push_communicator()
    create_pull_general()
 
-def create_push_comm():
-   global push_comm
-   push_comm = zmq_context.socket(zmq.PUSH)
-   push_comm.connect(communicator_socket_url)
-   push_comm.send("master alive")
+def create_push_communicator():
+   global push_communicator
+   push_communicator = zmq_context.socket(zmq.PUSH)
+   push_communicator.connect(communicator_socket_url)
+   push_communicator.send("master alive")
 
 def create_pull_general():
    global pull_general
@@ -116,7 +116,7 @@ def start_port_assigner():
 
 def start_communicator():   
    global communicator
-   communicator = subprocess.Popen(('/usr/bin/env', 'python', os.path.join(meshlib.project_root_dir, 'src', 'communicator.py')))
+   communicator = subprocess.Popen(('/usr/bin/env', 'python', os.path.join(meshlib.project_root_dir, 'src', 'communicator.py'), master_socket_url))
    
 def start_inbound_pull_proxy():
    global inbound_pull_proxy
@@ -162,7 +162,6 @@ def process_message(inbound_msg):
 
 # About the only thing we can't unittest is this main loop, so we'll hide it here.
 if __name__ == '__main__':
-   create_zmq_context()
    create_zmq_sockets()
    start_children()
    while 1:

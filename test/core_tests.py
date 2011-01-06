@@ -281,14 +281,14 @@ class Test04master(unittest.TestCase):
       import master, zmq
       self.assertTrue(type(master.zmq_context) == zmq.core.context.Context)
 
-   def test_09create_push_comm(self):
-      "Function create_push_comm() works"
+   def test_09create_push_communicator(self):
+      "Function create_push_communicator() works"
       import master, zmq
-      master.create_push_comm()
-      if type(master.push_comm) != zmq.core.socket.Socket:
-         self.fail("push_comm socket is wrong type: %s" % str(type(master.push_comm)))
+      master.create_push_communicator()
+      if type(master.push_communicator) != zmq.core.socket.Socket:
+         self.fail("push_communicator socket is wrong type: %s" % str(type(master.push_communicator)))
 
-   def test_12create_push_comm(self):
+   def test_12create_pull_general(self):
       "Function create_pull_general() works"
       import master, zmq
       master.create_pull_general()
@@ -326,3 +326,20 @@ class Test04master(unittest.TestCase):
       sys.stdout = real_stdout
       if fake_stdout.getvalue() != ('Received: %s\n' % msg):
          self.fail("Unexpected output by process_message()")
+
+class Test05communicator(unittest.TestCase):
+   def test_00banner(self):
+      "[COMMUNICATOR]"
+      import communicator
+
+   def test_03connect_push_master(self):
+      "Function connect_push_master works"
+      import communicator, meshlib, zmq
+      url = meshlib.socket_url('ipc')
+      zmq_context = zmq.Context()
+      pull = zmq_context.socket(zmq.PULL)
+      pull.bind(url)
+      communicator.connect_push_master(url)
+      response = pull.recv()
+      if response != "communicator.py is alive":
+         self.fail("Didn't receive expected response when running connect_push_master()")
