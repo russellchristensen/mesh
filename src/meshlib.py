@@ -35,6 +35,11 @@ def socket_url(transport):
    else:
       raise("Invalid transport: " + str(transport))
 
+def is_socket_url(url):
+   if (url[:7] == 'ipc:///') and (url[-4:] == '.ipc'):
+      return True
+   return False
+
 # For plugins to send events to master.py
 def send_plugin_result(msg, socket):
    socket.send(msg)

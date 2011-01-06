@@ -95,8 +95,8 @@ class Test01Code(unittest.TestCase):
       source_files = [os.path.join(project_root_dir, 'mesh')] + glob.glob(os.path.join(project_root_dir, 'test', '*.py')) + glob.glob(os.path.join(project_root_dir, 'src', '*.py'))
       for fname in source_files:
          header = open(os.path.join(project_root_dir, fname), 'r').read(1024)
-         if not "# This file is part of Mesh." in header:
-            self.fail("The source file %s has a malformed or missing GPL header." % fname)
+         if not gpl_header in header:
+            self.fail("The source file '%s' has a malformed or missing GPL header." % fname)
 
 class Test02Syntax(unittest.TestCase):
    def test_00banner(self):
@@ -239,6 +239,34 @@ Tp7tERNH08s4Wb7hvIj6p/EloWtb/CA01EfQwA==
       if message != decrypted_message:
          self.fail('Input string came back differently when decrypted: "%s" != "%s"' % (message, decrypted_message))
 
+   def test_15socket_url(self):
+      "Function socket_url works"
+      import meshlib, zmq
+      zmq_context = zmq.Context()
+      push = zmq_context.socket(zmq.PUSH)
+      pull = zmq_context.socket(zmq.PULL)
+      url = meshlib.socket_url('ipc')
+      push.connect(url)
+      pull.bind(url)
+      msg = "This is a test message"
+      push.send(msg)
+      output = pull.recv()
+      if msg != output:
+         self.fail("We weren't able to send/receive a message with a url created by socket_url.")
+
+   def test_18is_socket_url(self):
+      "Function is_socket_url works"
+      import meshlib
+      for i in xrange(10):
+         url = meshlib.socket_url('ipc')
+         if not meshlib.is_socket_url(url):
+            self.fail("is_socket_url failed on '%s' created by socket_url('ipc')" % url)
+      url = 'ipc:///tmp/goodurl.ipc'
+      if not meshlib.is_socket_url(url):
+         self.fail("is_socket_url failed on a known good url '%s'" % url)
+      badurl = 'paosidfsadfsdfhncv'
+      if meshlib.is_socket_url(badurl):
+         self.fail("is_socket_url didn't detect bad url %s" % badurl)
 
 class Test04master(unittest.TestCase):
    def setUp(self):
