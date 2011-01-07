@@ -288,12 +288,12 @@ class Test04master(unittest.TestCase):
       if type(master.push_communicator) != zmq.core.socket.Socket:
          self.fail("push_communicator socket is wrong type: %s" % str(type(master.push_communicator)))
 
-   def test_12create_pull_general(self):
-      "Function create_pull_general() works"
+   def test_12create_pull(self):
+      "Function create_pull() works"
       import master, zmq
-      master.create_pull_general()
-      if type(master.pull_general) != zmq.core.socket.Socket:
-         self.fail("pull_general socket is wrong type: %s" % str(type(master.pull_general)))
+      master.create_pull()
+      if type(master.pull) != zmq.core.socket.Socket:
+         self.fail("pull socket is wrong type: %s" % str(type(master.pull)))
 
    def test_15start_port_assigner(self):
       "Function start_port_assigner works"
@@ -332,14 +332,3 @@ class Test05communicator(unittest.TestCase):
       "[COMMUNICATOR]"
       import communicator
 
-   def test_03connect_push_master(self):
-      "Function connect_push_master works"
-      import communicator, meshlib, zmq
-      url = meshlib.socket_url('ipc')
-      zmq_context = zmq.Context()
-      pull = zmq_context.socket(zmq.PULL)
-      pull.bind(url)
-      communicator.connect_push_master(url)
-      response = pull.recv()
-      if response != "communicator.py is alive":
-         self.fail("Didn't receive expected response when running connect_push_master()")

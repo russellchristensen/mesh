@@ -34,7 +34,7 @@ def get_os():
 # For creating ZMQ URLs
 def socket_url(transport):
    if transport == 'ipc':
-      return "ipc:///" + tempfile.NamedTemporaryFile().name + '.ipc'
+      return "ipc://" + tempfile.NamedTemporaryFile().name + '.ipc'
    else:
       raise("Invalid transport: " + str(transport))
 

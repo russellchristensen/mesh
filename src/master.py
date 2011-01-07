@@ -37,108 +37,88 @@ if __name__ == '__main__':
 
    if options.verbose:
       def verbose(msg):
-         print msg
+         print "master:", msg
 
 #------------------------------------------------------------------------------
-# ZMQ sockets
+# ZMQ Setup
 
-# Socket objects
+# Context & sockets for master.py
+zmq_context       = zmq.Context()
+pull              = None
+push_communicator = None
 
-zmq_context  = zmq.Context()
-push_communicator    = None
-pull_general = None
+# IPC urls for everything
+master_pull_url         = meshlib.socket_url('ipc')
+communicator_pull_url   = meshlib.socket_url('ipc')
+port_assigner_pull_url  = meshlib.socket_url('ipc')
+port_requestor_pull_url = meshlib.socket_url('ipc')
 
-# Names of interprocess sockets to bind/connect to.
-master_socket_url        = meshlib.socket_url('ipc')
-communicator_socket_url  = meshlib.socket_url('ipc')
-port_assigner_socket_url = meshlib.socket_url('ipc')
+verbose ("""IPC URLs
+master_pull_url:         %s
+communicator_pull_url:   %s
+port_assigner_pull_url:  %s
+port_requestor_pull_url: %s
+""" % (
+   master_pull_url,
+   communicator_pull_url,
+   port_assigner_pull_url,
+   port_requestor_pull_url))
 
-verbose ("""Sockets:
-master_socket_url:        %s
-communicator_socket_url:  %s
-port_assigner_socket_url: %s""" % (
-   master_socket_url,
-   communicator_socket_url,
-   port_assigner_socket_url))
-
-# Calls all socket creation functions
-def create_zmq_sockets():
-   create_push_communicator()
-   create_pull_general()
+def create_pull():
+   global pull
+   pull = zmq_context.socket(zmq.PULL)
+   pull.bind(master_pull_url)
 
 def create_push_communicator():
    global push_communicator
    push_communicator = zmq_context.socket(zmq.PUSH)
-   push_communicator.connect(communicator_socket_url)
+   push_communicator.connect(communicator_pull_url)
    push_communicator.send("master alive")
-
-def create_pull_general():
-   global pull_general
-   pull_general = zmq_context.socket(zmq.PULL)
-   pull_general.bind(master_socket_url)
-
-#------------------------------------------------------------------------------
-# For plugin trial runs
-
-if __name__ == '__main__':
-   if options.try_plugin:
-      create_pull_general()
-      print "Running in TRY PLUGIN mode.  We will run until either '%s' detects an event or dies.\n" % options.try_plugin
-      plugin_process = subprocess.Popen(('/usr/bin/env', 'python', options.try_plugin + '.py', master_socket_url))
-      while 1:
-         retcode = plugin_process.poll()
-         if retcode != None:
-            print "Plugin exited with retcode", retcode
-            sys.exit()
-         try:
-            msg = pull_general.recv(flags=zmq.NOBLOCK)
-            print "Received message from plugin '%s':\n-----------------------------\n%s" % (options.try_plugin, msg)
-            plugin_process.send_signal(9)
-            sys.exit()
-         except zmq.core.error.ZMQError, zmq_error:
-            if zmq_error == 'Resource temporarily unavailable':
-               pass                # That's what we expect when polling
-         time.sleep(.1)
 
 #------------------------------------------------------------------------------
 # Child-process stuff
 
 # Process objects:
-port_assigner      = None
 communicator       = None
 inbound_pull_proxy = None       # pull_proxy.py with the 'inbound' option
 outbound_pull_proxies = {}      # pull_proxy.py instances with the 'outbound' option
-
-def start_port_assigner():
-   global port_assigner
-   port_assigner = subprocess.Popen(('/usr/bin/env', 'python', os.path.join(meshlib.project_root_dir, 'src', 'port_assigner.py')))
+port_assigner      = None
+port_requestor     = None
 
 def start_communicator():   
    global communicator
-   communicator = subprocess.Popen(('/usr/bin/env', 'python', os.path.join(meshlib.project_root_dir, 'src', 'communicator.py'), master_socket_url))
+   communicator = subprocess.Popen(
+      ('/usr/bin/env', 'python', os.path.join(meshlib.project_root_dir, 'src', 'communicator.py'), 
+       master_pull_url, communicator_pull_url, port_assigner_pull_url, port_requestor_pull_url))
    
+def start_port_assigner():
+   global port_assigner
+   port_assigner = subprocess.Popen(
+      ('/usr/bin/env', 'python', os.path.join(meshlib.project_root_dir, 'src', 'port_assigner.py'),
+       communicator_pull_url, port_assigner_pull_url))
+
+def start_port_requestor():
+   global port_requestor
+   port_requestor = subprocess.Popen(
+      ('/usr/bin/env', 'python', os.path.join(meshlib.project_root_dir, 'src', 'port_requestor.py'),
+       communicator_pull_url, port_requestor_pull_url))
+
 def start_inbound_pull_proxy():
    global inbound_pull_proxy
-   inbound_pull_proxy = subprocess.Popen(('/usr/bin/env', 'python', os.path.join(meshlib.project_root_dir, 'src', 'pull_proxy.py'), 'inbound'))
+   inbound_pull_proxy = subprocess.Popen(
+      ('/usr/bin/env', 'python', os.path.join(meshlib.project_root_dir, 'src', 'pull_proxy.py'), 
+       'inbound', '*', '5555', communicator_pull_url))
 
-def start_outbound_pull_proxy(unique_name):
-   if outbound_pull_proxies.has_key(unique_name):
+def start_outbound_pull_proxy(target, port):
+   if outbound_pull_proxies.has_key(target):
       return "'%s' is already taken!!!"
    else:
-      outbound_pull_proxies[unique_name] = subprocess.Popen(
-         ('/usr/bin/env', 'python', os.path.join(meshlib.project_root_dir, 'src', 'pull_proxy.py'), 'outbound', unique_name))
-
-def start_children():
-   start_port_assigner()
-   start_communicator()
-   start_inbound_pull_proxy()
+      outbound_pull_proxies[target] = subprocess.Popen(
+         ('/usr/bin/env', 'python', os.path.join(meshlib.project_root_dir, 'src', 'pull_proxy.py'), 
+          'outbound', target, port, communicator_pull_url))
 
 def check_children():
-   # Check port_assigner
-   if port_assigner:
-      print "port_assigner", port_assigner.poll()
-   else:
-      print "port_assigner: no process object"
+   print "\nProcess Report:"
    # Check communicator
    if communicator:
       print "communicator", communicator.poll()
@@ -149,22 +129,78 @@ def check_children():
       print "inbound_pull_proxy", inbound_pull_proxy.poll()
    else:
       print "inbound_pull_proxy: no process object"
+   # Check port_assigner
+   if port_assigner:
+      print "port_assigner", port_assigner.poll()
+   else:
+      print "port_assigner: no process object"
+   # Check port_requestor
+   if port_requestor:
+      print "port_requestor", port_requestor.poll()
+   else:
+      print "port_requestor: no process object"
 
 #------------------------------------------------------------------------------
 # Message processing
 
-def process_message(inbound_msg):
-   print "Received:", inbound_msg
+def process_message(msg):
+   push_communicator.send(msg)
+   
+#------------------------------------------------------------------------------
+# Try Plugin?
+
+if __name__ == '__main__' and options.try_plugin:
+   create_pull()
+   print "Running in TRY PLUGIN mode.  We will run until either '%s' detects an event or dies.\n" % options.try_plugin
+   plugin_process = subprocess.Popen(('/usr/bin/env', 'python', options.try_plugin + '.py', master_pull_url))
+   while True:
+      retcode = plugin_process.poll()
+      if retcode != None:
+         print "Plugin exited with retcode", retcode
+         sys.exit()
+      try:
+         msg = pull.recv(flags=zmq.NOBLOCK)
+         print "Received message from plugin '%s':\n-----------------------------\n%s" % (options.try_plugin, msg)
+         plugin_process.send_signal(9)
+         sys.exit()
+      except zmq.core.error.ZMQError, zmq_error:
+         if zmq_error == 'Resource temporarily unavailable':
+            pass                # That's what we expect when polling
+      time.sleep(.1)
+   sys.exit()
 
 #------------------------------------------------------------------------------
-# "MAIN"
+# Main Loop
 
-# About the only thing we can't unittest is this main loop, so we'll hide it here.
 if __name__ == '__main__':
-   create_zmq_sockets()
-   start_children()
-   while 1:
-      inbound_msg = pull_general.recv()
-      process_message(inbound_msg)
+   # Create our sockets
+   create_push_communicator()
+   create_pull()
+   # Start the rest of the processes
+   start_communicator()
+   start_inbound_pull_proxy()
+   start_port_assigner()
+   start_port_requestor()
+   # Main loop
+   while True:
+      inbound_msg = pull.recv()
+      if inbound_msg == 'quit':
+         break
+      else:
+         verbose(inbound_msg)
+         process_message(inbound_msg)
+      time.sleep(.5)
       check_children()
-   
+   # Shutting down...
+   print "Received 'quit' -- sending children kill signal and exiting."
+   # Kill child processes
+   for child in [port_assigner, communicator, inbound_pull_proxy]:
+      if child.poll() == None:
+         child.send_signal(subprocess.signal.SIGTERM)
+   time.sleep(.1)
+   # Try cleaning up IPC files
+   for url in [master_pull_url, communicator_pull_url, port_assigner_pull_url, port_requestor_pull_url]:
+      try:
+         os.remove(url[6:])
+      except:
+         pass
