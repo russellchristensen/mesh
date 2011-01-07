@@ -29,7 +29,7 @@ if __name__=='__main__':
 
 import re, subprocess
 
-class TestPlugin(unittest.Testcase):
+class TestPlugin(unittest.TestCase):
   def test_00asteriskexists(self):
     "Check if asterisk exists"
     import os.path
