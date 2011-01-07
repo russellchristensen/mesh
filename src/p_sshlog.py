@@ -24,6 +24,8 @@ if __name__ == '__main__':
 
 import os, atexit, re, subprocess, sys
 
+supported_os = ['darwin']
+
 if __name__ == '__main__':
    global log_location; log_location = '/var/log/secure.log'
    global parse; parse = re.compile(r'(.{15}) ([\w\d-]+) sshd\[(\d+)\]: ((?:Failed password)|(?:.*?))\s(.+)', re.MULTILINE)

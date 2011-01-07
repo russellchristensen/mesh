@@ -24,6 +24,8 @@ if __name__ == '__main__':
 
 import time, subprocess
 
+supported_os = ['darwin', 'linux2', 'freebsd8', 'sunos5']
+
 if __name__ == '__main__':
    while 1:
       uptime = subprocess.Popen(['uptime'], stdout=subprocess.PIPE)
@@ -37,14 +39,6 @@ if __name__ == '__main__':
       time.sleep(5)
 
 class TestPlugin(unittest.TestCase):
-   def test_00import_subprocess(self):
-      '''Can import subprocess'''
-      import subprocess
-
-   def test_01import_time(self):
-      '''Can import time'''
-      import time
-
    def test_04uptime_exists(self):
       '''"uptime" command exists'''
       import subprocess

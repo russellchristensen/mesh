@@ -25,6 +25,8 @@ if __name__ == '__main__':
 import subprocess, re, time
 from datetime import datetime
 
+supported_os = ['sunos5', 'darwin']
+
 def iterate_list(l):
    'Iterate through a list, yield a tuple of "count, item"'
    c = 0

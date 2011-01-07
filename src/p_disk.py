@@ -26,6 +26,8 @@ import subprocess
 import time
 import re
 
+supported_os = ['darwin', 'sunos5']
+
 # Plugins will typically have an infinite main loop
 if __name__ == '__main__':
    while True:
@@ -40,13 +42,7 @@ if __name__ == '__main__':
          meshlib.send_plugin_result('%s %s %s %s %s %s' % (fs, blocks, used, available, percent, mounted), push_master)
       time.sleep(1)
 
-# ////// Customized unit-testing of everything above.  It's common for unit tests to take _more_ code than the code they test.  //////
 class TestPlugin(unittest.TestCase):
-   # First, test setup requirements (do files/commands/libraries exist, etc.)
-   def test_00import_subprocess(self):
-      '''Can import subprocess'''
-      import subprocess
-
    def test_01df_exists(self):
       '''"df" command exists'''
       import subprocess
