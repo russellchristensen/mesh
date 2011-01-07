@@ -13,7 +13,7 @@
 # You should have received a copy of the GNU General Public License
 # along with Mesh.  If not, see <http://www.gnu.org/licenses/>.
 
-import meshlib, sys, time, zmq
+import meshlib, sys, time, unittest, zmq
 
 # Connect a PUSH socket to master.py
 if __name__=='__main__':
