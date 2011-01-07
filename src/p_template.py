@@ -26,7 +26,7 @@ if __name__ == '__main__':
    push_master       = zmq_context.socket(zmq.PUSH)
    push_master.connect(master_socket_url)
 
-# ////// Customized monitoring of...something  //////
+# ////// Customized monitoring of...bananas!  //////
 
 # This template monitors occurrences of bananas
 def banana_detected(msg):

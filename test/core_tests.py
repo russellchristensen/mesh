@@ -295,40 +295,57 @@ class Test04master(unittest.TestCase):
       if type(master.pull) != zmq.core.socket.Socket:
          self.fail("pull socket is wrong type: %s" % str(type(master.pull)))
 
-   def test_15start_port_assigner(self):
-      "Function start_port_assigner works"
-      import master
-      master.start_port_assigner()
+#    def test_15start_port_assigner(self):
+#       "Function start_port_assigner works"
+#       import master
+#       master.start_port_assigner()
 
-   def test_18start_communicator(self):
-      "Function start_communicator works"
-      import master
-      master.start_communicator()
+#    def test_18start_communicator(self):
+#       "Function start_communicator works"
+#       import master
+#       master.start_communicator()
 
-   def test_21start_inbound_pull_proxy(self):
-      "Function start_inbound_pull_proxy works"
-      import master
-      master.start_inbound_pull_proxy()
+#    def test_21start_inbound_pull_proxy(self):
+#       "Function start_inbound_pull_proxy works"
+#       import master
+#       master.start_inbound_pull_proxy()
 
-   def test_24start_outbound_pull_proxy(self):
-      "Function start_outbound_pull_proxy works"
-      import master
-      master.start_outbound_pull_proxy('test')
+#    def test_24start_outbound_pull_proxy(self):
+#       "Function start_outbound_pull_proxy works"
+#       import master
+#       master.start_outbound_pull_proxy('test')
 
-   def test_27process_message(self):
-      "Function process_message works"
-      import master, sys, StringIO
-      fake_stdout = StringIO.StringIO()
-      real_stdout = sys.stdout
-      sys.stdout = fake_stdout
-      msg = "test message"
-      master.process_message(msg)
-      sys.stdout = real_stdout
-      if fake_stdout.getvalue() != ('Received: %s\n' % msg):
-         self.fail("Unexpected output by process_message()")
+#    def test_27process_message(self):
+#       "Function process_message works"
+#       import master, sys, StringIO
+#       fake_stdout = StringIO.StringIO()
+#       real_stdout = sys.stdout
+#       sys.stdout = fake_stdout
+#       msg = "test message"
+#       master.process_message(msg)
+#       sys.stdout = real_stdout
+#       if fake_stdout.getvalue() != ('Received: %s\n' % msg):
+#          self.fail("Unexpected output by process_message()")
 
 class Test05communicator(unittest.TestCase):
    def test_00banner(self):
       "[COMMUNICATOR]"
       import communicator
 
+class Test06plugins(unittest.TestCase):
+   def test_00banner(self):
+      "[PLUGINS]"
+
+   def test_03supported_os(self):
+      "All plugins define supported_os"
+      import glob
+      global project_root_dir
+      for plugin_file in glob.glob(os.path.join(project_root_dir, 'src', 'p_*')):
+         plugin = os.path.split(plugin_file)[1][:-3]
+         module = __import__(plugin)
+         supported_os = getattr(module, 'supported_os', None)
+         if supported_os == None:
+            self.fail("Plugin '%s' does not define supported_os." % plugin)
+         elif type(supported_os) != list:
+            self.fail("Plugin '%s' defined supported_os as a '%s' instead of a list!" % (plugin, type(supported_os)))
+            
