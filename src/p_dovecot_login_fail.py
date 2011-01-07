@@ -24,7 +24,7 @@ if __name__ == '__main__':
    master_socket_url = sys.argv[1]
    zmq_context       = zmq.Context()
    push_master       = zmq_context.socket(zmq.PUSH)
-push_master.connect(master_socket_url)
+   push_master.connect(master_socket_url)
 
 # ////// Customized monitoring of...something  //////
 import re, time, subprocess
@@ -33,7 +33,7 @@ import re, time, subprocess
 if __name__ == '__main__':
    fh = open('/var/log/dovecot')
    while 1:
-      recent = fh.readline() 
+      recent = fh.readline()
       user_info = re.search('Disconnected .*?: user=<(.*?)>, method=PLAIN, rip=(.*?), lip=70.102.57.181, TLS',recent,re.DOTALL|re.MULTILINE)
       if user_info:
          curTime = time.strftime("%Y-%m-%d-%H:%M")
@@ -54,7 +54,7 @@ class TestPlugin(unittest.TestCase):
       if installed:
          log_exists = re.search('\nlog_path: (.*?)\n',installed,re.DOTALL|re.MULTILINE)
          location=log_exists.group(1)
-         if os.path.isfile(location):        
+         if os.path.isfile(location):
             try:
                open(location).read()
                return True
