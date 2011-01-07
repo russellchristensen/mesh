@@ -12,7 +12,7 @@ We're very actively designing, prototyping, and changing things all the time.  D
 
 #### You must have...
 * OS X, Linux or similar OS.  Windows only if you want to help get it working.
-* [git](http://git-scm.com/)
+* [git](http://git-scm.com/)  - (And on OS X I highly recommend [gitx](http://gitx.frim.nl/) as well)
 * [Python 2.6+](http://python.org)
 
 ####Clone the mesh repository onto your machine:
@@ -33,7 +33,7 @@ We're very actively designing, prototyping, and changing things all the time.  D
 
 #### Once the tests pass, you're ready!
 
-> src/mesh.py
+> ./mesh
 
 # Resources
 * [Mesh Messaging Design Overview (.pdf)](https://github.com/meshers/mesh/blob/master/docs/messaging-design-overview.pdf)
