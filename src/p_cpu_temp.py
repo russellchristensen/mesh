@@ -17,7 +17,7 @@ import meshlib, sys, time, unittest, zmq
 
 # Remove the OSs your plugin doesn't support.
 # Use meshlib.get_os() if you need to know what OS you're actually on.
-supported_os = ['darwin', 'linux2', 'freebsd8', 'sunos5']
+supported_os = ['linux2']
 
 if __name__ == '__main__':
    # Connect a PUSH socket to master.py
@@ -26,20 +26,22 @@ if __name__ == '__main__':
    push_master       = zmq_context.socket(zmq.PUSH)
    push_master.connect(master_socket_url)
 
-# Plugins will typically have an infinite main loop
 import subprocess
 if __name__ == '__main__':
    while 1:
-         tail = subprocess.Popen( ('/usr/bin/env', 'bash', '-c', 'tail /var/log/samba* | grep FAILED'), stdout = subprocess.PIPE, stderr = subprocess.PIPE)
-         bad_login = tail.communicate()[0]
-         if bad_login:
-            meshlib.send_plugin_result(bad_login, push_master)
+      sensors = subprocess.Popen( ('/usr/bin/env', 'bash', '-c', 'sensors -f | grep CPU'), stdout = subprocess.PIPE, stderr = subprocess.PIPE)
+      temperature = sensors.communicate()[0]
+      meshlib.send_plugin_result(temperature, push_master)
+      time.sleep(1)
 
 # ////// Customized unit-testing of everything above.  It's common for unit tests to take _more_ code than the code they test.  //////
 class TestPlugin(unittest.TestCase):
-  def test_00samba_log(self):
-    "Check if samba log files exist"
-    import os.path
-    if os.path.exists('/var/log/samba') == False:
-      self.fail('No samba log files found!')
-
+   def test_00sensors_installed(self):
+      import os.path, subprocess     
+      """Is lm_sensors installed and configured"""
+      if os.path.exists("/usr/bin/sensors") == False:
+         self.fail("lm_sensors is not installed")
+      else:
+         sensors = subprocess.Popen("sensors", stdout = subprocess.PIPE, stderr = subprocess.PIPE).communicate()
+         if"sensors-detect" in sensors:
+            self.fail("lm_sensors is not configured, run sensors-detect on the machine you are trying to monitor")
