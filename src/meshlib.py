@@ -31,6 +31,9 @@ if not project_root_dir:
 def get_os():
    return sys.platform
 
+def get_config(plugin, variable, default):
+   return default
+
 # For creating ZMQ URLs
 def socket_url(transport):
    if transport == 'ipc':
