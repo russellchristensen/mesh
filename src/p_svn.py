@@ -45,17 +45,18 @@ if __name__ == '__main__':
          except: revisions[repo] = last_revision
          # Compare and notify of changes
          if last_revision > revisions[repo]:
-            print 'Notice: New revision %s on %s' % (str(last_revision), repo)
-            print '-'*25 + ' Revision %s ' % str(last_revision) + '-'*25
+            meshlib.send_plugin_result('Notice: New revision %s on %s' % (str(last_revision), repo), push_master)
+            meshlib.send_plugin_result('-'*25 + ' Revision %s ' % str(last_revision) + '-'*25, push_master)
             proc = subprocess.Popen(['svn', 'diff', repo, '-r', '%s:%s' % (str(last_revision), revisions[repo])], stdout=subprocess.PIPE)
-            print proc.stdout.read()
-            print '-'*60
+            meshlib.send_plugin_result(proc.stdout.read(), push_master)
+            meshlib.send_plugin_result('-'*60, push_master)
             revisions[repo] = last_revision
       time.sleep(5)
 
 class TestPlugin(unittest.TestCase):
    def test_00svn_exists(self):
+      '''Check that SVN is installed'''
       import subprocess
-      proc = subprocess.Popen(['svn'], stdout=subprocess.PIPE)
-      if proc.stdout.read() != "Type 'svn help' for usage.":
+      proc = subprocess.Popen(['svn'], stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
+      if proc.stdout.read() != "Type 'svn help' for usage.\n":
          self.fail('SVN is not installed')
