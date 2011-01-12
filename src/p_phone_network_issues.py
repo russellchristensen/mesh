@@ -15,6 +15,8 @@
 
 import meshlib, sys, time, unittest, zmq
 
+supported_os = ['linux2']
+
 # Connect a PUSH socket to master.py
 if __name__=='__main__':
   master_socket_url = sys.argv[1]
