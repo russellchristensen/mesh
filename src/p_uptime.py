@@ -15,6 +15,10 @@
 
 import meshlib, sys, time, unittest, zmq
 
+# Remove the OSs your plugin doesn't support.
+# Use meshlib.get_os() if you need to know what OS you're actually on.
+supported_os = ['darwin', 'linux2', 'freebsd8', 'sunos5']
+
 if __name__ == '__main__':
    # Connect a PUSH socket to master.py
    master_socket_url = sys.argv[1]
@@ -22,31 +26,28 @@ if __name__ == '__main__':
    push_master       = zmq_context.socket(zmq.PUSH)
    push_master.connect(master_socket_url)
 
-import time, subprocess
+# ////// Customized monitoring of...something  //////
 
-supported_os = ['darwin', 'linux2', 'freebsd8', 'sunos5']
+# Use meshlib.send_plugin_result('some message', push_master) to communicate
+# with master.py
 
+# END TEMPLATE -- Customize below.
+
+# Plugins will typically have an infinite main loop
+import subprocess
 if __name__ == '__main__':
    while 1:
-      uptime = subprocess.Popen(['uptime'], stdout=subprocess.PIPE)
-      hostname = subprocess.Popen(['hostname'], stdout=subprocess.PIPE)
+      cmd = subprocess.Popen("uptime", stdout = subprocess.PIPE)
+      uptime = cmd.communicate()[0]
+      meshlib.send_plugin_result(uptime, push_master)
+      time.sleep(1)
 
-      meshlib.send_plugin_result(str(hostname.stdout.read() +' '+ uptime.stdout.read()), push_master)
-
-      uptime.kill()
-      hostname.kill()
-
-      time.sleep(5)
-
+# ////// Customized unit-testing of everything above.  It's common for unit tests to take _more_ code than the code they test.  //////
 class TestPlugin(unittest.TestCase):
-   def test_04uptime_exists(self):
-      '''"uptime" command exists'''
+   def test_00output(self):
+      "Check for output"
       import subprocess
-      proc = subprocess.Popen(['uptime'], stdout=subprocess.PIPE)
-      proc.kill()
-
-   def test_04hostname_exists(self):
-      '''"hostname" command exists'''
-      import subprocess
-      proc = subprocess.Popen(['hostname'], stdout=subprocess.PIPE)
-      proc.kill()
+      cmd = subprocess.Popen("uptime", stdout = subprocess.PIPE)
+      uptime = cmd.communicate()[0]
+      if uptime == '':
+         self.fail("Uptime is returning no output, something is very very wrong")
