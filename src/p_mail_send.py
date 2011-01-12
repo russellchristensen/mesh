@@ -47,8 +47,8 @@ if __name__ == '__main__':
          if queued:
             print queued.groups()
             while (time.time() - start_time) < 300:
-               recent = fh.readline()
-               if re.search('''.*%s.*250 2.0.0 Ok.*'''%queued.groups(1),msg,re.DOTALL|re.MULTILINE)
+               recent = file.stdout.readline()
+               if re.search('.*%s.*250 2.0.0 Ok.*' % queued.groups(1),recent,re.DOTALL|re.MULTILINE):
                   found = True
       if not found:
          meshlib.send_plugin_result('Message not sent within time!', push_master)
