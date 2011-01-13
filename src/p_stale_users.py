@@ -15,6 +15,8 @@
 
 import meshlib, sys, time, unittest, zmq
 
+supported_os = ['sunos5', 'darwin']
+
 if __name__ == '__main__':
    # Connect a PUSH socket to master.py
    master_socket_url = sys.argv[1]
@@ -25,14 +27,16 @@ if __name__ == '__main__':
 import subprocess, re, time
 from datetime import datetime
 
-supported_os = ['sunos5', 'darwin']
-
+# /// fix name.  This is an iterator.
 def iterate_list(l):
-   'Iterate through a list, yield a tuple of "count, item"'
+   'Iterate through a list, yield a tuple (count, item)'
    c = 0
    while c < len(l):
       yield c, l[c]
       c += 1
+
+# /// split most of the code below into logical functions
+# /// add unit tests for each of these functions
 
 if __name__ == '__main__':
    protected_users = set(['root', 'svn', 'reboot', 'shutdown', 'wtmp'])
@@ -47,6 +51,8 @@ if __name__ == '__main__':
 
    # Get existing users
    existing_users = set()
+
+   # /// Split the special-casing of getting users into functions
    # Get OpenSolaris users
    if meshlib.get_os() == 'sunos5':
       for entry in open('/etc/shadow', 'r').read().split('\n'):
@@ -94,6 +100,7 @@ if __name__ == '__main__':
    error = True
    while error:
       error = False
+      # /// Use zip() and range() instead!
       for count, user in iterate_list(sorted_users):
          try:
             # Compare current and next user
@@ -114,6 +121,8 @@ if __name__ == '__main__':
       meshlib.send_plugin_result(notice, push_master)
       print notice
 
+
+# /// After splitting special-cased functionality into functions, unit test the functions!
 class TestPlugin(unittest.TestCase):
    def test_00if_mac(self):
       '''Mac OS has needed tools'''

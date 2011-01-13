@@ -28,8 +28,9 @@ import subprocess, sys, re
 from datetime import datetime
 
 # Default variables
-#apache_ssl_error_log = '/var/log/apache2/ssl_error_log'
-apache_ssl_error_log = '/Users/roland/ssl_error_log'
+# /// Use meshlib.get_config()!!!
+apache_ssl_error_log = '/var/log/apache2/ssl_error_log'
+
 parse_ssl_error_log = re.compile(r'^\[([\w \d:]+)\] \[error\] \[client ([\d\.]+)\] (.+)', re.MULTILINE)
 date_format = '%a %b %d %H:%M:%S %Y'
 
@@ -45,14 +46,14 @@ if __name__ == '__main__':
       meshlib.send_plugin_result(str('%s %s %s' % (date, ip, error)), push_master)
 
 class TestPlugin(unittest.TestCase):
-   def test_00apache_file(self):
+   def test_00apache_file_exists(self):
       '''Apache file exists'''
       import os.path
       if not os.path.isfile(apache_ssl_error_log):
          self.fail('Apache error log file not found! %s' % (apache_ssl_error_log))
    
-   def test_01apache_file(self):
-      '''Apache file is reaable by script'''
+   def test_01apache_file_readable(self):
+      '''Apache file is readable by script'''
       import os
       if not os.access(apache_ssl_error_log, os.W_OK) or not os.access(apache_ssl_error_log, os.R_OK):
          self.fail('Apache error log file is not readable! %s' % (apapche_ssl_error_log))

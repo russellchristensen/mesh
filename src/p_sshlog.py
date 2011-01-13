@@ -15,6 +15,8 @@
 
 import meshlib, sys, time, unittest, zmq
 
+supported_os = ['darwin']
+
 if __name__ == '__main__':
    # Connect a PUSH socket to master.py
    master_socket_url = sys.argv[1]
@@ -24,7 +26,8 @@ if __name__ == '__main__':
 
 import os, atexit, re, subprocess, sys
 
-supported_os = ['darwin']
+# /// Use meshlib to get config stuff like file locations
+# /// ^- do that out here in global scope
 
 if __name__ == '__main__':
    global log_location; log_location = '/var/log/secure.log'
@@ -46,6 +49,7 @@ if __name__ == '__main__':
          meshlib.send_plugin_result('Notice: Killing child: %s' % (proc.pid), push_master)
          proc.kill()
    except:
+      # /// Nah, just have it crash for now.
       meshlib.send_plugin_result('Error: Could not create the atexit function to kill the child process\nThis is not fatal, but you may have rogue "tail" processes running\nif this plugin doens\'t close properly', push_master)
 
    while True:
@@ -60,11 +64,7 @@ if __name__ == '__main__':
          meshlib.send_plugin_result('%s %s %s %s %s' % (timestamp, server_name, num, line_type, line_contents), push_master)
 
 class TestPluginSSH(unittest.TestCase):
-   def test_00subprocess_module(self):
-      '''Test if the subprocess module can be imported'''
-      import subprocess
-
-   def test_01tail_exists(self):
+   def test_00tail_exists(self):
       '''Command tail exists'''
       import subprocess
       try: proc = subprocess.Popen(['tail'], stdout=subprocess.PIPE)

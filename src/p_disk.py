@@ -15,6 +15,8 @@
 
 import meshlib, sys, time, unittest, zmq
 
+supported_os = ['darwin', 'sunos5']
+
 if __name__ == '__main__':
    # Connect a PUSH socket to master.py
    master_socket_url = sys.argv[1]
@@ -26,10 +28,8 @@ import subprocess
 import time
 import re
 
-supported_os = ['darwin', 'sunos5']
-
-# Plugins will typically have an infinite main loop
 if __name__ == '__main__':
+   # Main Loop
    while True:
       proc = subprocess.Popen(['df'], stdout=subprocess.PIPE)
       # Get df output
@@ -40,7 +40,7 @@ if __name__ == '__main__':
          # Convert the parsed data for ease of use later
          fs, blocks, used, available, percent, mounted =  fs.strip(), int(blocks.strip()), int(used.strip()), int(available.strip()), int(percent.strip()), mounted.strip()
          meshlib.send_plugin_result('%s %s %s %s %s %s' % (fs, blocks, used, available, percent, mounted), push_master)
-      time.sleep(1)
+      time.sleep(60)
 
 class TestPlugin(unittest.TestCase):
    def test_01df_exists(self):
