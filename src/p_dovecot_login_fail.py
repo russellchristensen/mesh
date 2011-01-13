@@ -15,9 +15,16 @@
 
 import meshlib, sys, time, unittest, zmq
 
-# Remove the OSs your plugin doesn't support.
-# Use meshlib.get_os() if you need to know what OS you're actually on.
-supported_os = ['darwin', 'linux2', 'freebsd8', 'sunos5']
+supported_os = ['freebsd8']
+
+description ="""
+Detect Dovecot Failed Login Attempts
+
+Threshold: Any failed attempt
+"""
+
+failed_threshold = int(meshlib.get_config('p_dovecot_login_fail', 'failed_threshold', '0'))
+log_location = meshlib.get_config('p_dovecot_login_fail', 'log_location', '/var/log/dovecot')
 
 if __name__ == '__main__':
 # Connect a PUSH socket to master.py
@@ -31,14 +38,15 @@ import re, time, subprocess
 
 # Plugins will typically have an infinite main loop
 if __name__ == '__main__':
-   fh = open('/var/log/dovecot')
+   fh = open(log_location, 'r')
    while 1:
       recent = fh.readline()
+      curTime = time.strftime("%Y-%m-%d-%H:%M")
       user_info = re.search('Disconnected .*?: user=<(.*?)>, method=PLAIN, rip=(.*?), lip=70.102.57.181, TLS',recent,re.DOTALL|re.MULTILINE)
-      if user_info:
-         curTime = time.strftime("%Y-%m-%d-%H:%M")
-         if re.search(curTime,recent, re.MULTILINE|re.DOTALL):
-           meshlib.send_plugin_result('%s failed logini from %s' %(user_info.group(1),user_info.group(2)), push_master)
+      if user_info and re.search(curTime,recent,re.DOTALL|re.MULTILINE):
+         user    = user_info.group(1)
+         ip      = user_info.group(2)
+         meshlib.send_plugin_result('%s failed login from %s' %(user,ip), push_master)
 
       
 # Plugins communicate with master.py through meshlib.send_plugin_result()
@@ -50,18 +58,9 @@ class TestPlugin(unittest.TestCase):
    def test_00check_for_dovecoti_log(self):
       """Check for dovecot log"""
       import os.path
-      installed = subprocess.Popen(['dovecot', '-n'], stdout=subprocess.PIPE).communicate()[0]
-      if installed:
-         log_exists = re.search('\nlog_path: (.*?)\n',installed,re.DOTALL|re.MULTILINE)
-         location=log_exists.group(1)
-         if os.path.isfile(location):
-            try:
-               open(location).read()
-               return True
-            except:
-               self.fail('Dovectcot log file "%s" is not readable' % (location))
-      self.fail('Dovecot not found')
-       
-            
-
-
+      if os.path.isfile(log_location):
+         try:
+            open(location).read()
+            return True
+         except:
+            self.fail('Dovectcot log file "%s" is not readable' % (location))
