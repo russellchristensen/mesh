@@ -15,8 +15,6 @@
 
 import meshlib, sys, time, unittest, zmq
 
-supported_os = ['linux2']
-
 # Connect a PUSH socket to master.py
 if __name__=='__main__':
    master_socket_url = sys.argv[1]
@@ -24,13 +22,31 @@ if __name__=='__main__':
    push_master       = zmq_context.socket(zmq.PUSH)
    push_master.connect(master_socket_url)
 
-# Use meshlib.send_plugin_result('some message', push_master) to communicate
-# with master.py
-
-# END TEMPLATE -- Customize below.
+supported_os = ['linux2']
+# /// Add description
+# /// Add config items (paths to xm, etc.)
 
 import re, subprocess
 
+if __name__=='__main__':
+   current_vms = []
+   while 1:
+      vms = []
+      vm_info = subprocess.Popen(['xm', 'list'], stdout=subprocess.PIPE).communicate()[0].splitlines()
+      for line in vm_info:
+         vm.append(queue.group(1))
+
+   # /// Oops!  Fix the loop.
+   if len(current_vms) == 0:
+      current_vms = vms
+
+   missing_vm = set(current_vms).difference(set(vms))
+   if missing_vm:
+      meshlib.send_plugin_result('%s is no longer functioning' % missing_vm, push_master)
+
+   # /// Polling too fast!
+
+# Unit Tests
 class TestPlugin(unittest.TestCase):
    def test_00asteriskexists(self):
       "Check if xen"
@@ -43,18 +59,3 @@ class TestPlugin(unittest.TestCase):
       import os.path
       location = '/var/run/xend.pid'
       self.assertTrue(os.path.exists(location))
-
-if __name__=='__main__':
-   current_vms = []
-   while 1:
-      vms = []
-      vm_info = subprocess.Popen(['xm', 'list'], stdout=subprocess.PIPE).communicate()[0].splitlines()
-      for line in vm_info:
-         vm.append(queue.group(1))
-
-   if len(current_vms) == 0:
-      current_vms = vms
-
-   missing_vm = set(current_vms).difference(set(vms))
-   if missing_vm:
-      meshlib.send_plugin_result('%s is no longer functioning' % missing_vm, push_master)

@@ -15,8 +15,6 @@
 
 import meshlib, sys, time, unittest, zmq
 
-supported_os=['linux2']
-
 # Connect a PUSH socket to master.py
 if __name__=='__main__':
   master_socket_url = sys.argv[1]
@@ -24,19 +22,12 @@ if __name__=='__main__':
   push_master       = zmq_context.socket(zmq.PUSH)
   push_master.connect(master_socket_url)
 
-# Use meshlib.send_plugin_result('some message', push_master) to communicate
-# with master.py
-
-# END TEMPLATE -- Customize below.
+supported_os=['linux2']
+# /// Add description
+# /// Get config items
+# /// Description of where to get the device strings
 
 import re, subprocess
-
-class TestPlugin(unittest.TestCase):
-  def test_00asteriskexists(self):
-    "Check if asterisk exists"
-    import os.path
-    location = '/usr/sbin/asterisk'
-    self.assertTrue(os.path.exists(location))
 
 if __name__=='__main__':
   devices = ['Cisco-CP7960G/8.0','Linksys/SPA3102-3.3.6(GW)','PolycomSoundPointIP-SPIP_550-UA/3.0.4.0061', 'Sipura/SPA2002-3.1.2(a)']
@@ -53,3 +44,12 @@ if __name__=='__main__':
       device = re.search('\n  Useragent    : (.*)\n  Reg. Contact', device_info, re.DOTALL|re.MULTILINE)
       if device and not device.groups(0)[0] in devices:
         meshlib.send_plugin_result('%s in use by %s is not an approved device' % (device.groups(0)[0], user[0]), push_master)    
+  # /// Polling too fast!
+
+class TestPlugin(unittest.TestCase):
+  def test_00asteriskexists(self):
+    "Check if asterisk exists"
+    import os.path
+    location = '/usr/sbin/asterisk'
+    self.assertTrue(os.path.exists(location))
+

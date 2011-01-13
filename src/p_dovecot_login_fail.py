@@ -15,6 +15,13 @@
 
 import meshlib, sys, time, unittest, zmq
 
+if __name__ == '__main__':
+# Connect a PUSH socket to master.py
+   master_socket_url = sys.argv[1]
+   zmq_context       = zmq.Context()
+   push_master       = zmq_context.socket(zmq.PUSH)
+   push_master.connect(master_socket_url)
+
 supported_os = ['freebsd8']
 
 description ="""
@@ -26,22 +33,17 @@ Threshold: Any failed attempt
 failed_threshold = int(meshlib.get_config('p_dovecot_login_fail', 'failed_threshold', '0'))
 log_location = meshlib.get_config('p_dovecot_login_fail', 'log_location', '/var/log/dovecot')
 
-if __name__ == '__main__':
-# Connect a PUSH socket to master.py
-   master_socket_url = sys.argv[1]
-   zmq_context       = zmq.Context()
-   push_master       = zmq_context.socket(zmq.PUSH)
-   push_master.connect(master_socket_url)
-
-# ////// Customized monitoring of...something  //////
 import re, time, subprocess
 
 # Plugins will typically have an infinite main loop
 if __name__ == '__main__':
+   # /// Seek to the end of the file -- we NEVER look at the past in plugins!
    fh = open(log_location, 'r')
    while 1:
       recent = fh.readline()
       curTime = time.strftime("%Y-%m-%d-%H:%M")
+      # /// Don't hard-coded IP addresses!  This should be a config item.
+      # /// Pre-compile the pattern in global scope AND write a unit test to test the pattern.
       user_info = re.search('Disconnected .*?: user=<(.*?)>, method=PLAIN, rip=(.*?), lip=70.102.57.181, TLS',recent,re.DOTALL|re.MULTILINE)
       if user_info and re.search(curTime,recent,re.DOTALL|re.MULTILINE):
          user    = user_info.group(1)
@@ -49,10 +51,7 @@ if __name__ == '__main__':
          meshlib.send_plugin_result('%s failed login from %s' %(user,ip), push_master)
 
       
-# Plugins communicate with master.py through meshlib.send_plugin_result()
-# This is just an example, so we'll fake events by pausing.  Real loops usually block in I/O of some type.
-
-# ////// Customized unit-testing of everything above.  It's common for unit tests to take _more_ code than the code they test.  //////
+# Unit Tests
 class TestPlugin(unittest.TestCase):
 # First, test setup requirements (do files/commands/libraries exist, etc.)
    def test_00check_for_dovecoti_log(self):
