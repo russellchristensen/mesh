@@ -48,8 +48,12 @@ if options.test_all or options.test_plugins:
       module_name = os.path.split(full_path)[1][:-3]
       print "Importing '%s' ... " % module_name,
       module_to_test = __import__(module_name)
-      print "done."
-      suite_list.append(unittest.TestLoader().loadTestsFromModule(module_to_test))
+      if sys.platform in module_to_test.supported_os:
+         print "done."
+         suite_list.append(unittest.TestLoader().loadTestsFromModule(module_to_test))
+      else:
+         print "skipped. (NOT supported on this OS)"
+         continue
 # Run a specific plugin's unit tests?
 elif options.test_plugin:
    module_to_test = __import__(options.test_plugin)

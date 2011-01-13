@@ -349,3 +349,21 @@ class Test06plugins(unittest.TestCase):
          elif type(supported_os) != list:
             self.fail("Plugin '%s' defined supported_os as a '%s' instead of a list!" % (plugin, type(supported_os)))
             
+   def test_06description(self):
+      "All plugins define a description with summary and threshold"
+      import glob
+      global project_root_dir
+      for plugin_file in glob.glob(os.path.join(project_root_dir, 'src', 'p_*')):
+         plugin = os.path.split(plugin_file)[1][:-3]
+         module = __import__(plugin)
+         description = getattr(module, 'description', None)
+         if description == None:
+            self.fail("Plugin '%s' does not define description." % plugin)
+         if type(description) != str:
+            self.fail("Plugin '%s' defined description as a '%s' instead of a string!" % (plugin, type(description)))
+         desc_lines = description.split('\n')
+         if len(desc_lines) > 1:
+            if desc_lines[1].strip():
+               self.fail("Plugin '%s' does not have an empty second line in the description." % plugin)
+         if 'threshold' not in description.lower():
+            self.fail("Plugin '%s' does not describe the threshold conditions" % plugin)
