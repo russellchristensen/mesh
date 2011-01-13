@@ -13,11 +13,9 @@
 # You should have received a copy of the GNU General Public License
 # along with Mesh.  If not, see <http://www.gnu.org/licenses/>.
 
-import meshlib, sys, time, unittest, zmq
+# //// Delete all comments that start with "////" from real plugins!
 
-# Remove the OSs your plugin doesn't support.
-# Use meshlib.get_os() if you need to know what OS you're actually on.
-supported_os = ['darwin', 'linux2', 'freebsd8', 'sunos5']
+import meshlib, sys, time, unittest, zmq
 
 if __name__ == '__main__':
    # Connect a PUSH socket to master.py
@@ -26,25 +24,41 @@ if __name__ == '__main__':
    push_master       = zmq_context.socket(zmq.PUSH)
    push_master.connect(master_socket_url)
 
-# ////// Customized monitoring of...bananas!  //////
+# //// Remove the OSs your plugin doesn't support.
+# //// Use meshlib.get_os() if you need to know what OS you're actually on.
+supported_os = ['darwin', 'linux2', 'freebsd8', 'sunos5']
+# //// First line of description is 80-char or less summary.
+# //// Second line is always blank.
+# //// Then you define the threshold, and anything else you want to talk about.
+description = """
+Detect rogue bananas in ambient python strings.
 
-# This template monitors occurrences of bananas
-def banana_detected(msg):
-   if (type(msg) == str) and ('banana' in msg):
+Threshold: If more than banana_threshold bananas are encountered, then we create
+           an event
+"""
+# //// Now get any config values you need
+banana_threshold = int(meshlib.get_config('p_template', 'banana_threshold', '0'))
+
+# //// Most "real" functionality should be functions, for easy unit testing.
+def banana_detected(msg, threshold):
+   if (type(msg) == str) and (msg.count('banana') > threshold):
       return True
    return False
 
-# Plugins will typically have an infinite main loop
+# //// Your code must be wrapped in this 'if' statement.
 if __name__ == '__main__':
+   # //// You will typically wrap your functionality in an infinite loop.
+   # //// master.py will send the plugin a kill signal when it wants it to stop.
    while 1:
       msg = "Templates love bananas"
-      if banana_detected("Templates love bananas"):
+      if banana_detected("Templates love bananas", banana_threshold):
          # Plugins communicate with master.py through meshlib.send_plugin_result()
          meshlib.send_plugin_result("Banana detected in the following message: %s" % msg, push_master)
       # This is just an example, so we'll fake events by pausing.  Real loops usually block in I/O of some type.
       time.sleep(1)
 
-# ////// Customized unit-testing of everything above.  It's common for unit tests to take _more_ code than the code they test.  //////
+# //// Customized unit-testing of everything above.  It's common for unit tests to take _more_ code than the code they test.
+# Unit Tests
 class TestPlugin(unittest.TestCase):
    # First, test setup requirements (do files/commands/libraries exist, etc.)
    def test_00search_strings(self):
@@ -57,7 +71,7 @@ class TestPlugin(unittest.TestCase):
       msg1 = "May I have a banana, please?"
       msg2 = "I love bananas"
       for item in [msg1, msg2]:
-         if not banana_detected(item):
+         if not banana_detected(item, banana_threshold):
             self.fail("Oh dear, we were unable to detect a banana in: '%s'" % item)
 
    def test_06banana_not_detected(self):
@@ -65,5 +79,5 @@ class TestPlugin(unittest.TestCase):
       not_even_a_string = 500
       msg = "What a lovely apple!"
       for item in [not_even_a_string, msg]:
-         if banana_detected(item):
+         if banana_detected(item, banana_threshold):
             self.fail("Found a banana where none exists: %s" % str(item))
