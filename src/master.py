@@ -144,7 +144,10 @@ def check_children():
 # Message processing
 
 def process_message(msg):
-   push_communicator.send(msg)
+   if msg.split(':')[0] == 'connect_node':
+      push_communicator.send(msg)
+   else:
+      push_communicator.send('info:'+msg)
    
 #------------------------------------------------------------------------------
 # Try Plugin?

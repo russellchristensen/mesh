@@ -24,12 +24,17 @@ import meshlib, sys, zmq
 zmq_context       = zmq.Context()
 pull              = zmq_context.socket(zmq.PULL)
 push_communicator = zmq_context.socket(zmq.PUSH)
+reply             = zmq_context.socket(zmq.REP)
+
+port_assigner_port = meshlib.get_config(None, 'port_assigner_port', '4200')
+port_assigner_reply_url = "tcp://*:%s" % port_assigner_port
 
 def verbose(msg):
    print "port_assigner:", msg
 
 if __name__ == '__main__':
    # IPC urls (passed in at startup from master.py)
+   verbose("port_assigner_reply_url: %s" % port_assigner_reply_url)
    communicator_pull_url, port_assigner_pull_url = sys.argv[1:]
    for url in sys.argv[1:]:
       if not meshlib.is_socket_url(url):
@@ -38,7 +43,19 @@ if __name__ == '__main__':
    # Connect ZMQ sockets
    pull.bind(port_assigner_pull_url)
    push_communicator.connect(communicator_pull_url)
+   reply.bind(port_assigner_reply_url)
    # Main Loop
    while True:
+      verbose("waiting for a request")
+      request = reply.recv()
+      # do we like this request?
+      if request.split(':')[0] != 'request_ports':
+         verbose("received bad request: '%s'" % request)
+         reply.send("error:invalid request format")
+         continue
+      verbose("received request, sending to communicator: '%s'" % request)
+      push_communicator.send("port_assigner:"+request)
+      verbose("waiting for message from communicator")
       msg = pull.recv()
-      verbose(msg)
+      verbose("received message from communicator, sending back as reply: '%s'" % msg)
+      reply.send("ok:"+msg)

@@ -28,6 +28,10 @@ push_port_requestor = zmq_context.socket(zmq.PUSH)
 push_port_assigner  = zmq_context.socket(zmq.PUSH)
 push_nodes          = {}
 
+# Config values
+next_push_port          = int(meshlib.get_config(None, 'next_push_port', '4205'))
+inbound_pull_proxy_port = meshlib.get_config(None, 'inbound_pull_proxy_port', '4201')
+
 def verbose(msg):
    print "communicator:", msg
 
@@ -46,6 +50,15 @@ if __name__ == '__main__':
    # Main Loop
    while True:
       msg = pull.recv()
-      verbose(msg)
-      push_port_requestor.send(msg)
-      push_port_assigner.send(msg)
+      msg_parts = msg.split(':')
+      if msg_parts[0] == 'info':
+         verbose("Received info message: '%s'" % msg)
+      elif msg_parts[0] == 'connect_node':
+         verbose("Connecting to node: '%s'" % msg)
+      elif msg_parts[0] == 'port_assigner':
+         verbose("Received request through port_assigner: %s" % msg)
+         # set up inbound push connection
+         push_port = str(next_push_port)
+         next_push_port += 1
+         # tell port_assigner which ports to reply with
+         push_port_assigner.send('pull_proxy_port:%s:push_port:%s' % (inbound_pull_proxy_port, push_port))
