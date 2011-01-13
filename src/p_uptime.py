@@ -19,6 +19,13 @@ import meshlib, sys, time, unittest, zmq
 # Use meshlib.get_os() if you need to know what OS you're actually on.
 supported_os = ['darwin', 'linux2', 'freebsd8', 'sunos5']
 
+description = """
+Displays results of uptime command. Including uptime, users logged in and average load.
+
+Threshold:
+"""
+#///Need to figure out what if any threshold is to be used for this
+
 if __name__ == '__main__':
    # Connect a PUSH socket to master.py
    master_socket_url = sys.argv[1]

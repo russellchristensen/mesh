@@ -19,6 +19,15 @@ import meshlib, sys, time, unittest, zmq
 # Use meshlib.get_os() if you need to know what OS you're actually on.
 supported_os = ['linux2']
 
+description = """
+Monitor the temperature of machines that have sensors.
+
+Threshold: If the temperature goes higher than the threshold,
+           then we create an event.
+"""
+#///Currently this plugin passes a string not an integer need to figure out what and how to set for this threshold
+temp_threshold = int(meshlib.get_config('p_cpu_temp', 'temp_threshold',
+
 if __name__ == '__main__':
    # Connect a PUSH socket to master.py
    master_socket_url = sys.argv[1]

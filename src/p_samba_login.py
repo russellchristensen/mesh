@@ -19,6 +19,15 @@ import meshlib, sys, time, unittest, zmq
 # Use meshlib.get_os() if you need to know what OS you're actually on.
 supported_os = ['darwin', 'linux2', 'freebsd8', 'sunos5']
 
+description = """
+Detect invalid Samba login attempts.
+
+Threshold: If an invalid login attemp is found,
+           then we create an event.
+"""
+
+#///need to figure out how to set threshold if we are only looking for output
+
 if __name__ == '__main__':
    # Connect a PUSH socket to master.py
    master_socket_url = sys.argv[1]

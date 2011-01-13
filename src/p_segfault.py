@@ -19,6 +19,13 @@ import meshlib, sys, time, unittest, zmq
 # Use meshlib.get_os() if you need to know what OS you're actually on.
 supported_os = ['linux2', 'freebsd8', 'sunos5']
 
+description = """
+Detect segfaults.
+
+Threshold: If a segfault is detected in the logs,
+           then we create an event.
+"""
+
 
 if __name__ == '__main__':
    # Connect a PUSH socket to master.py
@@ -52,4 +59,3 @@ class TestPlugin(unittest.TestCase):
          except:
             self.fail('Messages file "%s" is not readable' % (location))
       self.fail('No messages file found!')
-

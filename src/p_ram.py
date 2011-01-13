@@ -19,6 +19,14 @@ import meshlib, sys, time, unittest, zmq
 # Use meshlib.get_os() if you need to know what OS you're actually on.
 supported_os = ['darwin', 'linux2', 'freebsd8', 'sunos5']
 
+description = """
+Monitors ram usage.
+
+Threshold: If ram usage is greater than ram_threshold,
+           then we create an event.
+"""
+#///Threshold will be based on the percentage of total ram
+
 if __name__ == '__main__':
    # Connect a PUSH socket to master.py
    master_socket_url = sys.argv[1]

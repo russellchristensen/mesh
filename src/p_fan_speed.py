@@ -19,6 +19,15 @@ import meshlib, sys, time, unittest, zmq
 # Use meshlib.get_os() if you need to know what OS you're actually on.
 supported_os = ['linux2']
 
+description = """
+Monitors fan speed on machines that have sensors.
+
+Threshold: If fan speed is higher than fan_threshold,
+           then we create an event.
+"""
+
+#///Need to find out what threshold to use.
+
 if __name__ == '__main__':
    # Connect a PUSH socket to master.py
    master_socket_url = sys.argv[1]

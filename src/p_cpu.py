@@ -19,7 +19,13 @@ import meshlib, sys, time, unittest, zmq
 # Use meshlib.get_os() if you need to know what OS you're actually on.
 supported_os = ['darwin', 'linux2', 'freebsd8', 'sunos5']
 
+description = """
+Monitor CPU usage
 
+Threshold: If cpu is more than cpu_threshold, then we create
+           an event
+"""
+# ///Figure out what and how to get the cpu threshold we want to use
 if __name__ == '__main__':
    # Connect a PUSH socket to master.py
    master_socket_url = sys.argv[1]
