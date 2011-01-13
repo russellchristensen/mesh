@@ -16,6 +16,18 @@
 # along with Mesh.  If not, see <http://www.gnu.org/licenses/>.
 
 import M2Crypto, os, Queue, subprocess, sys, tempfile
+import ConfigParser
+
+platforms = {
+   'darwin':'/etc',   # Mac
+   'linux2':'/etc',   # CentOS
+   'freebsd8':'/etc', # FreeBSD
+   'sunos5':'/etc',   # SunOS
+}
+
+Config = ConfigParser.ConfigParser()
+Config.read(os.path.join(platforms[sys.platform],'mesh.conf'))
+
 # We've got to find the root directory of the project to run tests!
 global project_root_dir
 project_root_dir = None
@@ -31,7 +43,16 @@ if not project_root_dir:
 def get_os():
    return sys.platform
 
-def get_config(plugin, variable, default):
+def get_config(plugin, option, default):
+   # First try the plugin section
+   options = Config.options(plugin)
+   if option in options:
+      return Config.get(plugin, option)
+   # Then try the global section
+   options = Config.options('global')
+   if option in options:
+      return Config.get('global', option)
+   # If not found return the default
    return default
 
 # For creating ZMQ URLs
