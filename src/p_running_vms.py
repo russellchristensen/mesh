@@ -22,7 +22,7 @@ if __name__=='__main__':
    master_socket_url = sys.argv[1]
    zmq_context       = zmq.Context()
    push_master       = zmq_context.socket(zmq.PUSH)
-push_master.connect(master_socket_url)
+   push_master.connect(master_socket_url)
 
 # Use meshlib.send_plugin_result('some message', push_master) to communicate
 # with master.py
@@ -55,6 +55,6 @@ if __name__=='__main__':
    if len(current_vms) == 0:
       current_vms = vms
 
-   missing_vm = set(current_vms).difference(set(vms)
+   missing_vm = set(current_vms).difference(set(vms))
    if missing_vm:
       meshlib.send_plugin_result('%s is no longer functioning' % missing_vm, push_master)
