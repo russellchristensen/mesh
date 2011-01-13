@@ -1,0 +1,14 @@
+1. Config Program?
+ - Yes, someday.
+
+2. Config "paradigm"?
+ - global config + plugin configs, try not to overlap
+ - where overlap occurs, plugin value takes precedence
+ - where no configured variable is found, hard-coded default in plugin is used
+
+3. Storage format
+ - traditional unix-like config format
+ - manageable by ConfigParser
+ - stored in $ETC/mesh.conf
+
+4. Accessed by calling meshlib.get_config(plugin, variable, default)
