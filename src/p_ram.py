@@ -26,38 +26,30 @@ if __name__ == '__main__':
    push_master       = zmq_context.socket(zmq.PUSH)
    push_master.connect(master_socket_url)
 
-# ////// Customized monitoring of...something  //////
-
-# Use meshlib.send_plugin_result('some message', push_master) to communicate
-# with master.py
-
-# END TEMPLATE -- Customize below.
-
-# Plugins will typically have an infinite main loop
 import psutil
+
+def available_mem():
+   return psutil.avail_phymem() / 1024
+
+def used_mem():
+   return psutil.used_phymem() / 1024
+
 if __name__ == '__main__':
+   total = psutil.TOTAL_PHYMEM / 1024
    while 1:
-      total = psutil.TOTAL_PHYMEM / 1024
-      avail = psutil.avail_phymem() / 1024
-      used  = psutil.used_phymem() / 1024
-      meshlib.send_plugin_result("|Total: %s| |Available: %s| |Used: %s|" % (total, avail, used), push_master)
+      meshlib.send_plugin_result("|Total: %s| |Available: %s| |Used: %s|" % (total, available_mem(), used_mem()), push_master)
       time.sleep(1)
 
-# ////// Customized unit-testing of everything above.  It's common for unit tests to take _more_ code than the code they test.  //////
+# Unit Tests
 class TestPlugin(unittest.TestCase):
-   total = psutil.TOTAL_PHYMEM
-   avail = psutil.avail_phymem()
-   used  = psutil.used_phymem()
+   def test_00available_mem(self):
+      "available_mem() returns memory in kilobytes"
+      amount = available_mem()
+      if type(amount) != int:
+         self.fail("Got a non-integer")
+      elif amount <= 0:
+         self.fail("Got unrealistic result.")
+      elif amount == (psutil.avail_phymem() / 1024):
+         self.fail("It's not in kilobytes!")
 
-   def test_00no_output(self):
-           "Is there output?"
-           total = psutil.TOTAL_PHYMEM
-           avail = psutil.avail_phymem()
-           used  = psutil.used_phymem()
-           if total == '':
-                   self.fail("Plugin is returning no results")
-           elif avail == '':
-                   self.fail("Plugin is returning no results")
-           elif used == '':
-                   self.fail("Plugin is returning no results")
-
+   # /// test for used_mem() goes here! ///

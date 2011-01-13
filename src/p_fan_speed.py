@@ -32,16 +32,18 @@ if __name__ == '__main__':
       sensors = subprocess.Popen( ('/usr/bin/env', 'bash', '-c', 'sensors | grep fan'), stdout = subprocess.PIPE, stderr = subprocess.PIPE)
       fan = sensors.communicate()[0]
       meshlib.send_plugin_result(fan, push_master)
-      time.sleep(1)
+      time.sleep(60)
 
-# ////// Customized unit-testing of everything above.  It's common for unit tests to take _more_ code than the code they test.  //////
+# Unit Tests
 class TestPlugin(unittest.TestCase):
    def test_00sensors_installed(self):
-      import os.path, subprocess     
+      import os
       """Is lm_sensors installed and configured"""
       if os.path.exists("/usr/bin/sensors") == False:
          self.fail("lm_sensors is not installed")
-      else:
-         sensors = subprocess.Popen("sensors", stdout = subprocess.PIPE, stderr = subprocess.PIPE).communicate()
-         if"sensors-detect" in sensors:
-            self.fail("lm_sensors is not configured, run sensors-detect on the machine you are trying to monitor")
+
+   def test_03sensors_configured(self):
+      import subprocess
+      sensors = subprocess.Popen("sensors", stdout = subprocess.PIPE, stderr = subprocess.PIPE).communicate()
+      if"sensors-detect" in sensors:
+         self.fail("lm_sensors is not configured, run sensors-detect on the machine you are trying to monitor")

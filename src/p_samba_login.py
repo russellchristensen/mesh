@@ -30,12 +30,13 @@ if __name__ == '__main__':
 import subprocess
 if __name__ == '__main__':
    while 1:
-         tail = subprocess.Popen( ('/usr/bin/env', 'bash', '-c', 'tail /var/log/samba* | grep FAILED'), stdout = subprocess.PIPE, stderr = subprocess.PIPE)
-         bad_login = tail.communicate()[0]
-         if bad_login:
-            meshlib.send_plugin_result(bad_login, push_master)
+      # NO! Make it interrupt-driven!!!
+      tail = subprocess.Popen( ('/usr/bin/env', 'bash', '-c', 'tail /var/log/samba* | grep FAILED'), stdout = subprocess.PIPE, stderr = subprocess.PIPE)
+      bad_login = tail.communicate()[0]
+      if bad_login:
+         meshlib.send_plugin_result(bad_login, push_master)
 
-# ////// Customized unit-testing of everything above.  It's common for unit tests to take _more_ code than the code they test.  //////
+# Unit Tests
 class TestPlugin(unittest.TestCase):
   def test_00samba_log(self):
     "Check if samba log files exist"

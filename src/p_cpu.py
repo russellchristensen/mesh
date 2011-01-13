@@ -14,6 +14,7 @@
 # along with Mesh.  If not, see <http://www.gnu.org/licenses/>.
 
 import meshlib, sys, time, unittest, zmq
+
 # Remove the OSs your plugin doesn't support.
 # Use meshlib.get_os() if you need to know what OS you're actually on.
 supported_os = ['darwin', 'linux2', 'freebsd8', 'sunos5']
@@ -26,17 +27,17 @@ if __name__ == '__main__':
    push_master       = zmq_context.socket(zmq.PUSH)
    push_master.connect(master_socket_url)
 
-# ////// Customized monitoring of...something  //////
+# monitor cpu usage, send it up constantly
 import psutil 
 if __name__ == '__main__':
    while 1:
-         cpu = psutil.cpu_percent(interval=1)  
-         meshlib.send_plugin_result("CPU: %s" % cpu, push_master)
-         time.sleep(1)
+      cpu = psutil.cpu_percent(interval=1)  
+      meshlib.send_plugin_result("CPU: %s" % cpu, push_master)
+      time.sleep(1)
 
-# ////// Customized unit-testing of everything above.  It's common for unit tests to take _more_ code than the code they test.  //////
+# Unit Tests
 class TestPlugin(unittest.TestCase):
    def test_00no_output(self):
-           "Is there output?"
-           if psutil.cpu_percent(interval=1) == '':
-                   self.fail("Plugin is returning no results")
+      "Is there output?"
+      if psutil.cpu_percent(interval=1) == '':
+         self.fail("Plugin is returning no results")

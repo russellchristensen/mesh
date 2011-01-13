@@ -26,13 +26,6 @@ if __name__ == '__main__':
    push_master       = zmq_context.socket(zmq.PUSH)
    push_master.connect(master_socket_url)
 
-# ////// Customized monitoring of...something  //////
-
-# Use meshlib.send_plugin_result('some message', push_master) to communicate
-# with master.py
-
-# END TEMPLATE -- Customize below.
-
 # Plugins will typically have an infinite main loop
 import subprocess
 if __name__ == '__main__':
@@ -40,9 +33,9 @@ if __name__ == '__main__':
       cmd = subprocess.Popen("uptime", stdout = subprocess.PIPE)
       uptime = cmd.communicate()[0]
       meshlib.send_plugin_result(uptime, push_master)
-      time.sleep(1)
+      time.sleep(60)
 
-# ////// Customized unit-testing of everything above.  It's common for unit tests to take _more_ code than the code they test.  //////
+# Unit Tests
 class TestPlugin(unittest.TestCase):
    def test_00output(self):
       "Check for output"
