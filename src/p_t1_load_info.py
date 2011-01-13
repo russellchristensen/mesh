@@ -15,28 +15,24 @@
 
 import meshlib, sys, time, unittest, zmq
 
-supported_os = ['linux2']
-
-# Connect a PUSH socket to master.py
 if __name__=='__main__':
+# Connect a PUSH socket to master.py
   master_socket_url = sys.argv[1]
   zmq_context       = zmq.Context()
   push_master       = zmq_context.socket(zmq.PUSH)
   push_master.connect(master_socket_url)
 
-# Use meshlib.send_plugin_result('some message', push_master) to communicate
-# with master.py
+supported_os = ['linux2']
 
-# END TEMPLATE -- Customize below.
+description = """
+Monitors current T1 loads
+
+Threshold: 90
+"""
+
+t1_threshold = meshlib.get_config('p_t1_load_info', 't1_threshold', '90')
 
 import re, subprocess
-
-class TestPlugin(unittest.TestCase):
-  def test_00asteriskexists(self):
-    "Check if asterisk exists"
-    import os.path
-    location = '/usr/sbin/asterisk'
-    self.assertTrue(os.path.exists(location))
 
 if __name__=='__main__':
    while 1:
@@ -45,7 +41,7 @@ if __name__=='__main__':
       chan_info.pop(0)
       chan_info.pop(0)
       available_channels=len(chan_info)
-      chan_usage = available_channels * .9
+      chan_usage = available_channels * (t1_threshold/100)
       for chan in chan_info:
          inuse = re.search('\d (\d+) .*?',chan,re.DOTALL|re.MULTILINE)
          if inuse:
@@ -53,3 +49,10 @@ if __name__=='__main__':
 
       if used_channels >= chan_usage:
          meshlib.send_plugin_result("High T1 usage reported, %s out of %s" %(used_channels, available_channels),push_master)
+
+class TestPlugin(unittest.TestCase):
+  def test_00asteriskexists(self):
+    "Check if asterisk exists"
+    import os.path
+    location = '/usr/sbin/asterisk'
+    self.assertTrue(os.path.exists(location))

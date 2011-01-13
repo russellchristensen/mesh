@@ -15,34 +15,24 @@
 
 import meshlib, sys, time, unittest, zmq
 
-supported_os = ['linux2']
-
-# Connect a PUSH socket to master.py
 if __name__=='__main__':
+# Connect a PUSH socket to master.py
   master_socket_url = sys.argv[1]
   zmq_context       = zmq.Context()
   push_master       = zmq_context.socket(zmq.PUSH)
   push_master.connect(master_socket_url)
 
-# Use meshlib.send_plugin_result('some message', push_master) to communicate
-# with master.py
+supported_os = ['linux2']
 
-# END TEMPLATE -- Customize below.
+description ="""
+Check which queues are currently running
+
+Threshold: Change in running queues
+"""
+
+queues = meshlib.get_config('p_dovecot_login_fail', 'queues', 'none')
 
 import re, subprocess
-
-class TestPlugin(unittest.TestCase):
-  def test_00asteriskexists(self):
-    "Check if asterisk exists"
-    import os.path
-    location = '/usr/sbin/asterisk'
-    self.assertTrue(os.path.exists(location))
-
-  def test_01asteriskrunning(self):
-    "Check if asterisk is running"
-    import os.path
-    location = '/var/run/asterisk/asterisk.ctl'
-    self.assertTrue(os.path.exists(location))
 
 if __name__=='__main__':
   current_queues = []
@@ -59,3 +49,16 @@ if __name__=='__main__':
 
     if set(current_queues).difference(set(queues)):
       meshlib.send_plugin_result('%s is no longer functioning' % set(current_queues).difference(set(queues)), push_master)    
+
+class TestPlugin(unittest.TestCase):
+  def test_00asteriskexists(self):
+    "Check if asterisk exists"
+    import os.path
+    location = '/usr/sbin/asterisk'
+    self.assertTrue(os.path.exists(location))
+
+  def test_01asteriskrunning(self):
+    "Check if asterisk is running"
+    import os.path
+    location = '/var/run/asterisk/asterisk.ctl'
+    self.assertTrue(os.path.exists(location))

@@ -15,10 +15,6 @@
 
 import meshlib, sys, time, unittest, zmq
 
-# Remove the OSs your plugin doesn't support.
-# Use meshlib.get_os() if you need to know what OS you're actually on.
-supported_os = ['freebsd8']
-
 if __name__ == '__main__':
 # Connect a PUSH socket to master.py
    master_socket_url = sys.argv[1]
@@ -26,12 +22,23 @@ if __name__ == '__main__':
    push_master       = zmq_context.socket(zmq.PUSH)
    push_master.connect(master_socket_url)
 
-# ////// Customized monitoring of...something  //////
+supported_os = ['freebsd8']
+
+description = """
+Verify that message are being sent within the threshold
+
+Threshold: 600s
+"""
+
+send_threshold = int(meshlib.get_config('p_dovecot_login_fail', 'failed_threshold', '600'))
+log_location = meshlib.get_config('p_dovecot_login_fail', 'log_location', '/var/log/maillog')
+
+
 import os, re, subprocess, smtplib
 
 # Plugins will typically have an infinite main loop
 if __name__ == '__main__':
-   file = subprocess.Popen(['tail', '-f', '/var/log/maillog'],stdout=subprocess.PIPE)
+   file = subprocess.Popen(['tail', '-f', log_location],stdout=subprocess.PIPE)
    hostname = os.uname()[1]
    found = False
    while 1:
@@ -53,16 +60,13 @@ if __name__ == '__main__':
       if not found:
          meshlib.send_plugin_result('Message not sent within time!', push_master)
 
-# Plugins communicate with master.py through meshlib.send_plugin_result()
-# This is just an example, so we'll fake events by pausing.  Real loops usually block in I/O of some type.
 
-# ////// Customized unit-testing of everything above.  It's common for unit tests to take _more_ code than the code they test.  //////
 class TestPlugin(unittest.TestCase):
 # First, test setup requirements (do files/commands/libraries exist, etc.)
    def test_00check_for_mail_log(self):
       """Check for maillog"""
       import os.path
-      location='/var/log/maillog'
+      location= log_location
       if os.path.isfile(location):
          try:
             open(location).read()

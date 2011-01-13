@@ -23,6 +23,14 @@ if __name__=='__main__':
    push_master.connect(master_socket_url)
 
 supported_os = ['linux2']
+
+description = """
+Check for running Xen virtual machines
+
+Threshold: Change in virtual machines
+"""
+xen_path = meshlib.get_config('p_xen_list', 'xen_path', '/usr/sbin/xm')
+
 # /// Add description
 # /// Add config items (paths to xm, etc.)
 

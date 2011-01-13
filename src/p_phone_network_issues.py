@@ -15,28 +15,24 @@
 
 import meshlib, sys, time, unittest, zmq
 
-supported_os = ['linux2']
-
-# Connect a PUSH socket to master.py
 if __name__=='__main__':
+# Connect a PUSH socket to master.py
   master_socket_url = sys.argv[1]
   zmq_context       = zmq.Context()
   push_master       = zmq_context.socket(zmq.PUSH)
   push_master.connect(master_socket_url)
 
-# Use meshlib.send_plugin_result('some message', push_master) to communicate
-# with master.py
+supported_os = ['linux2']
 
-# END TEMPLATE -- Customize below.
+description = """
+Monitor if SIP devices become lagged or unreachable
+
+Threshold: Any Lagged or Unreachable device
+"""
+
+device_threshold = int(meshlib.get_config('p_phone_network_issues', 'device_threshold', '0'))
 
 import re, subprocess
-
-class TestPlugin(unittest.TestCase):
-  def test_00asteriskexists(self):
-    "Check if asterisk exists"
-    import os.path
-    location = '/usr/sbin/asterisk'
-    self.assertTrue(os.path.exists(location))
 
 if __name__=='__main__':
   while 1:
@@ -50,3 +46,10 @@ if __name__=='__main__':
 
     if problem_phones:
       meshlib.send_plugin_result('%s phone(s) experiencing network issues: %s' % (len(problem_phones), ' '.join(problem_phones)), push_master)    
+
+class TestPlugin(unittest.TestCase):
+  def test_00asteriskexists(self):
+    "Check if asterisk exists"
+    import os.path
+    location = '/usr/sbin/asterisk'
+    self.assertTrue(os.path.exists(location))

@@ -23,6 +23,16 @@ if __name__=='__main__':
   push_master.connect(master_socket_url)
 
 supported_os=['linux2']
+
+description= """
+Check for unapproved SIP devices
+
+Threshold: device not in list
+
+'asterisk -rx sip show peer $extension' - the device is listed as Useragent
+"""
+
+devices = meshlib.get_config('p_user_device_info', 'devices', '')
 # /// Add description
 # /// Get config items
 # /// Description of where to get the device strings
