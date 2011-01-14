@@ -18,15 +18,15 @@
 import M2Crypto, os, Queue, subprocess, sys, tempfile
 import ConfigParser
 
-platforms = {
-   'darwin':'/etc',   # Mac
-   'linux2':'/etc',   # CentOS
-   'freebsd8':'/etc', # FreeBSD
-   'sunos5':'/etc',   # SunOS
+etc_locations = {
+   'darwin'   : '/usr/local/etc', # OS X
+   'linux2'   : '/etc',           # Linux (w/2.x kernel)
+   'freebsd8' : '/usr/local/etc', # FreeBSD 8.x
+   'sunos5'   : '/etc',           # OpenSolaris
 }
 
 Config = ConfigParser.ConfigParser()
-Config.read(os.path.join(platforms[sys.platform],'mesh.conf'))
+Config.read(os.path.join(etc_locations[sys.platform],'mesh.conf'))
 
 # We've got to find the root directory of the project to run tests!
 global project_root_dir
