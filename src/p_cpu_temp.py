@@ -33,24 +33,46 @@ Threshold: If the temperature goes higher than the threshold,
 #///Currently this plugin passes a string not an integer need to figure out what and how to set for this threshold
 temp_threshold = int(meshlib.get_config('p_cpu_temp', 'temp_threshold','80'))
 
-import subprocess
+import subprocess, re
 if __name__ == '__main__':
    while 1:
-      sensors = subprocess.Popen( ('/usr/bin/env', 'bash', '-c', 'sensors -f | grep CPU'), stdout = subprocess.PIPE, stderr = subprocess.PIPE)
+      sensors = subprocess.Popen( ('/usr/bin/env', 'bash', '-c', 'sensors | grep CPU'), stdout = subprocess.PIPE, stderr = subprocess.PIPE)
       temperature = sensors.communicate()[0]
-      meshlib.send_plugin_result(temperature, push_master)
+      temperature = re.sub('\(.*?\)', '', temperature)
+      temperature = temperature.split()
+      for result in temperature:
+         if 'CPU' in result:
+            cpu = result
+         elif '+' in result:
+            temp = result
+            if temp > temp_threshold:
+               meshlib.send_plugin_result("%s: %s" % (cpu, temp), push_master)
       time.sleep(60)
 
 # Unit Tests
 class TestPlugin(unittest.TestCase):
-   def test_00sensors_installed(self):
-      """Is lm_sensors installed and configured"""
-      import os
-      if os.path.exists("/usr/bin/sensors") == False:
-         self.fail("lm_sensors is not installed")
+   import subprocess, re
+   sensors = subprocess.Popen( ('/usr/bin/env', 'bash', '-c', 'sensors | grep CPU'), stdout = subprocess.PIPE, stderr = subprocess.PIPE)
+   temperature = sensors.communicate()[0]
+   temperature = re.sub('\(.*?\)', '', temperature)
+   def test_00hyst_detect(self):
+      """Is there unwanted data"""
+      if "hyst" in temperature:
+         self.fail("Regular expression failed to remove unwanted data")
+   def test_04detect_reading(self):
+      """Is there a temperature reading"""
+      temperature = temperature.split()
+      for result in temperature:
+         if '+' in result:
+               temp = result
+         if result < 1:
+            self.fail("Not getting a reading over 0")
 
-   def test_03sensors_configured(self):
-      import subprocess
-      sensors = subprocess.Popen("sensors", stdout = subprocess.PIPE, stderr = subprocess.PIPE).communicate()
-      if"sensors-detect" in sensors:
-         self.fail("lm_sensors is not configured, run sensors-detect on the machine you are trying to monitor")
+def configured():
+   import os, subprocess
+   if os.path.exists("/usr/bin/sensors") == False:
+      return False
+   sensors = subprocess.Popen("sensors", stdout = subprocess.PIPE, stderr = subprocess.PIPE).communicate()
+   if"sensors-detect" in sensors:
+      return False
+   return True
