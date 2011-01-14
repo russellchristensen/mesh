@@ -1,0 +1,32 @@
+          Mesh plugins always live in 
+          the present,
+          never watch or record 
+the past, 
+          and never try to anticipate 
+                                      the future.
+          They always report on what 
+          is happening *right now*.
+
+Mesh plugins perform well by striving to be as responsive as possible
+   but being as least resource intensive as possible.
+Plugins do this by being *interrupt-driven* whenever possible,
+   but if we *must* poll, we use these polling-delay guidelines:
+      = 1s sleep for polling loops that...
+        - don't hit the disk repeatedly
+        - finish in < 50ms
+        - don't block anything else
+        - have no significant resource usage
+      = 60s sleep for polling loops that...
+        - have light repeated disk access (run a quick program, read a few files)
+        - finish in < 1s
+        - don't block anything else for > 1s
+        - have light resource usage
+      = 24h (86400s) sleep for polling loops that...
+        - have tons of repeated disk access
+        - take a long time
+        - have large resource usage
+
+To create a new plugin:
+- copy src/p_template.py to a new file starting with 'p_' and ending in '.py'
+- follow the instructions inside the plugin template.
+
