@@ -16,6 +16,11 @@
 import meshlib, sys, time, unittest, zmq
 
 supported_os = ['darwin', 'sunos5']
+description = """
+Checks for disk usage.
+
+Threshold: Disk usage above 90% causes an event.
+"""
 
 if __name__ == '__main__':
    # Connect a PUSH socket to master.py
@@ -39,7 +44,8 @@ if __name__ == '__main__':
       for fs, blocks, used, available, percent, mounted in re.findall(parse, df_out):
          # Convert the parsed data for ease of use later
          fs, blocks, used, available, percent, mounted =  fs.strip(), int(blocks.strip()), int(used.strip()), int(available.strip()), int(percent.strip()), mounted.strip()
-         meshlib.send_plugin_result('%s %s %s %s %s %s' % (fs, blocks, used, available, percent, mounted), push_master)
+         if percent > 90:
+            meshlib.send_plugin_result('%s %s %s %s %s %s' % (fs, blocks, used, available, percent, mounted), push_master)
       time.sleep(60)
 
 class TestPlugin(unittest.TestCase):

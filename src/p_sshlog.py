@@ -15,14 +15,19 @@
 
 import meshlib, sys, time, unittest, zmq
 
-supported_os = ['darwin']
-
 if __name__ == '__main__':
    # Connect a PUSH socket to master.py
    master_socket_url = sys.argv[1]
    zmq_context       = zmq.Context()
    push_master       = zmq_context.socket(zmq.PUSH)
    push_master.connect(master_socket_url)
+
+supported_os = ['darwin']
+description = """
+Check for invalid SSH logins.
+
+Threshold: Every time an invalid SSH login is detect, an event is created.
+"""
 
 import os, atexit, re, subprocess, sys
 
