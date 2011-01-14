@@ -23,15 +23,22 @@ if __name__ == '__main__':
    push_master.connect(master_socket_url)
 
 supported_os = ['darwin', 'sunos5']
+plugin_name = 'p_disk'
 description = """
 Checks for disk usage.
 
 Threshold: Disk usage above 90% causes an event.
 """
+threshold = meshlib.get_config(plugin_name, 'threshold', '90')
 
-import subprocess
-import time
-import re
+def configured():
+   try: int(threshold)
+   except: return False
+   return True
+
+import subprocess, re
+
+global parse; parse = re.compile(r'^(.+)[\n\r]? +(\d+) +(\d+) +(\d+) +(\d+)% +([a-zA-Z/_\-\.\d]+)', re.MULTILINE)
 
 if __name__ == '__main__':
    # Main Loop
@@ -39,12 +46,11 @@ if __name__ == '__main__':
       proc = subprocess.Popen(['df'], stdout=subprocess.PIPE)
       # Get df output
       df_out = proc.stdout.read()
-      parse = re.compile(r'^(.+)[\n\r]? +(\d+) +(\d+) +(\d+) +(\d+)% +([a-zA-Z/_\-\.\d]+)', re.MULTILINE)
       # Iterate through the parsed output of df
       for fs, blocks, used, available, percent, mounted in re.findall(parse, df_out):
          # Convert the parsed data for ease of use later
          fs, blocks, used, available, percent, mounted =  fs.strip(), int(blocks.strip()), int(used.strip()), int(available.strip()), int(percent.strip()), mounted.strip()
-         if percent > 90:
+         if percent > threshold:
             meshlib.send_plugin_result('%s %s %s %s %s %s' % (fs, blocks, used, available, percent, mounted), push_master)
       time.sleep(60)
 
@@ -62,7 +68,6 @@ class TestPlugin(unittest.TestCase):
       import subprocess, re
       proc = subprocess.Popen(['df'], stdout=subprocess.PIPE)
       try:
-         parse = re.compile(r'^(.+)[\n\r]? +(\d+) +(\d+) +(\d+) +(\d+)% +([a-zA-Z/_\-\.\d]+)', re.MULTILINE)
          re.findall(parse, proc.stdout.read())
       except:
          self.fail('df output was not as expected, and could not be parsed.')
