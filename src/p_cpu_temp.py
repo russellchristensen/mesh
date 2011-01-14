@@ -26,7 +26,7 @@ Threshold: If the temperature goes higher than the threshold,
            then we create an event.
 """
 #///Currently this plugin passes a string not an integer need to figure out what and how to set for this threshold
-temp_threshold = int(meshlib.get_config('p_cpu_temp', 'temp_threshold',
+temp_threshold = int(meshlib.get_config('p_cpu_temp', 'temp_threshold','80'))
 
 if __name__ == '__main__':
    # Connect a PUSH socket to master.py
