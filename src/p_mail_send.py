@@ -27,33 +27,46 @@ supported_os = ['freebsd8']
 description = """
 Verify that message are being sent within the threshold
 
-Threshold: 600s
+Threshold: 300s
 """
 
-send_threshold = int(meshlib.get_config('p_dovecot_login_fail', 'failed_threshold', '600'))
-log_location = meshlib.get_config('p_dovecot_login_fail', 'log_location', '/var/log/maillog')
+send_threshold = int(meshlib.get_config('p_mail_send', 'failed_threshold', '300'))
+log_location = meshlib.get_config('p_mail_send', 'log_location', None)
+from_address = meshlib.get_config('p_mail_send', 'from_address', None)
+to_address   = meshlib.get_config('p_mail_send', 'to_address', None)
+
+def configured():
+   import os
+   if not os.access(log_location, os.R_OK):
+      return False
+   elif not send_thrsehold.isdigit():
+      return False
+   if not from_address or not to_address:
+      return False
+   else:
+      return True
 
 
 import os, re, subprocess, smtplib
 
+queue_pattern = re.compile('.*?:.*?:.*?: (.*?):*%s*'% from_address,re.DOTALL|re.MULTILINE)
+
 # Plugins will typically have an infinite main loop
 if __name__ == '__main__':
    file = subprocess.Popen(['tail', '-f', log_location],stdout=subprocess.PIPE)
-   hostname = os.uname()[1]
    found = False
    while 1:
       start_time = time.time()
       outgoing = smtplib.SMTP('localhost')
       try:
-         outgoing.sendmail('mailtest@%s' % hostname, 'blackhole@%s' % hostname, 'test email')
+         outgoing.sendmail(from_address, to_address, 'test')
       except:
          meshlib.send_plugin_result('Message not sent!', push_master)
-      while (time.time() - start_time) < 300:
+      while (time.time() - start_time) < send_threshold:
          recent = file.stdout.readline()
-         queued = re.search('.*?:.*?:.*?: (.*?):*mailtest*',recent,re.DOTALL|re.MULTILINE)
+         queued = re.search(queue_pattern,recent)
          if queued:
-            print queued.groups()
-            while (time.time() - start_time) < 300:
+            while (time.time() - start_time) < send_threshold:
                recent = file.stdout.readline()
                if re.search('.*%s.*250 2.0.0 Ok.*' % queued.groups(1),recent,re.DOTALL|re.MULTILINE):
                   found = True
