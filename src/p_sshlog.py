@@ -30,6 +30,8 @@ Check for invalid SSH logins.
 Threshold: Every time an invalid SSH login is detect, an event is created.
 """
 
+import os, atexit, re, subprocess, sys
+
 global log_location; log_location = meshlib.get_config(plugin_name, 'log_locaiton', '/var/log/secure.log')
 global parse; parse = re.compile(r'(.{15}) ([\w\d-]+) sshd\[(\d+)\]: ((?:Failed password)|(?:.*?))\s(.+)', re.MULTILINE)
 global proc;
@@ -38,11 +40,6 @@ def configured():
    import os
    if not os.path.exist(log_location) or not os.acess(log_location, os.R_OK): return False
    return True
-
-import os, atexit, re, subprocess, sys
-
-# /// Use meshlib to get config stuff like file locations
-# /// ^- do that out here in global scope
 
 if __name__ == '__main__':
    # Tail the log file
@@ -53,15 +50,11 @@ if __name__ == '__main__':
       sys.exit(1)
 
    # Setup function to kill the child process at exit
-   try:
-      @atexit.register
-      def kill_child():
-         '''Kill child process at exit'''
-         meshlib.send_plugin_result('Notice: Killing child: %s' % (proc.pid), push_master)
-         proc.kill()
-   except:
-      # /// Nah, just have it crash for now.
-      meshlib.send_plugin_result('Error: Could not create the atexit function to kill the child process\nThis is not fatal, but you may have rogue "tail" processes running\nif this plugin doens\'t close properly', push_master)
+   @atexit.register
+   def kill_child():
+      '''Kill child process at exit'''
+      meshlib.send_plugin_result('Notice: Killing child: %s' % (proc.pid), push_master)
+      proc.kill()
 
    while True:
       # Get a line from proc
