@@ -22,27 +22,47 @@ if __name__ == '__main__':
    push_master       = zmq_context.socket(zmq.PUSH)
    push_master.connect(master_socket_url)
 
+plugin_name = 'p_stale_users'
 supported_os = ['sunos5', 'darwin']
 description = """
 Detect when a user has not logged in for a very long time.
 
-Threshold: Right now we indiscriminately flood events all over the place.
-           This will make us all pull our hair out and be unhappy.
+Threshold: Users that haven't logged in in a month
 """
+threshold = meshlib.get_config(plugin_name, 'threshold', '-30')
 
-import subprocess, re, time
-from datetime import datetime
+import subprocess, re, time, datetime
 
-# /// fix name.  This is an iterator.
-def iterate_list(l):
-   'Iterate through a list, yield a tuple (count, item)'
-   c = 0
-   while c < len(l):
-      yield c, l[c]
-      c += 1
+def configured():
+   import os
+   if not os.path.exists('/bin/tail') or not os.access('/bin/tail', os.X_OK): return False
+   try: int(threshold)
+   except: return False
+   return True
 
-# /// split most of the code below into logical functions
-# /// add unit tests for each of these functions
+
+def get_sun_users():
+   existing_users = set()
+   for entry in open('/etc/shadow', 'r').read().split('\n'):
+     username = entry.split(':')[0]
+     if username: existing_users.add(username)
+   return existing_users
+
+def get_mac_users():
+   existing_users = set()
+   # Mac only variables
+   mac_user_groups = set(['_appserverusr', '_appserveradm', '_lpadmin'])
+   proc = subprocess.Popen(['dscacheutil',  '-q', 'group'], stdout=subprocess.PIPE)
+
+   # Add unknown users
+   for group, password, gid, users in re.findall(parse_dscacheutil, proc.stdout.read()):
+      if group in mac_user_groups:
+         users = users.split(' ')
+         for user in users:
+            if user: existing_users.add(user)
+   proc.kill()
+   return existing_users
+
 
 if __name__ == '__main__':
    protected_users = set(['root', 'svn', 'reboot', 'shutdown', 'wtmp'])
@@ -55,45 +75,27 @@ if __name__ == '__main__':
    output = proc.stdout.read()
    proc.kill()
 
-   # Get existing users
-   existing_users = set()
-
-   # /// Split the special-casing of getting users into functions
-   # Get OpenSolaris users
+   # Get system users
    if meshlib.get_os() == 'sunos5':
-      for entry in open('/etc/shadow', 'r').read().split('\n'):
-              username = entry.split(':')[0]
-              if username: existing_users.add(username)
-   # Get Mac OSX users
+      existing_users = get_sun_users()
    elif meshlib.get_os() == 'darwin':
-      # Mac only variables
-      mac_user_groups = set(['_appserverusr', '_appserveradm', '_lpadmin'])
-      proc = subprocess.Popen(['dscacheutil',  '-q', 'group'], stdout=subprocess.PIPE)
-
-      # Add unknown users
-      for group, password, gid, users in re.findall(parse_dscacheutil, proc.stdout.read()):
-         if group in mac_user_groups:
-            users = users.split(' ')
-            for user in users:
-               if user: existing_users.add(user)
-      proc.kill()
+      existing_users = get_mac_users()
    else:
       error = 'Error: Your operating system is not supported!'
       meshlib.send_plugin_result(error, push_master)
-      print error
 
    # Parse and store "last" entries
    last_users = {}
-   oldest_entry = datetime.now()
+   oldest_entry = datetime.datetime.now()
    for user, d in re.findall(parse_last, output):
       # Convert date to a usable format, using the current year
-      d = datetime.strptime(d.split('-')[0], '%a %b %d %H:%M').replace(year=datetime.now().year)
+      d = datetime.datetime.strptime(d.split('-')[0], '%a %b %d %H:%M').replace(year=datetime.datetime.now().year)
       # If the month is from the future; decrement the year
-      if d.month > datetime.now().month:
-          d = d.replace(year=datetime.now().year-1)
+      if d.month > datetime.datetime.now().month:
+          d = d.replace(year=datetime.datetime.now().year-1)
       # Make sure the user is in last_users
       try: last_users[user]
-      except: last_users[user] = datetime.min
+      except: last_users[user] = datetime.datetime.min
       # If entry is newer, save it
       if d > last_users[user]:
          last_users[user] = d
@@ -101,32 +103,15 @@ if __name__ == '__main__':
       if d < oldest_entry:
          oldest_entry = d
 
-   # Bubble sort the user's by their login times
-   sorted_users = list(set(last_users.keys()).difference(protected_users))
-   error = True
-   while error:
-      error = False
-      # /// Use zip() and range() instead!
-      for count, user in iterate_list(sorted_users):
-         try:
-            # Compare current and next user
-            if last_users[user] > last_users[sorted_users[count+1]]:
-               error = True
-               sorted_users.append(sorted_users[count])
-               sorted_users.pop(count)
-         except: pass
-
    # Show user's who aren't official in the system, or haven't logged in within the history of "last"
    for user in sorted(set(existing_users).difference(set(last_users))):
-      notice = 'User: %s is not an existing user and has not logged in in over %s days.' % (user, str((datetime.now() - oldest_entry).days))
+      notice = 'User: %s is not an existing user and has not logged in in over %s days.' % (user, str((datetime.datetime.now() - oldest_entry).days))
       meshlib.send_plugin_result(notice, push_master)
-      print notice
    # Show the latest login for each user, organized from oldest to newest
-   for user in sorted_users:
+   for user in sorted(last_users, key=lambda x: last_users[x]):
+      if user in protected_users or last_users[user] > (datetime.datetime.now() + datetime.timedelta(days=int(threshold))): continue
       notice = 'User: %s Last Login: %s' % (user, last_users[user])
       meshlib.send_plugin_result(notice, push_master)
-      print notice
-
 
 # /// After splitting special-cased functionality into functions, unit test the functions!
 class TestPlugin(unittest.TestCase):

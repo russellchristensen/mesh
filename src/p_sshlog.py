@@ -22,6 +22,7 @@ if __name__ == '__main__':
    push_master       = zmq_context.socket(zmq.PUSH)
    push_master.connect(master_socket_url)
 
+plugin_name = 'p_sshlog'
 supported_os = ['darwin']
 description = """
 Check for invalid SSH logins.
@@ -29,16 +30,21 @@ Check for invalid SSH logins.
 Threshold: Every time an invalid SSH login is detect, an event is created.
 """
 
+global log_location; log_location = meshlib.get_config(plugin_name, 'log_locaiton', '/var/log/secure.log')
+global parse; parse = re.compile(r'(.{15}) ([\w\d-]+) sshd\[(\d+)\]: ((?:Failed password)|(?:.*?))\s(.+)', re.MULTILINE)
+global proc;
+
+def configured():
+   import os
+   if not os.path.exist(log_location) or not os.acess(log_location, os.R_OK): return False
+   return True
+
 import os, atexit, re, subprocess, sys
 
 # /// Use meshlib to get config stuff like file locations
 # /// ^- do that out here in global scope
 
 if __name__ == '__main__':
-   global log_location; log_location = '/var/log/secure.log'
-   global parse; parse = re.compile(r'(.{15}) ([\w\d-]+) sshd\[(\d+)\]: ((?:Failed password)|(?:.*?))\s(.+)', re.MULTILINE)
-   global proc;
-
    # Tail the log file
    if os.path.isfile(log_location):
       proc = subprocess.Popen(['tail', '-f', log_location], stdout=subprocess.PIPE)

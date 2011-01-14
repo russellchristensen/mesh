@@ -22,6 +22,7 @@ if __name__ == '__main__':
    push_master       = zmq_context.socket(zmq.PUSH)
    push_master.connect(master_socket_url)
 
+plugin_name = 'p_apache_error'
 supported_os = ['darwin', 'linux2', 'freebsd8', 'sunos5']
 description = """
 Look for some kind of apache error or something like that.
@@ -31,12 +32,15 @@ Threshold: If there's an error, we create an event.
 import subprocess, sys, re
 from datetime import datetime
 
-# Default variables
-# /// Use meshlib.get_config()!!!
-apache_ssl_error_log = '/var/log/apache2/ssl_error_log'
+apache_ssl_error_log = meshlib.get_config(plugin_name, 'apache_ssl_error_log', '/var/log/apache2/ssl_error_log')
 
 parse_ssl_error_log = re.compile(r'^\[([\w \d:]+)\] \[error\] \[client ([\d\.]+)\] (.+)', re.MULTILINE)
 date_format = '%a %b %d %H:%M:%S %Y'
+
+def configured():
+   import os
+   if not os.path.exists(apache_ssl_error_log) or os.access(apache_ssl_error_log, os.R_OK): return False
+   return True
 
 if __name__ == '__main__':
    proc = subprocess.Popen(['tail', '-f', apache_ssl_error_log], stdout=subprocess.PIPE)

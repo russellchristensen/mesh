@@ -29,6 +29,13 @@ Watch for subversion commits on a repository.
 Threshold: When ever a new commit is detected, an event is created.
 """
 
+def configured():
+   import sys, subprocess
+   for repo in sys.argv[1:]:
+      try: proc = subprocess.Popen(['svn', 'info', repo], stdout=subprocess.PIPE)
+      except: return False
+   return True
+
 import subprocess, re
 
 plugin_name = 'p_svn'

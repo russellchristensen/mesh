@@ -52,7 +52,7 @@ if __name__ == '__main__':
          fs, blocks, used, available, percent, mounted =  fs.strip(), int(blocks.strip()), int(used.strip()), int(available.strip()), int(percent.strip()), mounted.strip()
          if percent > threshold:
             meshlib.send_plugin_result('%s %s %s %s %s %s' % (fs, blocks, used, available, percent, mounted), push_master)
-      time.sleep(60)
+      time.sleep(int(treshold))
 
 class TestPlugin(unittest.TestCase):
    def test_01df_exists(self):
