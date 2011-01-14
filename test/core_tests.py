@@ -340,30 +340,38 @@ class Test06plugins(unittest.TestCase):
       "All plugins define supported_os"
       import glob
       global project_root_dir
+      failures = []
       for plugin_file in glob.glob(os.path.join(project_root_dir, 'src', 'p_*')):
          plugin = os.path.split(plugin_file)[1][:-3]
          module = __import__(plugin)
          supported_os = getattr(module, 'supported_os', None)
          if supported_os == None:
-            self.fail("Plugin '%s' does not define supported_os." % plugin)
+            failures.append("Plugin '%s' does not define supported_os." % plugin)
          elif type(supported_os) != list:
-            self.fail("Plugin '%s' defined supported_os as a '%s' instead of a list!" % (plugin, type(supported_os)))
+            failures.append("Plugin '%s' defined supported_os as a '%s' instead of a list!" % (plugin, type(supported_os)))
+      if failures:
+         self.fail("\n".join(failures))
             
    def test_06description(self):
       "All plugins define a description with summary and threshold"
       import glob
       global project_root_dir
-      for plugin_file in glob.glob(os.path.join(project_root_dir, 'src', 'p_*')):
+      failures = []
+      for plugin_file in glob.glob(os.path.join(project_root_dir, 'src', 'p_*py')):
          plugin = os.path.split(plugin_file)[1][:-3]
          module = __import__(plugin)
          description = getattr(module, 'description', None)
          if description == None:
-            self.fail("Plugin '%s' does not define description." % plugin)
+            failures.append("Plugin '%s' does not define description." % plugin)
+            continue
          if type(description) != str:
-            self.fail("Plugin '%s' defined description as a '%s' instead of a string!" % (plugin, type(description)))
-         desc_lines = description.split('\n')
+            failures.append("Plugin '%s' defined description as a '%s' instead of a string!" % (plugin, type(description)))
+            continue
+         desc_lines = description.strip().split('\n')
          if len(desc_lines) > 1:
             if desc_lines[1].strip():
-               self.fail("Plugin '%s' does not have an empty second line in the description." % plugin)
+               failures.append("Plugin '%s' does not have an empty second line in the description." % plugin)
          if 'threshold' not in description.lower():
-            self.fail("Plugin '%s' does not describe the threshold conditions" % plugin)
+            failures.append("Plugin '%s' does not describe the threshold conditions" % plugin)
+      if failures:
+         self.fail("\n".join(failures))
