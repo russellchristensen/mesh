@@ -15,8 +15,6 @@
 
 import meshlib, sys, time, unittest, zmq
 
-supported_os = ['darwin', 'linux2', 'freebsd8', 'sunos5']
-
 if __name__ == '__main__':
    # Connect a PUSH socket to master.py
    master_socket_url = sys.argv[1]
@@ -24,6 +22,12 @@ if __name__ == '__main__':
    push_master       = zmq_context.socket(zmq.PUSH)
    push_master.connect(master_socket_url)
 
+supported_os = ['darwin', 'linux2', 'freebsd8', 'sunos5']
+description = """
+Look for some kind of apache error or something like that.
+
+Threshold: If there's an error, we create an event.
+"""
 import subprocess, sys, re
 from datetime import datetime
 
@@ -56,4 +60,4 @@ class TestPlugin(unittest.TestCase):
       '''Apache file is readable by script'''
       import os
       if not os.access(apache_ssl_error_log, os.W_OK) or not os.access(apache_ssl_error_log, os.R_OK):
-         self.fail('Apache error log file is not readable! %s' % (apapche_ssl_error_log))
+         self.fail('Apache error log file is not readable! %s' % (apache_ssl_error_log))

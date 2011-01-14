@@ -15,8 +15,13 @@
 
 import meshlib, sys, time, unittest, zmq
 
-# Remove the OSs your plugin doesn't support.
-# Use meshlib.get_os() if you need to know what OS you're actually on.
+if __name__ == '__main__':
+   # Connect a PUSH socket to master.py
+   master_socket_url = sys.argv[1]
+   zmq_context       = zmq.Context()
+   push_master       = zmq_context.socket(zmq.PUSH)
+   push_master.connect(master_socket_url)
+
 supported_os = ['darwin', 'linux2', 'freebsd8', 'sunos5']
 
 description = """
@@ -26,13 +31,6 @@ Threshold: If cpu is more than cpu_threshold, then we create
            an event
 """
 # ///Figure out what and how to get the cpu threshold we want to use
-if __name__ == '__main__':
-   # Connect a PUSH socket to master.py
-   master_socket_url = sys.argv[1]
-   zmq_context       = zmq.Context()
-   push_master       = zmq_context.socket(zmq.PUSH)
-   push_master.connect(master_socket_url)
-
 # monitor cpu usage, send it up constantly
 import psutil 
 if __name__ == '__main__':
@@ -45,5 +43,5 @@ if __name__ == '__main__':
 class TestPlugin(unittest.TestCase):
    def test_00no_output(self):
       "Is there output?"
-      if psutil.cpu_percent(interval=1) == '':
-         self.fail("Plugin is returning no results")
+      if psutil.cpu_percent(interval=0) == '':
+         self.fail("psutil.cpu_percent is returning no results")

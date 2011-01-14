@@ -15,19 +15,19 @@
 
 import meshlib, sys, time, unittest, zmq
 
+if __name__ == '__main__':
+   # Connect a PUSH socket to master.py
+   master_socket_url = sys.argv[1]
+   zmq_context       = zmq.Context()
+   push_master       = zmq_context.socket(zmq.PUSH)
+   push_master.connect(master_socket_url)
+
 supported_os = ['linux2']
+description = """
+Check for sip phones that try to register, but fail.
 
-# Connect a PUSH socket to master.py
-if __name__=='__main__':
-  master_socket_url = sys.argv[1]
-  zmq_context       = zmq.Context()
-  push_master       = zmq_context.socket(zmq.PUSH)
-  push_master.connect(master_socket_url)
-
-# Use meshlib.send_plugin_result('some message', push_master) to communicate
-# with master.py
-
-# END TEMPLATE -- Customize below.
+Threshold: Every time a sip phone fails registration, an event is created.
+"""
 
 import re
 from time import *

@@ -15,8 +15,13 @@
 
 import meshlib, sys, time, unittest, zmq
 
-# Remove the OSs your plugin doesn't support.
-# Use meshlib.get_os() if you need to know what OS you're actually on.
+if __name__ == '__main__':
+   # Connect a PUSH socket to master.py
+   master_socket_url = sys.argv[1]
+   zmq_context       = zmq.Context()
+   push_master       = zmq_context.socket(zmq.PUSH)
+   push_master.connect(master_socket_url)
+
 supported_os = ['darwin', 'linux2', 'freebsd8', 'sunos5']
 
 description = """
@@ -26,13 +31,6 @@ Threshold: If ram usage is greater than ram_threshold,
            then we create an event.
 """
 #///Threshold will be based on the percentage of total ram
-
-if __name__ == '__main__':
-   # Connect a PUSH socket to master.py
-   master_socket_url = sys.argv[1]
-   zmq_context       = zmq.Context()
-   push_master       = zmq_context.socket(zmq.PUSH)
-   push_master.connect(master_socket_url)
 
 import psutil
 
@@ -53,8 +51,8 @@ class TestPlugin(unittest.TestCase):
    def test_00available_mem(self):
       "available_mem() returns memory in kilobytes"
       amount = available_mem()
-      if type(amount) != int:
-         self.fail("Got a non-integer")
+      if type(amount) != long:
+         self.fail("Got a non-long: " + str(type(amount)))
       elif amount <= 0:
          self.fail("Got unrealistic result.")
       elif amount == (psutil.avail_phymem() / 1024):

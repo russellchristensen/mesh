@@ -15,8 +15,13 @@
 
 import meshlib, sys, time, unittest, zmq
 
-# Remove the OSs your plugin doesn't support.
-# Use meshlib.get_os() if you need to know what OS you're actually on.
+if __name__ == '__main__':
+   # Connect a PUSH socket to master.py
+   master_socket_url = sys.argv[1]
+   zmq_context       = zmq.Context()
+   push_master       = zmq_context.socket(zmq.PUSH)
+   push_master.connect(master_socket_url)
+
 supported_os = ['linux2', 'sunos5']
 
 description = """
@@ -25,13 +30,6 @@ Checks to see if updates are available.
 Threshold: If updates are available,
            then we create an event.
 """
-
-if __name__ == '__main__':
-   # Connect a PUSH socket to master.py
-   master_socket_url = sys.argv[1]
-   zmq_context       = zmq.Context()
-   push_master       = zmq_context.socket(zmq.PUSH)
-   push_master.connect(master_socket_url)
 
 # Plugins will typically have an infinite main loop
 import subprocess, os

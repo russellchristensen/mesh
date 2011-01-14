@@ -15,12 +15,12 @@
 
 import meshlib, sys, time, unittest, zmq
 
-if __name__=='__main__':
-# Connect a PUSH socket to master.py
-  master_socket_url = sys.argv[1]
-  zmq_context       = zmq.Context()
-  push_master       = zmq_context.socket(zmq.PUSH)
-  push_master.connect(master_socket_url)
+if __name__ == '__main__':
+   # Connect a PUSH socket to master.py
+   master_socket_url = sys.argv[1]
+   zmq_context       = zmq.Context()
+   push_master       = zmq_context.socket(zmq.PUSH)
+   push_master.connect(master_socket_url)
 
 supported_os = ['linux2']
 

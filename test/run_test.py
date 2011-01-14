@@ -44,15 +44,15 @@ if options.test_all or options.test_core:
    suite_list.append(unittest.TestLoader().loadTestsFromModule(core_tests))
 # Run all plugins' unit tests?
 if options.test_all or options.test_plugins:
-   for full_path in glob.glob(os.path.join(core_tests.project_root_dir, 'src', 'p_*')):
+   for full_path in glob.glob(os.path.join(core_tests.project_root_dir, 'src', 'p_*py')):
       module_name = os.path.split(full_path)[1][:-3]
-      print "Importing '%s' ... " % module_name,
+      print "Loading %-25s" % module_name,
       module_to_test = __import__(module_name)
       if sys.platform in module_to_test.supported_os:
-         print "done."
+         print "[ok]"
          suite_list.append(unittest.TestLoader().loadTestsFromModule(module_to_test))
       else:
-         print "skipped. (NOT supported on this OS)"
+         print "[unsupported]"
          continue
 # Run a specific plugin's unit tests?
 elif options.test_plugin:

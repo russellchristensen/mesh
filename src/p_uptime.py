@@ -15,6 +15,13 @@
 
 import meshlib, sys, time, unittest, zmq
 
+if __name__ == '__main__':
+   # Connect a PUSH socket to master.py
+   master_socket_url = sys.argv[1]
+   zmq_context       = zmq.Context()
+   push_master       = zmq_context.socket(zmq.PUSH)
+   push_master.connect(master_socket_url)
+
 # Remove the OSs your plugin doesn't support.
 # Use meshlib.get_os() if you need to know what OS you're actually on.
 supported_os = ['darwin', 'linux2', 'freebsd8', 'sunos5']
@@ -25,13 +32,6 @@ Displays results of uptime command. Including uptime, users logged in and averag
 Threshold:
 """
 #///Need to figure out what if any threshold is to be used for this
-
-if __name__ == '__main__':
-   # Connect a PUSH socket to master.py
-   master_socket_url = sys.argv[1]
-   zmq_context       = zmq.Context()
-   push_master       = zmq_context.socket(zmq.PUSH)
-   push_master.connect(master_socket_url)
 
 # Plugins will typically have an infinite main loop
 import subprocess

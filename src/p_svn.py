@@ -14,13 +14,6 @@
 # along with Mesh.  If not, see <http://www.gnu.org/licenses/>.
 
 import meshlib, sys, time, unittest, zmq
-import subprocess, re
-
-# Remove the OSs your plugin doesn't support.
-# Use meshlib.get_os() if you need to know what OS you're actually on.
-supported_os = ['linux2']
-plugin_name = 'p_svn'
-parse = re.compile(r'^[\w ]+: (.+)[\n\r]?', re.MULTILINE)
 
 if __name__ == '__main__':
    # Connect a PUSH socket to master.py
@@ -28,6 +21,18 @@ if __name__ == '__main__':
    zmq_context       = zmq.Context()
    push_master       = zmq_context.socket(zmq.PUSH)
    push_master.connect(master_socket_url)
+
+supported_os = ['linux2']
+description = """
+Watch for subversion commits on a repository.
+
+Threshold: When ever a new commit is detected, an event is created.
+"""
+
+import subprocess, re
+
+plugin_name = 'p_svn'
+parse = re.compile(r'^[\w ]+: (.+)[\n\r]?', re.MULTILINE)
 
 if __name__ == '__main__':
    svn_repos = sys.argv[1:]

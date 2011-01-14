@@ -15,14 +15,20 @@
 
 import meshlib, sys, time, unittest, zmq
 
-supported_os = ['sunos5', 'darwin']
-
 if __name__ == '__main__':
    # Connect a PUSH socket to master.py
    master_socket_url = sys.argv[1]
    zmq_context       = zmq.Context()
    push_master       = zmq_context.socket(zmq.PUSH)
    push_master.connect(master_socket_url)
+
+supported_os = ['sunos5', 'darwin']
+description = """
+Detect when a user has not logged in for a very long time.
+
+Threshold: Right now we indiscriminately flood events all over the place.
+           This will make us all pull our hair out and be unhappy.
+"""
 
 import subprocess, re, time
 from datetime import datetime
@@ -141,11 +147,3 @@ class TestPlugin(unittest.TestCase):
       if meshlib.get_os() == 'sunos5' and not os.path.isfile('/etc/shadow'):
          self.fail("No shadow file to pull users's from!")
 
-   def test_01last(self):
-      '''"last" command is in the format expected.'''
-      import subprocess
-      proc = subprocess.Popen(['last'], stdout=subprocess.PIPE)
-      last_content = proc.stdout.read()
-      parse_last = re.compile(r'^(\w+) +([\w\/]+) +([\d\.:]+)? +([\w :\-]+)(?: - )? +\((.+)\)', re.MULTILINE)
-      if len(re.findall(parse_last, last_content)) == 1:
-         self.fail('"last" output was not as expected')

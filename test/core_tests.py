@@ -332,16 +332,39 @@ class Test05communicator(unittest.TestCase):
       "[COMMUNICATOR]"
       import communicator
 
+template_header = """
+import meshlib, sys, time, unittest, zmq
+
+if __name__ == '__main__':
+   # Connect a PUSH socket to master.py
+   master_socket_url = sys.argv[1]
+   zmq_context       = zmq.Context()
+   push_master       = zmq_context.socket(zmq.PUSH)
+   push_master.connect(master_socket_url)"""
+
 class Test06plugins(unittest.TestCase):
    def test_00banner(self):
       "[PLUGINS]"
+
+   def test_02template_header(self):
+      "All plugins have the template header"
+      import glob
+      global project_root_dir
+      failures = []
+      for plugin_file in glob.glob(os.path.join(project_root_dir, 'src', 'p_*py')):
+         plugin = os.path.split(plugin_file)[1][:-3]
+         plugin_contents = open(plugin_file).read()
+         if template_header not in plugin_contents:
+            failures.append("Plugin '%s' has a missing or malformed template section." % plugin)
+      if failures:
+         self.fail("\n".join(failures))
 
    def test_03supported_os(self):
       "All plugins define supported_os"
       import glob
       global project_root_dir
       failures = []
-      for plugin_file in glob.glob(os.path.join(project_root_dir, 'src', 'p_*')):
+      for plugin_file in glob.glob(os.path.join(project_root_dir, 'src', 'p_*py')):
          plugin = os.path.split(plugin_file)[1][:-3]
          module = __import__(plugin)
          supported_os = getattr(module, 'supported_os', None)

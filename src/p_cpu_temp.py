@@ -15,8 +15,13 @@
 
 import meshlib, sys, time, unittest, zmq
 
-# Remove the OSs your plugin doesn't support.
-# Use meshlib.get_os() if you need to know what OS you're actually on.
+if __name__ == '__main__':
+   # Connect a PUSH socket to master.py
+   master_socket_url = sys.argv[1]
+   zmq_context       = zmq.Context()
+   push_master       = zmq_context.socket(zmq.PUSH)
+   push_master.connect(master_socket_url)
+
 supported_os = ['linux2']
 
 description = """
@@ -27,13 +32,6 @@ Threshold: If the temperature goes higher than the threshold,
 """
 #///Currently this plugin passes a string not an integer need to figure out what and how to set for this threshold
 temp_threshold = int(meshlib.get_config('p_cpu_temp', 'temp_threshold','80'))
-
-if __name__ == '__main__':
-   # Connect a PUSH socket to master.py
-   master_socket_url = sys.argv[1]
-   zmq_context       = zmq.Context()
-   push_master       = zmq_context.socket(zmq.PUSH)
-   push_master.connect(master_socket_url)
 
 import subprocess
 if __name__ == '__main__':
