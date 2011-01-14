@@ -45,11 +45,18 @@ def get_os():
 
 def get_config(plugin, option, default):
    # First try the plugin section
-   options = Config.options(plugin)
+   options = []
+   try:
+      options = Config.options(plugin)
+   except ConfigParser.NoSectionError, err:
+      pass
    if option in options:
       return Config.get(plugin, option)
    # Then try the global section
-   options = Config.options('global')
+   try:
+      options = Config.options('global')
+   except ConfigParser.NoSectionError, err:
+      pass
    if option in options:
       return Config.get('global', option)
    # If not found return the default
