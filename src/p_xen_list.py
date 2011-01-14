@@ -27,43 +27,32 @@ supported_os = ['linux2']
 description = """
 Check for running Xen virtual machines
 
-Threshold: Change in virtual machines
+Threshold: Less vm's running than expexted
 """
+
 xen_path = meshlib.get_config('p_xen_list', 'xen_path', '/usr/sbin/xm')
+running_vms = int(meshlib.get_config('p_xen_list', 'running_vms', '1')
 
-# /// Add description
-# /// Add config items (paths to xm, etc.)
+def configured():
+   import os
+   return os.access(xen_path, os.X_OK)
 
-import re, subprocess
+
+import subprocess
 
 if __name__=='__main__':
-   current_vms = []
    while 1:
-      vms = []
       vm_info = subprocess.Popen(['xm', 'list'], stdout=subprocess.PIPE).communicate()[0].splitlines()
-      for line in vm_info:
-         vm.append(queue.group(1))
+      vm_info.pop(0)
 
-   # /// Oops!  Fix the loop.
-   if len(current_vms) == 0:
-      current_vms = vms
-
-   missing_vm = set(current_vms).difference(set(vms))
-   if missing_vm:
-      meshlib.send_plugin_result('%s is no longer functioning' % missing_vm, push_master)
-
-   # /// Polling too fast!
+      if len(vm_info) < running_vms:
+         meshlib.send_plugin_result('There are less virtual machines running than expected!', push_master)
+      time.sleep(60)
 
 # Unit Tests
 class TestPlugin(unittest.TestCase):
-   def test_00asteriskexists(self):
-      "Check if xen"
-      import os.path
-      location = '/usr/sbin/xm'
-      self.assertTrue(os.path.exists(location))
-
-   def test_01asteriskrunning(self):
-      "Check if asterisk is running"
+   def test_01krunning(self):
+      "Check if xen is running"
       import os.path
       location = '/var/run/xend.pid'
       self.assertTrue(os.path.exists(location))
