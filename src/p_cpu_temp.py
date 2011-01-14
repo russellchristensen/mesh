@@ -30,8 +30,17 @@ Monitor the temperature of machines that have sensors.
 Threshold: If the temperature goes higher than the threshold,
            then we create an event.
 """
-#///Currently this plugin passes a string not an integer need to figure out what and how to set for this threshold
 temp_threshold = int(meshlib.get_config('p_cpu_temp', 'temp_threshold','80'))
+
+def configured():
+   import os, subprocess
+   if os.path.exists("/usr/bin/sensors") == False:
+      return False
+   sensors = subprocess.Popen("sensors", stdout = subprocess.PIPE, stderr = subprocess.PIPE).communicate()
+   if"sensors-detect" in sensors:
+      return False
+   return True
+
 
 import subprocess, re
 if __name__ == '__main__':
@@ -67,12 +76,3 @@ class TestPlugin(unittest.TestCase):
                temp = result
          if result < 1:
             self.fail("Not getting a reading over 0")
-
-def configured():
-   import os, subprocess
-   if os.path.exists("/usr/bin/sensors") == False:
-      return False
-   sensors = subprocess.Popen("sensors", stdout = subprocess.PIPE, stderr = subprocess.PIPE).communicate()
-   if"sensors-detect" in sensors:
-      return False
-   return True
