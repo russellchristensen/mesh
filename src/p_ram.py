@@ -30,32 +30,51 @@ Monitors ram usage.
 Threshold: If ram usage is greater than ram_threshold,
            then we create an event.
 """
-#///Threshold will be based on the percentage of total ram
+
+ram_threshold = int(meshlib.get_config('p_ram', 'ram_threshold', '25'))
+
+def configured():
+   try:
+      import psutil
+   except:
+      return False
+   return True
+
 
 import psutil
 
 def available_mem():
-   return psutil.avail_phymem() / 1024
+   return psutil.avail_phymem() / 1024 / 1024
 
 def used_mem():
-   return psutil.used_phymem() / 1024
+   return psutil.used_phymem() / 1024 / 1024
 
 if __name__ == '__main__':
-   total = psutil.TOTAL_PHYMEM / 1024
+   total = psutil.TOTAL_PHYMEM / 1024 / 1024
+   percentage = ".%d * %s" % (ram_threshold, total)
    while 1:
-      meshlib.send_plugin_result("|Total: %s| |Available: %s| |Used: %s|" % (total, available_mem(), used_mem()), push_master)
+      if available_mem() < percentage:
+         meshlib.send_plugin_result("|Total: %s| |Available: %s| |Used: %s|" % (total, available_mem(), used_mem()), push_master)
       time.sleep(1)
 
 # Unit Tests
 class TestPlugin(unittest.TestCase):
    def test_00available_mem(self):
-      "available_mem() returns memory in kilobytes"
+      "available_mem() returns memory in megabytes"
       amount = available_mem()
       if type(amount) != long:
          self.fail("Got a non-long: " + str(type(amount)))
       elif amount <= 0:
          self.fail("Got unrealistic result.")
-      elif amount == (psutil.avail_phymem() / 1024):
-         self.fail("It's not in kilobytes!")
+      elif amount != psutil.avail_phymem() / 1024 / 1024:
+         self.fail("It's not in megabytes!")
 
-   # /// test for used_mem() goes here! ///
+   def test_01used_mem(self):
+      "used_mem() returns memory in megabytes"
+      amount = used_mem()
+      if type(amount) != long:
+         self.fail("Got a non-long: " + str(type(amount)))
+      elif amount <= 0:
+         self.fail("Got unrealistic result.")
+      elif amount != psutil.used_phymem() / 1024 / 1024:
+         self.fail("It's not in megabytes!")

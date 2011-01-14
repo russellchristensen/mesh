@@ -30,13 +30,21 @@ Monitor CPU usage
 Threshold: If cpu is more than cpu_threshold, then we create
            an event
 """
-# ///Figure out what and how to get the cpu threshold we want to use
-# monitor cpu usage, send it up constantly
+cpu_threshold = int(meshlib.get_config('p_cpu', 'cpu_threshold', '75'))
+
+def configured():
+   try:
+      import psutil
+   except:
+      return False
+   return True
+
 import psutil 
 if __name__ == '__main__':
    while 1:
-      cpu = psutil.cpu_percent(interval=1)  
-      meshlib.send_plugin_result("CPU: %s" % cpu, push_master)
+      cpu = psutil.cpu_percent()
+      if cpu > cpu_threshold:
+         meshlib.send_plugin_result("CPU: %s" % cpu, push_master)
       time.sleep(1)
 
 # Unit Tests
