@@ -44,7 +44,8 @@ We're very actively designing, prototyping, and changing things all the time.  D
 The roadmap is subject to (lots of) change without notice!
 
 #### Version 0.1 (Release ETA: Jan 17 2011)
-* Nodes can communicate securely
+* Target audience: Developers only
+* Nodes can communicate (NOTE: COMMUNICATIONS ARE COMPLETELY UNSECURED!!)
 * Node connections are initiated manually
 * Nodes have brain-dead routing, but it makes it to the destination...eventually.
 * Some basic plugins work
@@ -54,6 +55,8 @@ The roadmap is subject to (lots of) change without notice!
 * Completely manual certificate / CA management
 
 #### Version 0.2 (Release ETA: before Feb 2011)
+* Target audience: Developers only
+* Nodes can communicate securely
 * Plugin interface refinements
 * Plugin unit-testing requirements formalized
 * More plugins
@@ -69,7 +72,7 @@ The roadmap is subject to (lots of) change without notice!
 * Simplify certificate management, first steps toward certificate automation
 
 #### Version 0.5 (Release ETA: Mar 2011)
-* Target audience: Advanced users
+* Target audience: Very Advanced users
 * Node auto-connection support for same-LAN
 * More plugins
 * Configuration program 100% usable
