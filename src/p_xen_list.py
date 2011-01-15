@@ -31,7 +31,7 @@ Threshold: Less vm's running than expexted
 """
 
 xen_path = meshlib.get_config('p_xen_list', 'xen_path', '/usr/sbin/xm')
-running_vms = int(meshlib.get_config('p_xen_list', 'running_vms', '1')
+running_vms = int(meshlib.get_config('p_xen_list', 'running_vms', '1'))
 
 def configured():
    import os
