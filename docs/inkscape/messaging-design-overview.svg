@@ -23,9 +23,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.6098476"
-     inkscape:cx="430.67707"
-     inkscape:cy="390.00852"
+     inkscape:zoom="2.0610747"
+     inkscape:cx="437.58628"
+     inkscape:cy="379.60749"
      inkscape:current-layer="layer1"
      id="namedview2997"
      showgrid="false"
@@ -598,10 +598,10 @@
        id="rect4131"
        style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1.13347244;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
     <rect
-       style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1.11151087;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1.24167693;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
        id="rect4113"
        width="237.29114"
-       height="40.802322"
+       height="50.918388"
        x="487.19193"
        y="451.69662" />
     <rect
@@ -1736,42 +1736,47 @@
     <text
        xml:space="preserve"
        style="font-size:24px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;color:#000000;fill:#cdf6c9;fill-opacity:1;stroke:none;stroke-width:1px;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Bank Gothic;-inkscape-font-specification:Bank Gothic"
-       x="194.83075"
-       y="459.33926"
+       x="196.0731"
+       y="499.09457"
        id="text4344"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
-         x="194.83075"
-         y="459.33926"
+         x="196.0731"
+         y="499.09457"
          style="font-size:12px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#000000;fill-opacity:1;font-family:Garamond;-inkscape-font-specification:Garamond Italic"
          id="tspan4348">Pass inbound traffic from</tspan><tspan
          id="tspan4352"
          sodipodi:role="line"
-         x="194.83075"
-         y="474.33926"
+         x="196.0731"
+         y="514.0946"
          style="font-size:12px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#000000;fill-opacity:1;font-family:Garamond;-inkscape-font-specification:Garamond Italic">nodes that connect to us</tspan><tspan
          sodipodi:role="line"
-         x="194.83075"
-         y="489.33926"
+         x="196.0731"
+         y="529.0946"
          style="font-size:12px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#000000;fill-opacity:1;font-family:Garamond;-inkscape-font-specification:Garamond Italic"
          id="tspan7284">on to communicator.</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:24px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;color:#000000;fill:#cdf6c9;fill-opacity:1;stroke:none;stroke-width:1px;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Bank Gothic;-inkscape-font-specification:Bank Gothic"
-       x="551.59979"
-       y="467.71472"
+       x="547.87274"
+       y="463.98767"
        id="text4360"
        sodipodi:linespacing="125%"><tspan
-         id="tspan4364"
          sodipodi:role="line"
-         x="551.59979"
-         y="467.71472"
-         style="font-size:12px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#000000;fill-opacity:1;font-family:Garamond;-inkscape-font-specification:Garamond Italic">Manage plugins, events, and</tspan><tspan
-         id="tspan4368"
+         x="547.87274"
+         y="463.98767"
+         style="font-size:12px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#000000;fill-opacity:1;font-family:Garamond;-inkscape-font-specification:Garamond Italic"
+         id="tspan3390">Launches communication</tspan><tspan
          sodipodi:role="line"
-         x="551.59979"
-         y="482.71472"
-         style="font-size:12px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#000000;fill-opacity:1;font-family:Garamond;-inkscape-font-specification:Garamond Italic">remote requests we receive.</tspan></text>
+         x="547.87274"
+         y="478.98767"
+         style="font-size:12px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#000000;fill-opacity:1;font-family:Garamond;-inkscape-font-specification:Garamond Italic"
+         id="tspan3396">layer processes and plugins.</tspan><tspan
+         sodipodi:role="line"
+         x="547.87274"
+         y="493.98767"
+         style="font-size:12px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#000000;fill-opacity:1;font-family:Garamond;-inkscape-font-specification:Garamond Italic"
+         id="tspan3398">Filters events from plugins.</tspan></text>
     <text
        sodipodi:linespacing="125%"
        id="text4370"
@@ -1884,7 +1889,7 @@
     <path
        inkscape:connector-curvature="0"
        id="path5693"
-       d="m 706.61241,541.96894 c -0.22525,-22.08537 -10.96315,-22.49697 -9.37981,-48.46235"
+       d="m 736.46009,558.7797 c 33.39627,-15.56691 37.41067,-62.98002 -10.40904,-91.69002"
        style="color:#000000;fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;marker-end:url(#Arrow2Lend-98);visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
        sodipodi:nodetypes="cc" />
     <rect
@@ -1918,15 +1923,15 @@
     <text
        sodipodi:linespacing="125%"
        id="text5959"
-       y="379.63748"
-       x="191.69624"
+       y="390.19748"
+       x="186.10565"
        style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Charcoal CY;-inkscape-font-specification:Charcoal CY"
        xml:space="preserve"><tspan
          style="font-size:11px"
          id="tspan5961"
-         y="379.63748"
-         x="191.69624"
-         sodipodi:role="line">(fixed port?)</tspan></text>
+         y="390.19748"
+         x="186.10565"
+         sodipodi:role="line">*:4200</tspan></text>
     <use
        x="0"
        y="0"
@@ -2048,5 +2053,34 @@
        transform="translate(564.91104,-205.2102)"
        width="990"
        height="765" />
+    <text
+       xml:space="preserve"
+       style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Charcoal CY;-inkscape-font-specification:Charcoal CY"
+       x="186.10565"
+       y="479.02576"
+       id="text3376"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         x="186.10565"
+         y="479.02576"
+         id="tspan3378"
+         style="font-size:11px">*:4201</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:end;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:end;fill:#000000;fill-opacity:1;stroke:none;font-family:Charcoal CY;-inkscape-font-specification:Charcoal CY"
+       x="769.98621"
+       y="288.30887"
+       id="text3400"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         x="769.98621"
+         y="288.30887"
+         id="tspan3402"
+         style="font-size:11px;text-align:end;text-anchor:end">starts at</tspan><tspan
+         sodipodi:role="line"
+         x="769.98621"
+         y="302.05887"
+         style="font-size:11px;text-align:end;text-anchor:end"
+         id="tspan3404">*:4205</tspan></text>
   </g>
 </svg>
