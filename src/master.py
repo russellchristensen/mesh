@@ -26,8 +26,9 @@ def verbose(msg):
 
 if __name__ == '__main__':
    parser = optparse.OptionParser()
-   parser.add_option('-t', '--try-plugin', help='Name of single plugin (without .py) to run to try.', action='store', dest='try_plugin', default=None)
-   parser.add_option('-v', '--verbose',    help='Verbose mode.', action='store_true', dest='verbose', default=False)
+   parser.add_option('-c', '--config-file', help = 'Config file to use instead of $ETC/mesh.conf', action = 'store', dest = 'config_file', default = None)
+   parser.add_option('-t', '--try-plugin',  help = 'Name of single plugin (without .py) to run to try.', action = 'store', dest = 'try_plugin', default = None)
+   parser.add_option('-v', '--verbose',     help = 'Verbose mode.', action = 'store_true', dest = 'verbose', default = False)
    (options, args) = parser.parse_args()
 
    # Vebose mode?
@@ -38,6 +39,14 @@ if __name__ == '__main__':
    if options.verbose:
       def verbose(msg):
          print "master:", msg
+
+   meshlib.load_config(options.config_file)
+else:
+   meshlib.load_config()
+
+#------------------------------------------------------------------------------
+# Config items
+inbound_pull_proxy_port = meshlib.get_config(None, 'inbound_pull_proxy_port', '4201')
 
 #------------------------------------------------------------------------------
 # ZMQ Setup
@@ -53,17 +62,6 @@ communicator_pull_url   = meshlib.socket_url('ipc')
 port_assigner_pull_url  = meshlib.socket_url('ipc')
 port_requestor_pull_url = meshlib.socket_url('ipc')
 
-verbose ("""IPC URLs
-master_pull_url:         %s
-communicator_pull_url:   %s
-port_assigner_pull_url:  %s
-port_requestor_pull_url: %s
-""" % (
-   master_pull_url,
-   communicator_pull_url,
-   port_assigner_pull_url,
-   port_requestor_pull_url))
-
 def create_pull():
    global pull
    pull = zmq_context.socket(zmq.PULL)
@@ -74,6 +72,29 @@ def create_push_communicator():
    push_communicator = zmq_context.socket(zmq.PUSH)
    push_communicator.connect(communicator_pull_url)
    push_communicator.send("master alive")
+
+#------------------------------------------------------------------------------
+# Try Plugin?
+
+if __name__ == '__main__' and options.try_plugin:
+   create_pull()
+   print "Running in TRY PLUGIN mode.  We will run until either '%s' detects an event or dies.\n" % options.try_plugin
+   plugin_process = subprocess.Popen(('/usr/bin/env', 'python', options.try_plugin + '.py', master_pull_url))
+   while True:
+      retcode = plugin_process.poll()
+      if retcode != None:
+         print "Plugin exited with retcode", retcode
+         sys.exit()
+      try:
+         msg = pull.recv(flags=zmq.NOBLOCK)
+         print "Received message from plugin '%s':\n-----------------------------\n%s" % (options.try_plugin, msg)
+         plugin_process.send_signal(9)
+         sys.exit()
+      except zmq.core.error.ZMQError, zmq_error:
+         if zmq_error == 'Resource temporarily unavailable':
+            pass                # That's what we expect when polling
+      time.sleep(.1)
+   sys.exit()
 
 #------------------------------------------------------------------------------
 # Child-process stuff
@@ -89,25 +110,25 @@ def start_communicator():
    global communicator
    communicator = subprocess.Popen(
       ('/usr/bin/env', 'python', os.path.join(meshlib.project_root_dir, 'src', 'communicator.py'), 
-       master_pull_url, communicator_pull_url, port_assigner_pull_url, port_requestor_pull_url))
+       meshlib.config_file, master_pull_url, communicator_pull_url, port_assigner_pull_url, port_requestor_pull_url))
    
 def start_port_assigner():
    global port_assigner
    port_assigner = subprocess.Popen(
       ('/usr/bin/env', 'python', os.path.join(meshlib.project_root_dir, 'src', 'port_assigner.py'),
-       communicator_pull_url, port_assigner_pull_url))
+       meshlib.config_file, communicator_pull_url, port_assigner_pull_url))
 
 def start_port_requestor():
    global port_requestor
    port_requestor = subprocess.Popen(
       ('/usr/bin/env', 'python', os.path.join(meshlib.project_root_dir, 'src', 'port_requestor.py'),
-       communicator_pull_url, port_requestor_pull_url))
+       meshlib.config_file, communicator_pull_url, port_requestor_pull_url))
 
 def start_inbound_pull_proxy():
    global inbound_pull_proxy
    inbound_pull_proxy = subprocess.Popen(
       ('/usr/bin/env', 'python', os.path.join(meshlib.project_root_dir, 'src', 'pull_proxy.py'), 
-       'inbound', '*', '5555', communicator_pull_url))
+       meshlib.config_file, 'inbound', '*', inbound_pull_proxy_port, communicator_pull_url))
 
 def start_outbound_pull_proxy(target, port):
    if outbound_pull_proxies.has_key(target):
@@ -115,7 +136,7 @@ def start_outbound_pull_proxy(target, port):
    else:
       outbound_pull_proxies[target] = subprocess.Popen(
          ('/usr/bin/env', 'python', os.path.join(meshlib.project_root_dir, 'src', 'pull_proxy.py'), 
-          'outbound', target, port, communicator_pull_url))
+          meshlib.config_file, 'outbound', target, port, communicator_pull_url))
 
 def check_children():
    print "\nProcess Report:"
@@ -144,38 +165,35 @@ def check_children():
 # Message processing
 
 def process_message(msg):
-   if msg.split(':')[0] == 'connect_node':
-      push_communicator.send(msg)
-   else:
-      push_communicator.send('info:'+msg)
+   # Manual intervention
+   msg_parts = msg.split(':')
+   msg_type = msg_parts[0]
+   if msg_type == 'man':
+      verbose("Handling a manual message: '%s'" % msg)
+      if msg_parts[1] == 'connect_node':
+         push_communicator.send(':'.join(msg_parts[1:]))
+         return
+   # Malformed message, apparently
+   verbose("Malformed message: %s" % msg)
    
-#------------------------------------------------------------------------------
-# Try Plugin?
-
-if __name__ == '__main__' and options.try_plugin:
-   create_pull()
-   print "Running in TRY PLUGIN mode.  We will run until either '%s' detects an event or dies.\n" % options.try_plugin
-   plugin_process = subprocess.Popen(('/usr/bin/env', 'python', options.try_plugin + '.py', master_pull_url))
-   while True:
-      retcode = plugin_process.poll()
-      if retcode != None:
-         print "Plugin exited with retcode", retcode
-         sys.exit()
-      try:
-         msg = pull.recv(flags=zmq.NOBLOCK)
-         print "Received message from plugin '%s':\n-----------------------------\n%s" % (options.try_plugin, msg)
-         plugin_process.send_signal(9)
-         sys.exit()
-      except zmq.core.error.ZMQError, zmq_error:
-         if zmq_error == 'Resource temporarily unavailable':
-            pass                # That's what we expect when polling
-      time.sleep(.1)
-   sys.exit()
-
 #------------------------------------------------------------------------------
 # Main Loop
 
 if __name__ == '__main__':
+   verbose ("""IPC URLs
+master_pull_url:         %s
+communicator_pull_url:   %s
+port_assigner_pull_url:  %s
+port_requestor_pull_url: %s
+
+Config items:
+inbound_pull_proxy_port: %s
+""" % (
+   master_pull_url,
+   communicator_pull_url,
+   port_assigner_pull_url,
+   port_requestor_pull_url,
+   inbound_pull_proxy_port))
    # Create our sockets
    create_push_communicator()
    create_pull()
@@ -197,7 +215,7 @@ if __name__ == '__main__':
    # Shutting down...
    print "Received 'quit' -- sending children kill signal and exiting."
    # Kill child processes
-   for child in [port_assigner, communicator, inbound_pull_proxy]:
+   for child in [port_assigner, communicator, inbound_pull_proxy, port_requestor]:
       if child.poll() == None:
          child.send_signal(subprocess.signal.SIGTERM)
    time.sleep(.1)

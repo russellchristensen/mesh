@@ -26,7 +26,13 @@ pull              = zmq_context.socket(zmq.PULL)
 push_communicator = zmq_context.socket(zmq.PUSH)
 reply             = zmq_context.socket(zmq.REP)
 
-port_assigner_port = meshlib.get_config(None, 'port_assigner_port', '4200')
+if __name__ == '__main__':
+   config_file, communicator_pull_url, port_assigner_pull_url = sys.argv[1:]
+else:
+   config_file = None
+meshlib.load_config(config_file)
+
+port_assigner_port      = meshlib.get_config(None, 'port_assigner_port', '4200')
 port_assigner_reply_url = "tcp://*:%s" % port_assigner_port
 
 def verbose(msg):
@@ -34,9 +40,8 @@ def verbose(msg):
 
 if __name__ == '__main__':
    # IPC urls (passed in at startup from master.py)
-   verbose("port_assigner_reply_url: %s" % port_assigner_reply_url)
-   communicator_pull_url, port_assigner_pull_url = sys.argv[1:]
-   for url in sys.argv[1:]:
+   verbose("\nport_assigner_reply_url: %s" % port_assigner_reply_url)
+   for url in sys.argv[2:]:
       if not meshlib.is_socket_url(url):
          print "Error: Invalid socket url: '%s'" % url
          sys.exit(1)

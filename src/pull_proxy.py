@@ -30,10 +30,11 @@ def verbose(msg):
 
 if __name__ == '__main__':
    # command-line arguments
-   tcp_direction         = sys.argv[1] # 'inbound' or 'outbound'
-   ip_or_domain          = sys.argv[2] # IP to bind or connect to.  '*' for inbound means bind all interfaces.
-   port                  = sys.argv[3]
-   communicator_pull_url = sys.argv[4]
+   config_file           = sys.argv[1]
+   tcp_direction         = sys.argv[2] # 'inbound' or 'outbound'
+   ip_or_domain          = sys.argv[3] # IP to bind or connect to.  '*' for inbound means bind all interfaces.
+   port                  = sys.argv[4]
+   communicator_pull_url = sys.argv[5]
    if not meshlib.is_socket_url(communicator_pull_url):
       print "Error: Invalid socket url: '%s'" % communicator_pull_url
       sys.exit(1)

@@ -30,8 +30,8 @@ def verbose(msg):
 
 if __name__ == '__main__':
    # IPC urls (passed in at startup from master.py)
-   communicator_pull_url, port_requestor_pull_url = sys.argv[1:]
-   for url in sys.argv[1:]:
+   config_file, communicator_pull_url, port_requestor_pull_url = sys.argv[1:]
+   for url in sys.argv[2:]:
       if not meshlib.is_socket_url(url):
          print "Error: Invalid socket url: '%s'" % url
          sys.exit(1)
@@ -42,3 +42,10 @@ if __name__ == '__main__':
    while True:
       msg = pull.recv()
       verbose(msg)
+      command, ip, port = msg.split(':')
+      temp_req_socket = zmq_context.socket(zmq.REQ)
+      temp_req_socket.connect("tcp://%s:%s" % (ip, port))
+      temp_req_socket.send("request_ports")
+      reply = temp_req_socket.recv()
+      del temp_req_socket
+      push_communicator.send("port_requestor:%s" % reply)

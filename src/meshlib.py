@@ -25,9 +25,6 @@ etc_locations = {
    'sunos5'   : '/etc',           # OpenSolaris
 }
 
-Config = ConfigParser.ConfigParser()
-Config.read(os.path.join(etc_locations[sys.platform],'mesh.conf'))
-
 # We've got to find the root directory of the project to run tests!
 global project_root_dir
 project_root_dir = None
@@ -43,22 +40,32 @@ if not project_root_dir:
 def get_os():
    return sys.platform
 
+config_parser = None
+config_file = None
+def load_config(file_path = None):
+   global config_parser
+   global config_file
+   config_parser = ConfigParser.ConfigParser()
+   if file_path:
+      config_file = file_path
+   else:
+      config_file = os.path.join(etc_locations[sys.platform],'mesh.conf')
+   config_parser.read(config_file)      
+
 def get_config(plugin, option, default):
+   global config_parser
+   if not config_parser:
+      load_config()
    # First try the plugin section
-   options = []
    try:
-      options = Config.options(plugin)
+      return config_parser.get(plugin, option)
    except ConfigParser.NoSectionError, err:
       pass
-   if option in options:
-      return Config.get(plugin, option)
    # Then try the global section
    try:
-      options = Config.options('global')
+      return config_parser.get('global', option)
    except ConfigParser.NoSectionError, err:
       pass
-   if option in options:
-      return Config.get('global', option)
    # If not found return the default
    return default
 

@@ -28,17 +28,26 @@ push_port_requestor = zmq_context.socket(zmq.PUSH)
 push_port_assigner  = zmq_context.socket(zmq.PUSH)
 push_nodes          = {}
 
+if __name__ == '__main__':
+   # IPC urls (passed in at startup from master.py)
+   config_file, master_pull_url, communicator_pull_url, port_assigner_pull_url, port_requestor_pull_url = sys.argv[1:]
+else:
+   config_file = None
+meshlib.load_config(config_file)
+
 # Config values
-next_push_port          = int(meshlib.get_config(None, 'next_push_port', '4205'))
 inbound_pull_proxy_port = meshlib.get_config(None, 'inbound_pull_proxy_port', '4201')
+next_push_port          = meshlib.get_config(None, 'next_push_port',          '4205')
 
 def verbose(msg):
    print "communicator:", msg
 
 if __name__ == '__main__':
-   # IPC urls (passed in at startup from master.py)
-   master_pull_url, communicator_pull_url, port_assigner_pull_url, port_requestor_pull_url = sys.argv[1:]
-   for url in sys.argv[1:]:
+   verbose("""
+next_push_port:          %s
+""" % next_push_port)
+
+   for url in sys.argv[2:]:
       if not meshlib.is_socket_url(url):
          print "Error: Invalid socket url: '%s'" % url
          sys.exit(1)
@@ -54,11 +63,15 @@ if __name__ == '__main__':
       if msg_parts[0] == 'info':
          verbose("Received info message: '%s'" % msg)
       elif msg_parts[0] == 'connect_node':
-         verbose("Connecting to node: '%s'" % msg)
+         verbose("Passing the connect_node message up to port_requestor: '%s'" % msg)
+         push_port_requestor.send(msg)
+      elif msg_parts[0] == 'port_requestor':
+         verbose("Received message from port_requestor: %s" % msg)
+         
       elif msg_parts[0] == 'port_assigner':
          verbose("Received request through port_assigner: %s" % msg)
          # set up inbound push connection
-         push_port = str(next_push_port)
-         next_push_port += 1
+         push_port = next_push_port
+         next_push_port = str(int(next_push_port) + 1)
          # tell port_assigner which ports to reply with
          push_port_assigner.send('pull_proxy_port:%s:push_port:%s' % (inbound_pull_proxy_port, push_port))
