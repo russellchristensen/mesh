@@ -64,6 +64,7 @@ if __name__=='__main__':
          device = re.search('\n  Useragent    : (.*)\n  Reg. Contact', device_info, re.DOTALL|re.MULTILINE)
          if device and not device.groups(0)[0] in devices:
             meshlib.send_plugin_result('%s in use by %s is not an approved device' % (device.groups(0)[0], user[0]), push_master)
+      time.sleep(60)
 
 
 class TestPlugin(unittest.TestCase):

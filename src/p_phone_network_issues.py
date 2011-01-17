@@ -54,6 +54,7 @@ if __name__=='__main__':
 
     if len(problem_phones) > device_threshold:
       meshlib.send_plugin_result('%s phone(s) experiencing network issues: %s' % (len(problem_phones), ' '.join(problem_phones)), push_master)    
+    time.sleep(60)
 
 class TestPlugin(unittest.TestCase):
   def test_00asteriskexists(self):

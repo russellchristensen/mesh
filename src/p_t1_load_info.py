@@ -58,6 +58,7 @@ if __name__=='__main__':
 
       if used_channels >= chan_usage:
          meshlib.send_plugin_result("High T1 usage reported, %s out of %s" %(used_channels, available_channels),push_master)
+      time.sleep(60)
 
 class TestPlugin(unittest.TestCase):
    def test_00asteriskexists(self):

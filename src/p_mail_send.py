@@ -72,6 +72,7 @@ if __name__ == '__main__':
                   found = True
       if not found:
          meshlib.send_plugin_result('Message not sent within time!', push_master)
+      time.sleep(60)
 
 
 class TestPlugin(unittest.TestCase):

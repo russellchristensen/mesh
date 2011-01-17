@@ -54,6 +54,7 @@ if __name__=='__main__':
 
     if len(queues) < len(configured_queues):
       meshlib.send_plugin_result('One of the queues stopped functioning', push_master)
+    time.sleep(60)
 
 class TestPlugin(unittest.TestCase):
   def test_00asteriskexists(self):
