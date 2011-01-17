@@ -22,25 +22,29 @@ if __name__ == '__main__':
    push_master       = zmq_context.socket(zmq.PUSH)
    push_master.connect(master_socket_url)
 
-# Remove the OSs your plugin doesn't support.
-# Use meshlib.get_os() if you need to know what OS you're actually on.
 supported_os = ['darwin', 'linux2', 'freebsd8', 'sunos5']
 
+plugin_name = 'p_uptime'
 description = """
 Displays results of uptime command. Including uptime, users logged in and average load.
 
 Threshold:
 """
-#///Need to figure out what if any threshold is to be used for this
+frequency_threshold = meshlib.get_config(plugin_name, 'frequency', '60')
 
-# Plugins will typically have an infinite main loop
+def configured():
+   import os
+   try: int(frequency_threshold)
+   except: return False
+   if not os.access('/bin/uptime', os.X_OK): return False
+
 import subprocess
 if __name__ == '__main__':
    while 1:
       cmd = subprocess.Popen("uptime", stdout = subprocess.PIPE)
       uptime = cmd.communicate()[0]
       meshlib.send_plugin_result(uptime, push_master)
-      time.sleep(60)
+      time.sleep(int(frequency_threshold))
 
 # Unit Tests
 class TestPlugin(unittest.TestCase):
