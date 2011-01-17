@@ -99,7 +99,7 @@ class Test01Code(unittest.TestCase):
          if not gpl_header in header:
             failures.append("The source file '%s' has a malformed or missing GPL header." % fname)
       if failures:
-         self.fail("\n".join(failures))
+         self.fail('\n'+'\n'.join(failures))
 
 class Test02Syntax(unittest.TestCase):
    def test_00banner(self):
@@ -398,7 +398,7 @@ class Test06plugins(unittest.TestCase):
          if template_header not in plugin_contents:
             failures.append("Plugin '%s' has a missing or malformed template section." % plugin)
       if failures:
-         self.fail("\n".join(failures))
+         self.fail('\n'+'\n'.join(failures))
 
    def test_03supported_os(self):
       "All plugins define supported_os"
@@ -414,7 +414,7 @@ class Test06plugins(unittest.TestCase):
          elif type(supported_os) != list:
             failures.append("Plugin '%s' defined supported_os as a '%s' instead of a list!" % (plugin, type(supported_os)))
       if failures:
-         self.fail("\n".join(failures))
+         self.fail('\n'+'\n'.join(failures))
             
    def test_06description(self):
       "All plugins define a description with summary and threshold"
@@ -438,7 +438,7 @@ class Test06plugins(unittest.TestCase):
          if 'threshold' not in description.lower():
             failures.append("Plugin '%s' does not describe the threshold conditions" % plugin)
       if failures:
-         self.fail("\n".join(failures))
+         self.fail('\n'+'\n'.join(failures))
 
    def test_09configured(self):
       "All plugins define a configured function"
@@ -456,4 +456,4 @@ class Test06plugins(unittest.TestCase):
             failures.append("Plugin '%s' defined configured as a '%s' instead of a function!" % (plugin, type(configured)))
             continue
       if failures:
-         self.fail("\n".join(failures))
+         self.fail('\n'+'\n'.join(failures))
