@@ -33,6 +33,14 @@ Threshold: Any failed attempt
 failed_threshold = int(meshlib.get_config('p_dovecot_login_fail', 'failed_threshold', '0'))
 log_location = meshlib.get_config('p_dovecot_login_fail', 'log_location', '/var/log/dovecot')
 
+def configured():
+   import os
+   if not failed_threshold:
+      return False
+   if not os.access(log_location,R_OK):
+      return False
+   return True
+
 import re, time, subprocess
 
 # Plugins will typically have an infinite main loop

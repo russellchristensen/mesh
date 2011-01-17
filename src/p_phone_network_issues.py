@@ -31,6 +31,14 @@ Threshold: Any Lagged or Unreachable device
 """
 
 device_threshold = int(meshlib.get_config('p_phone_network_issues', 'device_threshold', '0'))
+asterisk_bin = meshlib.get_config('p_phone_network_issues', 'asterisk_bin', None)
+
+def configured():
+   if not device_threshold:
+      return False
+   if not os.access(asterisk_bin, X_OK):
+      return False
+   return True
 
 import re, subprocess
 
@@ -49,7 +57,4 @@ if __name__=='__main__':
 
 class TestPlugin(unittest.TestCase):
   def test_00asteriskexists(self):
-    "Check if asterisk exists"
-    import os.path
-    location = '/usr/sbin/asterisk'
-    self.assertTrue(os.path.exists(location))
+     pass

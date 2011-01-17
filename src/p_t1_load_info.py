@@ -30,7 +30,16 @@ Monitors current T1 loads
 Threshold: 90
 """
 
-t1_threshold = meshlib.get_config('p_t1_load_info', 't1_threshold', '90')
+t1_threshold = int(meshlib.get_config('p_t1_load_info', 't1_threshold', '90'))
+asterisk_bin = meshlib.get_config('p_t1_load_info', 'asterisk_bin', None)
+
+def configured():
+   import os
+   if not t1_threshold:
+      return False
+   if not os.access(asterisk_bin, X_OK):
+      return False
+   return True
 
 import re, subprocess
 

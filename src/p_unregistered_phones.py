@@ -29,21 +29,15 @@ Check for sip phones that try to register, but fail.
 Threshold: Every time a sip phone fails registration, an event is created.
 """
 
+log_location = meshlib.get_config('p_unregistered_phones', 'log_location', None)
+
+def configured():
+   if not log_location:
+      return False
+   return True
+
 import re
 from time import *
-
-location = '/var/log/asterisk/messages'
-class TestPlugini(unittest.TestCase):
-  def test_00logexists(self):
-    "Check if asterisk log file exists and is readable"
-    import os.path
-    if os.path.isfile(location):
-      try: 
-        open(location).read()
-        return True
-      except:
-        self.fail('Asterisk log file "%s" is not readable' % (location))
-    self.fail('No asterisk log file found!')
 
 if __name__=='__main__':
   fh = open(location)
@@ -55,3 +49,8 @@ if __name__=='__main__':
       curTime = '%s  %s %s' %(curTime[0], curTime[1].lstrip('0'), curTime[2])
       if re.search(curTime,recent, re.MULTILINE|re.DOTALL):
         meshlib.send_plugin_result('%s failed registration' % phone.group(1), push_master)
+
+class TestPlugini(unittest.TestCase):
+  def test_00logexists(self):
+    "Check if asterisk log file exists and is readable"
+    pass

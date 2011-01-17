@@ -32,7 +32,18 @@ Threshold: device not in list
 'asterisk -rx sip show peer $extension' - the device is listed as Useragent
 """
 
-devices = meshlib.get_config('p_user_device_info', 'devices', '')
+devices = meshlib.get_config('p_user_device_info', 'devices', None)
+asterisk_bin = meshlib.get_config('p_user_device_info', 'asterisk_bin', None)
+
+
+def configured():
+   import os
+   if not devices:
+      return False
+   if not os.access(asterisk_bin, X_OK):
+      return False
+   return True
+
 # /// Add description
 # /// Get config items
 # /// Description of where to get the device strings
@@ -40,7 +51,6 @@ devices = meshlib.get_config('p_user_device_info', 'devices', '')
 import re, subprocess
 
 if __name__=='__main__':
-  devices = ['Cisco-CP7960G/8.0','Linksys/SPA3102-3.3.6(GW)','PolycomSoundPointIP-SPIP_550-UA/3.0.4.0061', 'Sipura/SPA2002-3.1.2(a)']
   while 1:
     users = []
     user_info = subprocess.Popen(['asterisk', '-rx', 'sip show peers'], stdout=subprocess.PIPE).communicate()[0].lstrip('\x1b[0;37m').rstrip('\x1b[0m').splitlines()
@@ -59,7 +69,4 @@ if __name__=='__main__':
 class TestPlugin(unittest.TestCase):
   def test_00asteriskexists(self):
     "Check if asterisk exists"
-    import os.path
-    location = '/usr/sbin/asterisk'
-    self.assertTrue(os.path.exists(location))
-
+    pass

@@ -30,7 +30,16 @@ Check which queues are currently running
 Threshold: Change in running queues
 """
 
-queues = meshlib.get_config('p_dovecot_login_fail', 'queues', 'none')
+queues = meshlib.get_config('p_dovecot_login_fail', 'queues', None)
+asterisk_bin = meshlib.get_config('p_dovecot_login_fail', 'asterisk_bin', None)
+
+def configured():
+   import os
+   if not queues:
+      return False
+   if not os.access(asterisk_bin, X_OK):
+      return False
+   return True
 
 import re, subprocess
 
@@ -52,13 +61,4 @@ if __name__=='__main__':
 
 class TestPlugin(unittest.TestCase):
   def test_00asteriskexists(self):
-    "Check if asterisk exists"
-    import os.path
-    location = '/usr/sbin/asterisk'
-    self.assertTrue(os.path.exists(location))
-
-  def test_01asteriskrunning(self):
-    "Check if asterisk is running"
-    import os.path
-    location = '/var/run/asterisk/asterisk.ctl'
-    self.assertTrue(os.path.exists(location))
+     pass
