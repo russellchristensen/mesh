@@ -52,7 +52,7 @@ if __name__=='__main__':
       if problem_phone:
         problem_phones.append(problem_phone.group(1))
 
-    if problem_phones:
+    if len(problem_phones) > device_threshold:
       meshlib.send_plugin_result('%s phone(s) experiencing network issues: %s' % (len(problem_phones), ' '.join(problem_phones)), push_master)    
 
 class TestPlugin(unittest.TestCase):

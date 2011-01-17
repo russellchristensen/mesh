@@ -23,6 +23,7 @@ if __name__ == '__main__':
    push_master.connect(master_socket_url)
 
 supported_os = ['linux2']
+
 description = """
 Check for sip phones that try to register, but fail.
 
@@ -36,21 +37,19 @@ def configured():
       return False
    return True
 
-import re
+import re, subprocess
 from time import *
 
 if __name__=='__main__':
-  fh = open(location)
-  while 1:
-    recent = fh.readline()
-    phone = re.search("chan_sip.c: Registration from '<sip:(\d+)",recent, re.MULTILINE|re.DOTALL)
-    if phone:
-      curTime = strftime("%b %d %H:%M").split(' ')
-      curTime = '%s  %s %s' %(curTime[0], curTime[1].lstrip('0'), curTime[2])
-      if re.search(curTime,recent, re.MULTILINE|re.DOTALL):
-        meshlib.send_plugin_result('%s failed registration' % phone.group(1), push_master)
+   log_info = subprocess.Popen(['tail', '-f', log_location], stdout=subprocess.PIPE)
+   while 1:
+      log_stat = log_info.stdout.readline()
+      phone = re.search("chan_sip.c: Registration from '<sip:(\d+)",log_stat, re.MULTILINE|re.DOTALL)
+      while not phone:
+         log_stat = log_info.stdout.readline()
+         phone = re.search("chan_sip.c: Registration from '<sip:(\d+)",log_stat, re.MULTILINE|re.DOTALL)
+      meshlib.send_plugin_result('%s failed registration' % phone.group(1), push_master)
 
-class TestPlugini(unittest.TestCase):
-  def test_00logexists(self):
-    "Check if asterisk log file exists and is readable"
-    pass
+class TestPlugin(unittest.TestCase):
+   def test_00logexists(self):
+      return True

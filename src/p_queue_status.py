@@ -30,7 +30,7 @@ Check which queues are currently running
 Threshold: Change in running queues
 """
 
-queues = meshlib.get_config('p_dovecot_login_fail', 'queues', None)
+configured_queues = meshlib.get_config('p_dovecot_login_fail', 'queues', None)
 asterisk_bin = meshlib.get_config('p_dovecot_login_fail', 'asterisk_bin', None)
 
 def configured():
@@ -44,7 +44,6 @@ def configured():
 import re, subprocess
 
 if __name__=='__main__':
-  current_queues = []
   while 1:
     queues = []
     queue_info = subprocess.Popen(['asterisk', '-rx', 'queue show'], stdout=subprocess.PIPE).communicate()[0].lstrip('\x1b[0;37m').rstrip('\x1b[0m').splitlines()
@@ -53,11 +52,8 @@ if __name__=='__main__':
       if queue:
         queues.append(queue.group(1))
 
-    if len(current_queues) == 0:
-      current_queues = queues
-
-    if set(current_queues).difference(set(queues)):
-      meshlib.send_plugin_result('%s is no longer functioning' % set(current_queues).difference(set(queues)), push_master)    
+    if len(queues) < len(configured_queues):
+      meshlib.send_plugin_result('One of the queues stopped functioning', push_master)
 
 class TestPlugin(unittest.TestCase):
   def test_00asteriskexists(self):

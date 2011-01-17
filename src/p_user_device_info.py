@@ -51,22 +51,21 @@ def configured():
 import re, subprocess
 
 if __name__=='__main__':
-  while 1:
-    users = []
-    user_info = subprocess.Popen(['asterisk', '-rx', 'sip show peers'], stdout=subprocess.PIPE).communicate()[0].lstrip('\x1b[0;37m').rstrip('\x1b[0m').splitlines()
-    for user in user_info:
-      user = re.search('(\d\d\d\d)',user,re.DOTALL|re.MULTILINE)
-      if user:
-        users.append(user.groups(1))
+   while 1:
+      users = []
+      user_info = subprocess.Popen(['asterisk', '-rx', 'sip show peers'], stdout=subprocess.PIPE).communicate()[0].lstrip('\x1b[0;37m').rstrip('\x1b[0m').splitlines()
+      for user in user_info:
+         user = re.search('(\d\d\d\d)',user,re.DOTALL|re.MULTILINE)
+         if user:
+            users.append(user.groups(1))
 
-    for user in users:
-      device_info = subprocess.Popen(['asterisk', '-rx', 'sip show peer %s' %user], stdout=subprocess.PIPE).communicate()[0]
-      device = re.search('\n  Useragent    : (.*)\n  Reg. Contact', device_info, re.DOTALL|re.MULTILINE)
-      if device and not device.groups(0)[0] in devices:
-        meshlib.send_plugin_result('%s in use by %s is not an approved device' % (device.groups(0)[0], user[0]), push_master)    
-  # /// Polling too fast!
+      for user in users:
+         device_info = subprocess.Popen(['asterisk', '-rx', 'sip show peer %s' %user], stdout=subprocess.PIPE).communicate()[0]
+         device = re.search('\n  Useragent    : (.*)\n  Reg. Contact', device_info, re.DOTALL|re.MULTILINE)
+         if device and not device.groups(0)[0] in devices:
+            meshlib.send_plugin_result('%s in use by %s is not an approved device' % (device.groups(0)[0], user[0]), push_master)
+
 
 class TestPlugin(unittest.TestCase):
-  def test_00asteriskexists(self):
-    "Check if asterisk exists"
-    pass
+   def test_00asteriskexists(self):
+      return True
