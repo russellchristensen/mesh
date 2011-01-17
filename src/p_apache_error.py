@@ -39,7 +39,7 @@ date_format = '%a %b %d %H:%M:%S %Y'
 
 def configured():
    import os
-   if not os.path.exists(apache_ssl_error_log) or os.access(apache_ssl_error_log, os.R_OK): return False
+   if not os.access(apache_ssl_error_log, os.R_OK): return False
    return True
 
 if __name__ == '__main__':
