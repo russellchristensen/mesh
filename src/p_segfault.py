@@ -1,5 +1,3 @@
-# This file is part of Mesh.
-
 # Mesh is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
@@ -31,28 +29,28 @@ Threshold: If a segfault is detected in the logs,
            then we create an event.
 """
 
-location = meshlib.get_config('p_segf', 'messages_file_location', '/var/log/messages')
+global location; location = meshlib.get_config('p_segfault', 'location', '/var/log/messages')
 
-import subprocess
+def configured():
+   import os
+   if os.path.exists(location) or not os.access(location, os.R_OK): return False
+   return True
+
+import subprocess, re
 if __name__ == '__main__':
+   tail = subprocess.Popen(["tail", "-f", location], stdout = subprocess.PIPE)
+   segfault = tail.stdout.readline()
    while 1:
-      # /// Redo with interrupt-driven design!!!  (tail -f)
-      tail = subprocess.Popen( ('/usr/bin/env', 'bash', '-c', 'tail %s | grep segfault' % location), stdout = subprocess.PIPE, stderr = subprocess.PIPE)
-      segfault = tail.communicate()[0]
-      if segfault:
-         meshlib.send_plugin_result(segfault, push_master)
-         time.sleep(1)
+      while not re.search('segfault', segfault):
+         segfault = tail.stdout.readline()
+      meshlib.send_plugin_result(segfault, push_master)
 
 # Unit Tests
 class TestPlugin(unittest.TestCase):
-   def test_00logexists(self):
-      "Messages file exists and is readable"
-      import os.path
-      # /// Use readable() from somewhere instead
-      if os.path.isfile(location):
-         try:
-            open(location).read()
-            return True
-         except:
-            self.fail('Messages file "%s" is not readable' % (location))
-      self.fail('No messages file found!')
+   def test00tail(self):
+      '''Tail is working properly'''
+      import subprocess
+
+      try: tail = subprocess.Popen(['tail', '-f', location], stdout=subprocess.PIPE)
+      except:
+         self.fail("%s could not be read" % location)

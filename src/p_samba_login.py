@@ -1,5 +1,3 @@
-# This file is part of Mesh.
-
 # Mesh is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
@@ -31,23 +29,39 @@ Threshold: If an invalid login attemp is found,
            then we create an event.
 """
 
-#///need to figure out how to set threshold if we are only looking for output
+global log_path; log_path = meshlib.get_config('p_samba_login', 'log_path', '/var/log/samba')
 
-# Plugins will typically have an infinite main loop
-import subprocess
+def configured():
+   import os
+   if os.path.exists(logpath) == False:
+      return False
+   logs = os.listdir(log_path)
+   for test in logs:
+      if os.access("%s/%s" % (logs, test)) == False:
+         return False
+   return True
+
+import subprocess, os, re
 if __name__ == '__main__':
    while 1:
-      # NO! Make it interrupt-driven!!!
-      tail = subprocess.Popen( ('/usr/bin/env', 'bash', '-c', 'tail /var/log/samba* | grep FAILED'), stdout = subprocess.PIPE, stderr = subprocess.PIPE)
-      bad_login = tail.communicate()[0]
-      if bad_login:
-         meshlib.send_plugin_result(bad_login, push_master)
+      logs = os.listdir(log_path)
+      log_count = len(logs)
+      for log in logs:
+         search_log = "%s/%s" % (log_path, log)
+         tail = subprocess.Popen(["tail", "-f", search_log], stdout = subprocess.PIPE)
+         while not re.search('FAILED', search_log):
+            tail = subprocess.Popen(["tail", "-f", search_log], stdout = subprocess.PIPE)
+            if len(os.listdir(logpath)) != log_count:
+               break
+         meshlib.send_plugin_result(segfault, push_master)
 
 # Unit Tests
 class TestPlugin(unittest.TestCase):
-  def test_00samba_log(self):
-    "Check if samba log files exist"
-    import os.path
-    if os.path.exists('/var/log/samba') == False:
-      self.fail('No samba log files found!')
-
+   def test00tail(self):
+      '''Tail is working properly'''
+      import subprocess
+      logs = os.listdir(log_path)
+      for test in logs:
+         try: tail = subprocess.Popen(['tail', '-f', '%s/%s' % (log_path, test)], stdout=subprocess.PIPE)
+         except:
+            self.fail("%s could not be read" % location)

@@ -31,6 +31,9 @@ Threshold: If updates are available,
            then we create an event.
 """
 
+def configured():
+   return True
+
 # Plugins will typically have an infinite main loop
 import subprocess, os
 if __name__ == '__main__':
