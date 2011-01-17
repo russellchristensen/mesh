@@ -26,10 +26,19 @@ push_communicator = zmq_context.socket(zmq.PUSH)
 def verbose(msg):
    print "port_requestor:", msg
 
+def connect_request(ip, port):
+   temp_req_socket = zmq_context.socket(zmq.REQ)
+   temp_req_socket.connect("tcp://%s:%s" % (ip, port))
+   temp_req_socket.send(meshlib.request_ports % {'identifier':meshlib.get_identifier()})
+   reply = temp_req_socket.recv()
+   del temp_req_socket
+   return reply
+
 if __name__ == '__main__':
    # IPC urls (passed in at startup from master.py)
    config_file, communicator_pull_url, port_requestor_pull_url = sys.argv[1:]
-   for url in sys.argv[2:]:
+   meshlib.load_config(config_file)
+   for url in [communicator_pull_url, port_requestor_pull_url]:
       if not meshlib.is_socket_url(url):
          print "Error: Invalid socket url: '%s'" % url
          sys.exit(1)
@@ -39,11 +48,18 @@ if __name__ == '__main__':
    # Main Loop
    while True:
       msg = pull.recv()
-      verbose(msg)
-      command, ip, port = msg.split(':')
-      temp_req_socket = zmq_context.socket(zmq.REQ)
-      temp_req_socket.connect("tcp://%s:%s" % (ip, port))
-      temp_req_socket.send("request_ports")
-      reply = temp_req_socket.recv()
-      del temp_req_socket
-      push_communicator.send("port_requestor:%s" % reply)
+      msg_parts = msg.split(':')
+      if msg_parts[0] == 'connect_node':
+         verbose("Handling connect_node command: '%s'" % msg)
+         command, ip, port = msg_parts
+         reply = connect_request(ip, port)
+         match = meshlib.error_pat.search(reply)
+         if match:
+            verbose("Got an error reply: '%s'" % reply)
+            continue
+         match = meshlib.assigned_ports_pat.search(reply)
+         if match:
+            verbose("Got assigned ports: '%s' from %s:%s" % (reply, ip, port))
+            push_communicator.send("port_requestor:got_node_ports:%s:%s:%s:%s" % (ip, port, match.group('pull_port'), match.group('push_port')))
+      else:
+         verbose("Invalid command: '%s'" % msg)

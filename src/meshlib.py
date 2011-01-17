@@ -13,9 +13,26 @@
 # You should have received a copy of the GNU General Public License
 # along with Mesh.  If not, see <http://www.gnu.org/licenses/>.
 
-import M2Crypto, os, Queue, subprocess, sys, tempfile
+import M2Crypto, os, Queue, re, subprocess, sys, tempfile
 import ConfigParser
 
+#------------------------------------------------------------------------------
+# CONSTANTS
+
+# Nodes with the same comm_version can talk to each other
+comm_version = '1'
+
+# COMM FORMATS - so the sender and receiver can use the same format
+assigned_ports     = "assigned_ports:%(identifier)s:%(pull_port)s:%(push_port)s"
+error              = "error:%(message)s"
+request_ports      = "request_ports:%(identifier)s"
+assigned_ports_pat = re.compile(r'^(?P<command>assigned_ports):(?P<pull_port>.*?):(?P<push_port>.*?)$')
+error_pat          = re.compile(r'^(?P<command>error):(?P<message>.*?)$')
+request_ports_pat  = re.compile(r'^(?P<command>request_ports):(?P<identifier>.*?)$')
+
+port_assigner_patterns = [request_ports_pat]
+
+# Where's that pesky etc directory?
 etc_locations = {
    'darwin'   : '/usr/local/etc', # OS X
    'linux2'   : '/etc',           # Linux (w/2.x kernel)
@@ -23,7 +40,7 @@ etc_locations = {
    'sunos5'   : '/etc',           # OpenSolaris
 }
 
-# We've got to find the root directory of the project to run tests!
+# Where's mesh!?
 global project_root_dir
 project_root_dir = None
 curr_root_dir = os.getcwd()
@@ -35,12 +52,19 @@ if not project_root_dir:
    print "Error, couldn't find the project root directory.  :-("
    sys.exit(1)
 
-def get_os():
-   return sys.platform
-
+# Used by the config functions later on
 config_parser = None
 config_file = None
+
+#------------------------------------------------------------------------------
+# CONFIGURATION FUNCTIONS
+
+def get_os():
+   "What OS are we on?  Used to find /etc, define plugin compatibility, etc."
+   return sys.platform
+
 def load_config(file_path = None):
+   "Get the config file loaded"
    global config_parser
    global config_file
    config_parser = ConfigParser.ConfigParser()
@@ -51,6 +75,7 @@ def load_config(file_path = None):
    config_parser.read(config_file)      
 
 def get_config(plugin, option, default):
+   "Get a value from the config file (you should probably call load_config first)"
    global config_parser
    if not config_parser:
       load_config()
@@ -69,15 +94,14 @@ def get_config(plugin, option, default):
    return default
 
 def get_identifier():
-   """Return the unique identifier for this instance of mesh.  Currently, meshlib.load_config() must have been already called first."""
+   "Return the unique identifier for this instance of mesh.  Currently, meshlib.load_config() must have been already called first."
    global config_parser
    if not config_parser:
       raise "Call meshlib.load_config() first."
-   return "%s:%s" % (os.uname()[1], get_config(None, 'inbound_pull_proxy_port', '4201'))
+   return "%s-%s" % (os.uname()[1], get_config(None, 'inbound_pull_proxy_port', '4201'))
    
-
-# For creating ZMQ URLs
 def socket_url(transport):
+   "For creating ZMQ URLs"
    if transport == 'ipc':
       return "ipc://" + tempfile.NamedTemporaryFile().name + '.ipc'
    else:
@@ -93,7 +117,7 @@ def send_plugin_result(msg, socket):
    socket.send(msg)
 
 #------------------------------------------------------------------------------
-# Encryption stuff
+# ENCRYPTION FUNCTIONS
 
 def encrypt(data, cert):
    "Encrypt a string using a cert"

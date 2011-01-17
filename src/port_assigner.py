@@ -36,6 +36,16 @@ port_assigner_reply_url = "tcp://*:%s" % port_assigner_port
 def verbose(msg):
    print "port_assigner:", msg
 
+def request_ports(foreign_identifier):
+   "Asks communicator to set up ports for a node identified by foreign_identifier."
+   verbose("Called request_ports('%s')" % foreign_identifier)
+   push_communicator.send("port_assigner:request_ports:"+foreign_identifier)
+   verbose("Waiting for message from communicator...")
+   msg = pull.recv()
+   verbose("Received message from communicator: '%s'" % msg)
+   # Relay communicator's response to remote end.  Other end will have to look for errors.
+   reply.send(msg)
+
 if __name__ == '__main__':
    # IPC urls (passed in at startup from master.py)
    verbose("\nport_assigner_reply_url: %s" % port_assigner_reply_url)
@@ -51,14 +61,18 @@ if __name__ == '__main__':
    while True:
       verbose("waiting for a request")
       request = reply.recv()
-      # do we like this request?
-      if request.split(':')[0] != 'request_ports':
-         verbose("received bad request: '%s'" % request)
+      verbose("Received request: '%s'" % request)
+      # Validate input
+      match = None
+      for pat in [meshlib.request_ports_pat]:
+         match = pat.search(request)
+         if match:
+            break
+      if not match:
+         verbose("Invalid request format: '%s'" % request)
          reply.send("error:invalid request format")
          continue
-      verbose("received request, sending to communicator: '%s'" % request)
-      push_communicator.send("port_assigner:"+request)
-      verbose("waiting for message from communicator")
-      msg = pull.recv()
-      verbose("received message from communicator, sending back as reply: '%s'" % msg)
-      reply.send("ok:"+msg)
+      # Process supported commands
+      command = match.group('command')
+      if command == 'request_ports':
+         request_ports(match.group('identifier'))

@@ -72,7 +72,6 @@ def create_push_communicator():
    global push_communicator
    push_communicator = zmq_context.socket(zmq.PUSH)
    push_communicator.connect(communicator_pull_url)
-   push_communicator.send("master alive")
 
 #------------------------------------------------------------------------------
 # Try Plugin?
@@ -138,6 +137,7 @@ def start_outbound_pull_proxy(target, port):
       outbound_pull_proxies[target] = subprocess.Popen(
          ('/usr/bin/env', 'python', os.path.join(meshlib.project_root_dir, 'src', 'pull_proxy.py'), 
           meshlib.config_file, 'outbound', target, port, communicator_pull_url))
+   verbose('Started an outbound pull proxy on %s:%s' % (target, port))
 
 def check_children():
    print "\nProcess Report:"
@@ -173,6 +173,15 @@ def process_message(msg):
       verbose("Handling a manual message: '%s'" % msg)
       if msg_parts[1] == 'connect_node':
          push_communicator.send(':'.join(msg_parts[1:]))
+         return
+      elif msg_parts[1] == 'check_children':
+         check_children()
+         return
+   elif msg_type == 'communicator':
+      verbose("Handling a message from communicator: '%s'" % msg)
+      if msg_parts[1] == 'pull_proxy':
+         ip, port = msg_parts[2:]
+         start_outbound_pull_proxy(ip, port)
          return
    # Malformed message, apparently
    verbose("Malformed message: %s" % msg)
@@ -213,8 +222,6 @@ inbound_pull_proxy_port: %s
       else:
          verbose(inbound_msg)
          process_message(inbound_msg)
-      time.sleep(.5)
-      check_children()
    # Shutting down...
    print "Received 'quit' -- sending children kill signal and exiting."
    # Kill child processes

@@ -47,5 +47,6 @@ if __name__ == '__main__':
       sys.exit(2)
    # Main Loop
    while True:
-      push_communicator.send("heartbeat from pull_proxy")
-      time.sleep(5)
+      msg = pull.recv()
+      verbose("pull_proxy %s:%s:%s received: '%s'" % (tcp_direction, ip_or_domain, port))
+      push_communicator.send(msg)

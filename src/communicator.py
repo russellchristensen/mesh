@@ -36,6 +36,7 @@ meshlib.load_config(config_file)
 # Config values
 inbound_pull_proxy_port = meshlib.get_config(None, 'inbound_pull_proxy_port', '4201')
 next_push_port          = meshlib.get_config(None, 'next_push_port',          '4205')
+identifier              = meshlib.get_identifier()
 
 def verbose(msg):
    print "communicator:", msg
@@ -56,6 +57,7 @@ next_push_port:          %s
    push_port_assigner.connect(port_assigner_pull_url)
    # Main Loop
    while True:
+      verbose("\nPush Nodes:" + "\n".join(sorted(push_nodes)))
       msg = pull.recv()
       msg_parts = msg.split(':')
       if msg_parts[0] == 'info':
@@ -63,13 +65,32 @@ next_push_port:          %s
       elif msg_parts[0] == 'connect_node':
          verbose("Passing the connect_node message up to port_requestor: '%s'" % msg)
          push_port_requestor.send(msg)
+      # ...from port_requestor
       elif msg_parts[0] == 'port_requestor':
          verbose("Received message from port_requestor: %s" % msg)
-         
+         if msg_parts[1] == 'got_node_ports':
+            ip, port, foreign_identifier, pull_port, push_port = msg_parts[2:]
+            # First create the push socket, since that's easy
+            push_nodes[foreign_identifier] = zmq_context.socket(zmq.PUSH)
+            push_nodes[foreign_identifier].connect('tcp://%s:%s' % (ip, pull_port))
+            # Now ask master to set up the outbound pull socket process
+            push_master.send('communicator:pull_proxy:%s:%s' % (ip, push_port))
+         else:
+            verbose("Invalid message from port_requestor: '%s'" % msg)
+      # ...from port_assigner
       elif msg_parts[0] == 'port_assigner':
          verbose("Received request through port_assigner: %s" % msg)
-         # set up inbound push connection
-         push_port = next_push_port
-         next_push_port = str(int(next_push_port) + 1)
-         # tell port_assigner which ports to reply with
-         push_port_assigner.send('pull_proxy_port:%s:push_port:%s' % (inbound_pull_proxy_port, push_port))
+         # request for ports
+         if msg_parts[1] == 'request_ports':
+            foreign_identifier = msg_parts[2]
+            # Node already connected?
+            if push_nodes.has_key(foreign_identifier):
+               push_port_assigner.send(meshlib.error % {'message':'already connected'})
+               continue
+            # Setup inbound push connection
+            push_port = next_push_port
+            next_push_port = str(int(next_push_port) + 1)
+            push_nodes[foreign_identifier] = zmq_context.socket(zmq.PUSH)
+            push_nodes[foreign_identifier].bind('tcp://*:%s' % push_port)
+            # tell port_assigner which ports to reply with
+            push_port_assigner.send(meshlib.assigned_ports % {'identifier':identifier, 'pull_port':inbound_pull_proxy_port, 'push_port':push_port})
