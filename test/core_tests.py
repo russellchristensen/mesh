@@ -93,21 +93,22 @@ class Test01Code(unittest.TestCase):
       global project_root_dir
       # Iterate through the python files and check for compliance
       source_files = [os.path.join(project_root_dir, 'mesh')] + glob.glob(os.path.join(project_root_dir, 'test', '*.py')) + glob.glob(os.path.join(project_root_dir, 'src', '*.py'))
+      failures = []
       for fname in source_files:
          header = open(os.path.join(project_root_dir, fname), 'r').read(1024)
          if not gpl_header in header:
-            self.fail("The source file '%s' has a malformed or missing GPL header." % fname)
+            failures.append("The source file '%s' has a malformed or missing GPL header." % fname)
+      if failures:
+         self.fail("\n".join(failures))
 
 class Test02Syntax(unittest.TestCase):
    def test_00banner(self):
       "[SYNTAX TESTS]"
 
-   def test_03main(self):
-      "Can import the main mesh file"
-      global project_root_dir
-      sys.path.append(os.path.join(project_root_dir, 'src'))
-      import mesh
-
+   def test_03import(self):
+      # /// need to try importing all the non-plugin files here
+      pass
+      
 class Test02zmq(unittest.TestCase):
    def test_00banner(self):
       "[MESSAGING TESTS]"
