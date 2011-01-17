@@ -168,23 +168,19 @@ def check_children():
 def process_message(msg):
    # Manual intervention
    msg_parts = msg.split(':')
-   msg_type = msg_parts[0]
-   if msg_type == 'man':
-      verbose("Handling a manual message: '%s'" % msg)
-      if msg_parts[1] == 'connect_node':
-         push_communicator.send(':'.join(msg_parts[1:]))
-         return
-      elif msg_parts[1] == 'check_children':
-         check_children()
-         return
-   elif msg_type == 'communicator':
-      verbose("Handling a message from communicator: '%s'" % msg)
+   if msg_parts[0] == 'communicator':
       if msg_parts[1] == 'pull_proxy':
          ip, port = msg_parts[2:]
          start_outbound_pull_proxy(ip, port)
-         return
-   # Malformed message, apparently
-   verbose("Malformed message: %s" % msg)
+      else:
+         verbose("Malformed communicator message: '%s'" % msg)
+   else:
+      if msg_parts[0] in ['connect_node', 'send_node']:
+         push_communicator.send('master:'+msg)
+      elif msg_parts[0] == 'check_children':
+         check_children()
+      else:
+         verbose("Malformed message: '%s'" % msg)
    
 #------------------------------------------------------------------------------
 # Main Loop

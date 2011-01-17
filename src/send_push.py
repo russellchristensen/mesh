@@ -21,4 +21,9 @@ url = sys.argv[1]
 zmq_context = zmq.Context()
 push = zmq_context.socket(zmq.PUSH)
 push.connect(url)
-push.send(sys.argv[2])
+
+print "Enter your commands.  Enter a blank line to exit."
+line = sys.stdin.readline().strip()
+while line != '':
+   push.send(line)
+   line = sys.stdin.readline().strip()

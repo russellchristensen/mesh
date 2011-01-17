@@ -48,5 +48,5 @@ if __name__ == '__main__':
    # Main Loop
    while True:
       msg = pull.recv()
-      verbose("pull_proxy %s:%s:%s received: '%s'" % (tcp_direction, ip_or_domain, port))
+      verbose("pull_proxy %s:%s:%s received: '%s'" % (tcp_direction, ip_or_domain, port, msg))
       push_communicator.send(msg)

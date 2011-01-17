@@ -59,12 +59,20 @@ next_push_port:          %s
    while True:
       verbose("\nPush Nodes:" + "\n".join(sorted(push_nodes)))
       msg = pull.recv()
+      verbose("processing message: '%s'" % msg)
       msg_parts = msg.split(':')
-      if msg_parts[0] == 'info':
-         verbose("Received info message: '%s'" % msg)
-      elif msg_parts[0] == 'connect_node':
-         verbose("Passing the connect_node message up to port_requestor: '%s'" % msg)
-         push_port_requestor.send(msg)
+      if msg_parts[0] == 'master':
+         verbose("Processing message from master: '%s'" % msg)
+         if msg_parts[1] == 'connect_node':
+            verbose("Passing the connect_node message up to port_requestor: '%s'" % msg)
+            push_port_requestor.send(':'.join(msg_parts[1:]))
+         elif msg_parts[1] == 'send_node':
+            foreign_identifier, message_to_send = msg_parts[2:]
+            if push_nodes.has_key(foreign_identifier):
+               verbose("Sending node '%s' the message: '%s'" % (foreign_identifier, message_to_send))
+               push_nodes[foreign_identifier].send(message_to_send)
+            else:
+               verbose("Not connected to node '%s', can't send it: '%s'" % (foreign_identifier, message_to_send))
       # ...from port_requestor
       elif msg_parts[0] == 'port_requestor':
          verbose("Received message from port_requestor: %s" % msg)
@@ -94,3 +102,5 @@ next_push_port:          %s
             push_nodes[foreign_identifier].bind('tcp://*:%s' % push_port)
             # tell port_assigner which ports to reply with
             push_port_assigner.send(meshlib.assigned_ports % {'identifier':identifier, 'pull_port':inbound_pull_proxy_port, 'push_port':push_port})
+      else:
+         verbose("Ignored invalid message: '%s'" % msg)
