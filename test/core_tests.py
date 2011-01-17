@@ -398,3 +398,21 @@ class Test06plugins(unittest.TestCase):
             failures.append("Plugin '%s' does not describe the threshold conditions" % plugin)
       if failures:
          self.fail("\n".join(failures))
+
+   def test_09configured(self):
+      "All plugins define a configured function"
+      import glob
+      global project_root_dir
+      failures = []
+      for plugin_file in glob.glob(os.path.join(project_root_dir, 'src', 'p_*py')):
+         plugin = os.path.split(plugin_file)[1][:-3]
+         module = __import__(plugin)
+         configured = getattr(module, 'configured', None)
+         if configured == None:
+            failures.append("Plugin '%s' does not define configured." % plugin)
+            continue
+         if type(configured) != type(lambda x: x):
+            failures.append("Plugin '%s' defined configured as a '%s' instead of a function!" % (plugin, type(configured)))
+            continue
+      if failures:
+         self.fail("\n".join(failures))

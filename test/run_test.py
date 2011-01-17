@@ -48,12 +48,15 @@ if options.test_all or options.test_plugins:
       module_name = os.path.split(full_path)[1][:-3]
       print "Loading %-25s" % module_name,
       module_to_test = __import__(module_name)
-      if sys.platform in module_to_test.supported_os:
-         print "[ok]"
-         suite_list.append(unittest.TestLoader().loadTestsFromModule(module_to_test))
-      else:
+      if not sys.platform in module_to_test.supported_os:
          print "[unsupported]"
          continue
+      elif not module_to_test.configured():
+         print "[unconfigured]"
+         continue
+      else:
+         print "[ok]"
+         suite_list.append(unittest.TestLoader().loadTestsFromModule(module_to_test))
 # Run a specific plugin's unit tests?
 elif options.test_plugin:
    module_to_test = __import__(options.test_plugin)

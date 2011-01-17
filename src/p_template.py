@@ -39,6 +39,13 @@ Threshold: If more than banana_threshold bananas are encountered, then we create
 # //// Now get any config values you need
 banana_threshold = int(meshlib.get_config('p_template', 'banana_threshold', '0'))
 
+# //// You MUST define this function that tells whether or not you now have
+#      enough configuration information to be able to run.
+def configured():
+   if type(banana_threshold) == int:
+      return True
+   return False
+
 # //// Most "real" functionality should be functions, for easy unit testing.
 def banana_detected(msg, threshold):
    if (type(msg) == str) and (msg.count('banana') > threshold):
