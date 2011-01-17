@@ -45,7 +45,7 @@ def verbose(msg):
 if __name__ == '__main__':
    verbose("""
 next_push_port:          %s
-""" % next_push_port)
+""" %  next_push_port)
 
    for url in sys.argv[2:]:
       if not meshlib.is_socket_url(url):
