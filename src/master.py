@@ -47,6 +47,7 @@ else:
 #------------------------------------------------------------------------------
 # Config items
 inbound_pull_proxy_port = meshlib.get_config(None, 'inbound_pull_proxy_port', '4201')
+identifier              = meshlib.get_identifier()
 
 #------------------------------------------------------------------------------
 # ZMQ Setup
@@ -181,6 +182,7 @@ def process_message(msg):
 
 if __name__ == '__main__':
    verbose ("""IPC URLs
+identifier:              %s
 master_pull_url:         %s
 communicator_pull_url:   %s
 port_assigner_pull_url:  %s
@@ -189,6 +191,7 @@ port_requestor_pull_url: %s
 Config items:
 inbound_pull_proxy_port: %s
 """ % (
+   identifier,
    master_pull_url,
    communicator_pull_url,
    port_assigner_pull_url,

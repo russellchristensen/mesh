@@ -56,18 +56,27 @@ def get_config(plugin, option, default):
    global config_parser
    if not config_parser:
       load_config()
-   # First try the plugin section
-   try:
-      return config_parser.get(plugin, option)
-   except ConfigParser.NoSectionError, err:
-      pass
-   # Then try the global section
+   # First try the plugin section if it was indicated
+   if plugin:
+      try:
+         return config_parser.get(plugin, option)
+      except (ConfigParser.NoSectionError, ConfigParser.NoOptionError):
+         pass
+   # Then fall back to the global section
    try:
       return config_parser.get('global', option)
-   except ConfigParser.NoSectionError, err:
+   except (ConfigParser.NoSectionError, ConfigParser.NoOptionError):
       pass
-   # If not found return the default
+   # Finally, fall back to the default
    return default
+
+def get_identifier():
+   """Return the unique identifier for this instance of mesh.  Currently, meshlib.load_config() must have been already called first."""
+   global config_parser
+   if not config_parser:
+      raise "Call meshlib.load_config() first."
+   return "%s:%s" % (os.uname()[1], get_config(None, 'inbound_pull_proxy_port', '4201'))
+   
 
 # For creating ZMQ URLs
 def socket_url(transport):

@@ -268,6 +268,46 @@ Tp7tERNH08s4Wb7hvIj6p/EloWtb/CA01EfQwA==
       if meshlib.is_socket_url(badurl):
          self.fail("is_socket_url didn't detect bad url %s" % badurl)
 
+   def test_21load_config(self):
+      "Function load_config() works with a non-existent config file (defaults will be used)"
+      import meshlib
+      meshlib.load_config('/tmp/does_not_exist.conf')
+
+   def test_24load_config(self):
+      "Function load_config() works with default config file (defaults will be used if it doesn't exist)"
+      import meshlib
+      meshlib.load_config()
+      
+   def test_27load_config(self):
+      "Function load_config() works with a real custom-provided config file"
+      global project_root_dir
+      import meshlib
+      meshlib.load_config(os.path.join(project_root_dir, 'test', 'mesh_b.conf'))
+      self.assertTrue(meshlib.get_config(None, 'port_assigner_port', None) == '5200')
+
+   def test_30get_config(self):
+      "Function get_config() works properly"
+      import meshlib
+      meshlib.load_config(os.path.join(project_root_dir, 'test', 'mesh_b.conf'))
+      # Global options that aren't there return the default value
+      self.assertTrue(meshlib.get_config(None, 'fake_option', 'the default value') == 'the default value')
+      # Global options that are there return the real value
+      self.assertTrue(meshlib.get_config(None, 'next_push_port', None) == '5205')
+      # Plugin options that aren't there return the default value
+      self.assertTrue(meshlib.get_config('fake_plugin', 'another_fake_option', 'the default value') == 'the default value')
+      # Plugin options that are there return the real value
+      self.assertTrue(meshlib.get_config('p_template', 'banana_threshold', None) == '1')
+      # Plugin option overrides global options
+      self.assertTrue(meshlib.get_config('p_template', 'duplicate_option', None) == 'plugin_value')
+      # Missing plugin option falls back to global option
+      self.assertTrue(meshlib.get_config('p_template', 'inbound_pull_proxy_port', None) == '5201')
+
+   def test_33get_identifer(self):
+      "Function get_identifier() returns something."
+      import meshlib
+      meshlib.load_config()
+      self.assertTrue(meshlib.get_identifier())
+
 class Test04master(unittest.TestCase):
    def setUp(self):
       pass
