@@ -38,7 +38,7 @@ global proc;
 
 def configured():
    import os
-   if not os.path.exist(log_location) or not os.acess(log_location, os.R_OK): return False
+   if not os.path.exists(log_location) or not os.access(log_location, os.R_OK): return False
    return True
 
 if __name__ == '__main__':
