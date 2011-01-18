@@ -62,15 +62,16 @@ if __name__ == '__main__':
 class TestPlugin(unittest.TestCase):
    import subprocess, re
    sensors = subprocess.Popen( ('/usr/bin/env', 'bash', '-c', 'sensors | grep CPU'), stdout = subprocess.PIPE, stderr = subprocess.PIPE)
-   temperature = sensors.communicate()[0]
-   global temperature; temperature = re.sub('\(.*?\)', '', temperature)
    def test_00hyst_detect(self):
       """Is there unwanted data"""
+      temperature = sensors.communicate()[0]
+      temperature = re.sub('\(.*?\)', '', temperature)
       if "hyst" in temperature:
          self.fail("Regular expression failed to remove unwanted data")
    def test_04detect_reading(self):
       """Is there a temperature reading"""
-      temperature_split = temperature.split()
+      temperature = sensors.communicate()[0]
+      temperature = re.sub('\(.*?\)', '', temperature).split()
       for result in temperature_split:
          if '+' in result:
                temp = result
