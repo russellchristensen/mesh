@@ -37,7 +37,7 @@ def configured():
    import os
    if not failed_threshold:
       return False
-   if not os.access(log_location,R_OK):
+   if not os.access(log_location,os.R_OK):
       return False
    return True
 

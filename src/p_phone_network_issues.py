@@ -36,7 +36,7 @@ asterisk_bin = meshlib.get_config('p_phone_network_issues', 'asterisk_bin', None
 def configured():
    if not device_threshold:
       return False
-   if not os.access(asterisk_bin, X_OK):
+   if not os.access(asterisk_bin, os.X_OK):
       return False
    return True
 
