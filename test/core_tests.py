@@ -35,11 +35,14 @@ gpl_header = """# This file is part of Mesh.
 # We've got to find the root directory of the project to run tests!
 global project_root_dir
 project_root_dir = None
-curr_root_dir = os.getcwd()
+curr_root_dir = __file__
 while not project_root_dir:
    curr_root_dir, last_element = os.path.split(curr_root_dir)
-   if last_element == 'mesh':
-      project_root_dir = os.path.join(curr_root_dir, 'mesh')
+   if os.path.isfile(os.path.join(curr_root_dir, 'mesh')):
+      project_root_dir = curr_root_dir
+      break
+   if not last_element:
+      break
 if not project_root_dir:
    print "Error, couldn't find the project root directory.  :-("
    sys.exit(1)
@@ -175,36 +178,20 @@ class Test03meshlib(unittest.TestCase):
       "[MESHLIB]"
       import meshlib
 
-   def test_01m2verifycert(self):
-      "(w/M2Crytpo [optional]) SSL certificates signed by the CA get verified correctly"
+   def test_03verifycert(self):
+      "(CLI or M2Crypto) SSL certificates signed by the CA get verified correctly"
       import meshlib
       global project_root_dir
       # This certificate should be valid
-      if not meshlib.verify_cert_m2crypto(cafile=os.path.join(project_root_dir, 'test', 'certs', 'test-ca-cert.pem'), certfile=os.path.join(project_root_dir, 'test', 'certs', 'alice.cert')):
-         self.fail("A certificate that should be valid could not be verified.")
-
-   def test_02m2verifycert_fail(self):
-      "(w/M2Crypto [optional]) Self-signed SSL certificates do not get verified"
-      import meshlib
-      global project_root_dir
-      # This certificate should not be valid
-      if meshlib.verify_cert_m2crypto(cafile=os.path.join(project_root_dir, 'test', 'certs', 'test-ca-cert.pem'), certfile=os.path.join(project_root_dir, 'test', 'certs', 'test-self-sign.cert')):
-         self.fail("A certificate that should not be valid was verified.")
-
-   def test_03cliverifycert(self):
-      "(w/CLI) SSL certificates signed by the CA get verified correctly"
-      import meshlib
-      global project_root_dir
-      # This certificate should be valid
-      if not meshlib.verify_cert_cli(cafile=os.path.join(project_root_dir, 'test', 'certs', 'test-ca-cert.pem'), certfile=os.path.join(project_root_dir, 'test', 'certs', 'alice.cert')):
+      if not meshlib.verify_cert(cafile=os.path.join(project_root_dir, 'test', 'certs', 'test-ca-cert.pem'), certfile=os.path.join(project_root_dir, 'test', 'certs', 'alice.cert')):
          self.fail("A certificate that should be valid could not be verified.  Note that you can ignore this failure if the same test via the M2Crypto method succeeded.")
 
-   def test_04cliverifycert_fail(self):
-      "(w/CLI) Self-signed SSL certificates do not get verified"
+   def test_04verifycert_fail(self):
+      "(CLI or M2Crypto) Self-signed SSL certificates do not get verified"
       import meshlib
       global project_root_dir
       # This certificate should not be valid
-      if meshlib.verify_cert_cli(cafile=os.path.join(project_root_dir, 'test', 'certs', 'test-ca-cert.pem'), certfile=os.path.join(project_root_dir, 'test', 'certs', 'test-self-sign.cert')):
+      if meshlib.verify_cert(cafile=os.path.join(project_root_dir, 'test', 'certs', 'test-ca-cert.pem'), certfile=os.path.join(project_root_dir, 'test', 'certs', 'test-self-sign.cert')):
          self.fail("A certificate that should not be valid was verified.  Note that you can ignore this failure if the same test via the M2Crypto method succeeded.")
 
    def test_06encrypt(self):

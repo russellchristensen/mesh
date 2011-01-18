@@ -37,6 +37,8 @@ def configured():
    import os
    if not t1_threshold:
       return False
+   if not asterisk_bin:
+      return False
    if not os.access(asterisk_bin, os.X_OK):
       return False
    return True

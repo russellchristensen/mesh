@@ -41,13 +41,17 @@ etc_locations = {
 }
 
 # Where's mesh!?
+# We've got to find the root directory of the project to run tests!
 global project_root_dir
 project_root_dir = None
-curr_root_dir = os.getcwd()
+curr_root_dir = __file__
 while not project_root_dir:
    curr_root_dir, last_element = os.path.split(curr_root_dir)
-   if last_element == 'mesh':
-      project_root_dir = os.path.join(curr_root_dir, 'mesh')
+   if os.path.isfile(os.path.join(curr_root_dir, 'mesh')):
+      project_root_dir = curr_root_dir
+      break
+   if not last_element:
+      break
 if not project_root_dir:
    print "Error, couldn't find the project root directory.  :-("
    sys.exit(1)
