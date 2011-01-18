@@ -43,20 +43,20 @@ We're very actively designing, prototyping, and changing things all the time.  D
 
 The roadmap is subject to (lots of) change without notice!
 
-#### Version 0.1 (Release ETA: Jan 17 2011)
+#### Version 0.1 (Release ETA: Jan 18 2011)
 * Target audience: Developers only
 * Nodes can communicate (NOTE: COMMUNICATIONS ARE COMPLETELY UNSECURED!!)
 * Node connections are initiated manually
-* Nodes have brain-dead routing, but it makes it to the destination...eventually.
 * Some basic plugins work
 * Event model undetermined
 * All configuration done manually in the config file
 * Brain-dead email-relay listener implemented
-* Completely manual certificate / CA management
 
 #### Version 0.2 (Release ETA: before Feb 2011)
 * Target audience: Developers only
+* Nodes have brain-dead routing, but it makes it to the destination...eventually.
 * Nodes can communicate securely
+* Completely manual certificate / CA management
 * Plugin interface refinements
 * Plugin unit-testing requirements formalized
 * More plugins
