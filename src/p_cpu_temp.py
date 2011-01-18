@@ -71,7 +71,7 @@ class TestPlugin(unittest.TestCase):
    def test_04detect_reading(self):
       """Is there a temperature reading"""
       temperature_split = temperature.split()
-      for result in temperature:
+      for result in temperature_split:
          if '+' in result:
                temp = result
          if result < 1:
