@@ -39,7 +39,7 @@ def configured():
       return False
    logs = os.listdir(log_path)
    for test in logs:
-      if os.access("%s/%s" % (logs, test)) == False:
+      if os.access("%s/%s" % (logs, test), os.R_OK) == False:
          return False
    return True
 

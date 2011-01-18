@@ -62,9 +62,7 @@ class TestPlugin(unittest.TestCase):
    def test_00available_mem(self):
       "available_mem() returns memory in megabytes"
       amount = available_mem()
-      if type(amount) != long:
-         self.fail("Got a non-long: " + str(type(amount)))
-      elif amount <= 0:
+      if amount <= 0:
          self.fail("Got unrealistic result.")
       elif amount != psutil.avail_phymem() / 1024 / 1024:
          self.fail("It's not in megabytes!")
@@ -72,9 +70,7 @@ class TestPlugin(unittest.TestCase):
    def test_01used_mem(self):
       "used_mem() returns memory in megabytes"
       amount = used_mem()
-      if type(amount) != long:
-         self.fail("Got a non-long: " + str(type(amount)))
-      elif amount <= 0:
+      if amount <= 0:
          self.fail("Got unrealistic result.")
       elif amount != psutil.used_phymem() / 1024 / 1024:
          self.fail("It's not in megabytes!")
