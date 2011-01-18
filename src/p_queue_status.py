@@ -35,9 +35,11 @@ asterisk_bin = meshlib.get_config('p_dovecot_login_fail', 'asterisk_bin', None)
 
 def configured():
    import os
-   if not queues:
+   if not configured_queues:
       return False
-   if not os.access(asterisk_bin, X_OK):
+   if not asterisk_bin:
+      return False
+   if not os.access(asterisk_bin, os.X_OK):
       return False
    return True
 
