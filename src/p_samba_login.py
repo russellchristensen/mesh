@@ -35,7 +35,7 @@ global log_path; log_path = meshlib.get_config('p_samba_login', 'log_path', '/va
 
 def configured():
    import os
-   if os.path.exists(logpath) == False:
+   if os.path.exists(log_path) == False:
       return False
    logs = os.listdir(log_path)
    for test in logs:
