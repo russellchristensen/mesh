@@ -71,5 +71,5 @@ class TestPlugin(unittest.TestCase):
    fan = re.sub('\(.*?\)', '', fan)
    def test_00hyst_detect(self):
       """Is there unwanted data"""
-      if "min" in temperature:
+      if "min" in fan:
          self.fail("Regular expression failed to remove unwanted data")
