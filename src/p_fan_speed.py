@@ -66,10 +66,10 @@ if __name__ == '__main__':
 # Unit Tests
 class TestPlugin(unittest.TestCase):
    import subprocess, re
-   sensors = subprocess.Popen( ('/usr/bin/env', 'bash', '-c', 'sensors | grep CPU'), stdout = subprocess.PIPE, stderr = subprocess.PIPE)
-   fan = sensors.communicate()[0]
-   fan = re.sub('\(.*?\)', '', fan)
    def test_00hyst_detect(self):
       """Is there unwanted data"""
+      sensors = subprocess.Popen( ('/usr/bin/env', 'bash', '-c', 'sensors | grep CPU'), stdout = subprocess.PIPE, stderr = subprocess.PIPE)
+      fan = sensors.communicate()[0]
+      fan = re.sub('\(.*?\)', '', fan)
       if "min" in fan:
          self.fail("Regular expression failed to remove unwanted data")
