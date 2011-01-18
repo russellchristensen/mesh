@@ -1,0 +1,14 @@
+# git and m2crypto are in portage (watch out for major perl upgrades git likes to pull in!
+# if you pull in a new major perl, you will have to recompile tons of things)
+emerge -av m2crypto git
+
+# As root, I downloaded zmq and did
+./configure
+make
+make install
+
+# and then downloaded pyzmq 2.0.10 and did (still as root)
+python setup.py install
+
+# After installing zmq 2.0.10 from source (and then pyzmq), I had to create a symlink for pyzmq to work:
+ln -s /usr/local/lib64/libzmq.so.0.0.0 /usr/lib64/libzmq.so.0
