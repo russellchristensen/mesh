@@ -1,0 +1,21 @@
+# Update release_version in ./src/meshlib.py
+
+# Update ./README.markdown
+
+# Update ./mesh (if you're in the early versions where it spits out info)
+
+# Make sure you're fully committed in git
+
+# Set the version in bash so you can copy and paste the later commands
+export version=0.1
+
+# Tag the release
+git tag release-${version}
+
+# Make a tarball
+git archive --format=tar --prefix=mesh-${version}/ release-${version} | bzip2 -9 > mesh-${version}.tar.bz2
+
+# Make a file with the SHA512 hash of the release
+shasum5.10.0 -a 512 mesh-${version}.tar.bz2 > mesh-${version}.tar.bz2.SHA512
+
+# Upload the tarball and hash file to the "Downloads" section on github.com/meshers/mesh
