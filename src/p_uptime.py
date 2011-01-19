@@ -24,9 +24,10 @@ plugin_name = 'p_uptime'
 description = """
 Displays results of uptime command. Including uptime, users logged in and average load.
 
-Threshold:
+Threshold: report when the uptime is over a year
 """
-frequency_threshold = meshlib.get_config(plugin_name, 'frequency', '60')
+frequency = meshlib.get_config(plugin_name, 'frequency', '60')
+threshold = meshlib.get_config(plugin_name, 'threshold', '365')
 
 def configured():
    import os
@@ -34,13 +35,15 @@ def configured():
    except: return False
    if not os.access('/bin/uptime', os.X_OK): return False
 
-import subprocess, time
+import subprocess, time, datetime, re
 if __name__ == '__main__':
    while 1:
       cmd = subprocess.Popen("uptime", stdout = subprocess.PIPE)
       uptime = cmd.communicate()[0]
-      meshlib.send_plugin_result(uptime, push_master)
-      time.sleep(int(frequency_threshold))
+      current_time, days_up, time_up, users, avg1, avg5, avg15 = re.findall(re.compile(r'((?:\d+:\d\d)|(?:\d+\.\d+)|(?:\d))'), uptime)
+      if int(int(days_up) % int(threshold)) == 0:
+         meshlib.send_plugin_result(uptime, push_master)
+      time.sleep(int(frequency))
 
 # Unit Tests
 class TestPlugin(unittest.TestCase):
