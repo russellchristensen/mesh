@@ -345,15 +345,6 @@ class Test04master(unittest.TestCase):
 
 #    def test_27process_message(self):
 #       "Function process_message works"
-#       import master, sys, StringIO
-#       fake_stdout = StringIO.StringIO()
-#       real_stdout = sys.stdout
-#       sys.stdout = fake_stdout
-#       msg = "test message"
-#       master.process_message(msg)
-#       sys.stdout = real_stdout
-#       if fake_stdout.getvalue() != ('Received: %s\n' % msg):
-#          self.fail("Unexpected output by process_message()")
 
 class Test05communicator(unittest.TestCase):
    def test_00banner(self):
@@ -361,14 +352,11 @@ class Test05communicator(unittest.TestCase):
       import communicator
 
 template_header = """
-import meshlib, sys, time, unittest, zmq
+import meshlib, sys, unittest
 
 if __name__ == '__main__':
-   # Connect a PUSH socket to master.py
-   master_socket_url = sys.argv[1]
-   zmq_context       = zmq.Context()
-   push_master       = zmq_context.socket(zmq.PUSH)
-   push_master.connect(master_socket_url)"""
+   zmq_context, push_master = meshlib.init_plugin(sys.argv)
+"""
 
 class Test06plugins(unittest.TestCase):
    def test_00banner(self):
