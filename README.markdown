@@ -43,14 +43,14 @@ We're very actively designing, prototyping, and changing things all the time.  D
 
 The roadmap is subject to (lots of) change without notice!
 
-#### Version 0.1 (Released Jan 18 2011 - https://github.com/meshers/mesh/downloads/mesh-0.1.tar.bz2)
+#### Version 0.1 ([Released](https://github.com/downloads/meshers/mesh/mesh-0.1.tar.bz2) ([SHA512](https://github.com/downloads/meshers/mesh/mesh-0.1.tar.bz2.SHA512)) on Jan 18 2011)
 * Target audience: Developers only
 * Nodes can communicate (NOTE: COMMUNICATIONS ARE COMPLETELY UNSECURED!!)
 * Node connections are initiated manually
 * Some basic plugins work
 * Event model undetermined
 * All configuration done manually in the config file
-* Brain-dead email-relay listener implemented
+* Brain-dead, hard-coded email-relay listener implemented
 
 #### Version 0.2 (Release ETA: before Feb 2011)
 * Target audience: Developers only
