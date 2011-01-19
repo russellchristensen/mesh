@@ -46,8 +46,16 @@ else:
 
 #------------------------------------------------------------------------------
 # Config items
+
 inbound_pull_proxy_port = meshlib.get_config(None, 'inbound_pull_proxy_port', '4201')
 identifier              = meshlib.get_identifier()
+notification_email      = meshlib.get_config(None, 'notification_email', None)
+smtp_server             = meshlib.get_config(None, 'smtp_server', 'localhost')
+plugin_names            = meshlib.get_config(None, 'plugin_names', None)
+if plugin_names:
+   plugin_names = plugin_names.split(',')
+else:
+   plugin_names = []
 
 #------------------------------------------------------------------------------
 # ZMQ Setup
@@ -100,11 +108,23 @@ if __name__ == '__main__' and options.try_plugin:
 # Child-process stuff
 
 # Process objects:
-communicator       = None
-inbound_pull_proxy = None       # pull_proxy.py with the 'inbound' option
+plugins               = {}
+communicator          = None
+inbound_pull_proxy    = None    # pull_proxy.py with the 'inbound' option
 outbound_pull_proxies = {}      # pull_proxy.py instances with the 'outbound' option
-port_assigner      = None
-port_requestor     = None
+port_assigner         = None
+port_requestor        = None
+
+def start_plugin(plugin_name):
+   "Start a plugin.  Return any errors (or None if successful)"
+   global plugins
+   # Already started?
+   if plugins.has_key(plugin_name):
+      return "already started"
+   # Launch!
+   plugins[plugin_name] = subprocess.Popen(
+      ('/usr/bin/env', 'python', os.path.join(meshlib.project_root_dir, 'src', plugin_name + '.py'),
+       meshlib.config_file, master_pull_url))
 
 def start_communicator():   
    global communicator
@@ -161,12 +181,20 @@ def check_children():
       print "port_requestor", port_requestor.poll()
    else:
       print "port_requestor: no process object"
+   check_plugins()
+
+def check_plugins():
+   print "\nPlugin Report:"
+   for key in sorted(plugins):
+      print "%-20s:" % key, plugins[key].poll()
 
 #------------------------------------------------------------------------------
 # Message processing
 
 def process_message(msg):
-   # Manual intervention
+   if msg[:14] == "plugin_result|":
+      process_plugin_result(msg)
+      return
    msg_parts = msg.split(':')
    if msg_parts[0] == 'communicator':
       if msg_parts[1] == 'pull_proxy':
@@ -181,12 +209,23 @@ def process_message(msg):
          check_children()
       else:
          verbose("Malformed message: '%s'" % msg)
+
+def process_plugin_result(msg):
+   result = "|".join(msg.split('|')[1:])
+   if notification_email:
+      verbose("Notifying '%s' of plugin result" % notification_email)
+      from_addr = "mesh_master@" + meshlib.get_identifier()
+      subj = "Event notification"
+      body = result
+      meshlib.send_email(notification_email, from_addr, subj, body, smtp_server=smtp_server)
+   else:
+      verbose("Nobody to notify")
    
 #------------------------------------------------------------------------------
 # Main Loop
 
-if __name__ == '__main__':
-   verbose ("""IPC URLs
+
+summary_info =  """IPC URLs
 identifier:              %s
 master_pull_url:         %s
 communicator_pull_url:   %s
@@ -201,7 +240,10 @@ inbound_pull_proxy_port: %s
    communicator_pull_url,
    port_assigner_pull_url,
    port_requestor_pull_url,
-   inbound_pull_proxy_port))
+   inbound_pull_proxy_port)
+
+if __name__ == '__main__':
+   verbose(summary_info)
    # Create our sockets
    create_push_communicator()
    create_pull()
@@ -210,6 +252,11 @@ inbound_pull_proxy_port: %s
    start_inbound_pull_proxy()
    start_port_assigner()
    start_port_requestor()
+   # Launch the plugins
+   for plugin_name in plugin_names:
+      result = start_plugin(plugin_name)
+      if result:
+         print "WARNING: We got the following message while trying to start plugin '%s': '%s'" % (plugin_name, result)
    # Main loop
    while True:
       inbound_msg = pull.recv()

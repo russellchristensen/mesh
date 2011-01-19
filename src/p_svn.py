@@ -13,14 +13,10 @@
 # You should have received a copy of the GNU General Public License
 # along with Mesh.  If not, see <http://www.gnu.org/licenses/>.
 
-import meshlib, sys, time, unittest, zmq
+import meshlib, sys, unittest
 
 if __name__ == '__main__':
-   # Connect a PUSH socket to master.py
-   master_socket_url = sys.argv[1]
-   zmq_context       = zmq.Context()
-   push_master       = zmq_context.socket(zmq.PUSH)
-   push_master.connect(master_socket_url)
+   zmq_context, push_master = meshlib.init_plugin(sys.argv)
 
 supported_os = ['linux2']
 description = """
@@ -31,12 +27,15 @@ Threshold: When ever a new commit is detected, an event is created.
 
 def configured():
    import sys, subprocess
-   for repo in sys.argv[1:]:
-      try: proc = subprocess.Popen(['svn', 'info', repo], stdout=subprocess.PIPE)
-      except: return False
-   return True
+# DON'T GET CONFIGURATION FROM THE COMMAND-LINE!!!
+# GET IT WITH meshlib.get_config(...)
+#    for repo in sys.argv[1:]:
+#       try: proc = subprocess.Popen(['svn', 'info', repo], stdout=subprocess.PIPE)
+#       except: return False
+#    return True
+   return False
 
-import subprocess, re
+import subprocess, re, time
 
 plugin_name = 'p_svn'
 parse = re.compile(r'^[\w ]+: (.+)[\n\r]?', re.MULTILINE)

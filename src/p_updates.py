@@ -13,14 +13,10 @@
 # You should have received a copy of the GNU General Public License
 # along with Mesh.  If not, see <http://www.gnu.org/licenses/>.
 
-import meshlib, sys, time, unittest, zmq
+import meshlib, sys, unittest
 
 if __name__ == '__main__':
-   # Connect a PUSH socket to master.py
-   master_socket_url = sys.argv[1]
-   zmq_context       = zmq.Context()
-   push_master       = zmq_context.socket(zmq.PUSH)
-   push_master.connect(master_socket_url)
+   zmq_context, push_master = meshlib.init_plugin(sys.argv)
 
 supported_os = ['linux2', 'sunos5']
 
@@ -35,7 +31,7 @@ def configured():
    return True
 
 # Plugins will typically have an infinite main loop
-import subprocess, os
+import subprocess, os, time
 if __name__ == '__main__':
    cmd = 0
    gentoo = False

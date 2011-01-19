@@ -13,7 +13,7 @@
 # You should have received a copy of the GNU General Public License
 # along with Mesh.  If not, see <http://www.gnu.org/licenses/>.
 
-import M2Crypto, os, Queue, re, subprocess, sys, tempfile
+import M2Crypto, os, Queue, re, smtplib, subprocess, sys, tempfile, zmq
 import ConfigParser
 
 #------------------------------------------------------------------------------
@@ -116,9 +116,29 @@ def is_socket_url(url):
       return True
    return False
 
+#------------------------------------------------------------------------------
+# PLUGIN SUPPORT
+
+def init_plugin(argv):
+   """
+We want plugin template to be as lean as possible, so most of the plugin
+boilerplate stuff goes here.
+
+argv -> sys.argv from the plugin.
+
+Returns a tuple (zmq_context, push_master)
+"""
+   config_file       = sys.argv[1]
+   load_config(config_file)
+   master_socket_url = sys.argv[2]
+   zmq_context       = zmq.Context()
+   push_master       = zmq_context.socket(zmq.PUSH)
+   push_master.connect(master_socket_url)
+   return (zmq_context, push_master)
+
 # For plugins to send events to master.py
 def send_plugin_result(msg, socket):
-   socket.send(msg)
+   socket.send("plugin_result|"+msg)
 
 #------------------------------------------------------------------------------
 # ENCRYPTION FUNCTIONS
@@ -187,3 +207,130 @@ def verify_cert(cafile, certfile):
       return verify_cert_cli(cafile, certfile)
 
 # --- end verify_cert functions ---
+
+#------------------------------------------------------------------------------
+# EMAIL FUNCTIONS
+
+def send_plain_email(to_addr, from_addr, subj, body):
+   smtp_server = smtplib.SMTP('localhost')
+   msg = ("From: %s\r\nTo: %s\r\nSubject: %s\r\n\r\n%s" % (from_addr, to_addr, subj, body))
+   smtp_server.sendmail(from_addr, to_addr, msg)
+   smtp_server.quit()
+
+#------------------------------------------------------------------------------
+# send_email(to_addrs, from_addr, subj, body, ...)
+#
+# The easiest way to send a few fancy emails.  Very customizable.
+# See the VolumeEmailer class if you need to send a lot of emails.
+#------------------------------------------------------------------------------
+
+def send_email(to_addrs, from_addr, subj, body, attach=[], delattach=False, replyto_addr="", smtp_server='localhost', **kwargs):
+   """
+   to_addrs  - email address or list of email addresses
+               'joe@example.com'
+               ['joe@example.com', 'Jane <jane@example.com']
+   from_addr - email address of sender
+   subj      - Subject
+   body      - Body of email.  Can be blank string.
+   attach    - filename of file to attach, filename:mode to attach, or list
+               of filename or filname:modes to attach.  Mode is 'inline' or
+               'attachment'.  Default is 'attachment'
+               '/some/file.pdf'
+               '/some/file.txt:inline'
+               ['/some/file.jpg:inline', '/other/file.png']
+   delattach - True/False.  Default False.  Whether to delete the attachment
+               files after sending the email.
+   smtp_server- IP address or domain name of the smtp server to use. Default localhost.
+   **kwargs  - Any keyword arguments will be added as extra headers
+   """
+   from email import Encoders
+   from email.Message import Message
+   from email.MIMEAudio import MIMEAudio
+   from email.MIMEBase import MIMEBase
+   from email.MIMEMultipart import MIMEMultipart
+   from email.MIMEImage import MIMEImage
+   from email.MIMEText import MIMEText
+   # A great deal of this was pulled from the python reference doc examples
+   # Listify vars that need it
+   if type(attach) != type([]):
+      attach = [attach]
+   if type(to_addrs) != type([]):
+      to_addrs = [to_addrs]
+   # Start the message
+   outer = MIMEMultipart()
+   # BODY Guarantee the body of the message ends in a newline if there's a body
+   if body:
+      if (body[-1] != '\n'):
+         body += '\n'
+      bodypart = MIMEText(body)
+      bodypart.add_header('Content-Disposition', 'inline')
+      outer.attach(bodypart)
+   # HEADERS
+   outer['To'] = ", ".join(to_addrs)
+   outer['From'] = from_addr
+   outer['Subject'] = subj
+   if replyto_addr:
+      outer['Reply-To'] = replyto_addr
+   outer.preamble = 'Please use a MIME-aware mail reader for this message.'
+   # Guarantees the multi-part message ends in a newline
+   outer.epilogue = ''
+
+   for filename in attach:
+      mode = 'attachment'
+      # Strip off any mode information
+      if filename.find(':') > -1:
+         mode     = filename[filename.find(':')+1:]
+         filename = filename[:filename.find(':')]
+      # Make sure the mode is valid
+      if (mode != 'attachment') and (mode != 'inline'):
+         mode = 'attachment'
+      # Get the bare filename without the path
+      if filename.rfind('/') == -1:
+         pretty_filename = filename
+      else:
+         # Just grab the filename without the full path
+         pretty_filename = filename[filename.rfind('/')+1:]
+      # Make sure we have the full path if we were passed a relative one
+      path = os.path.abspath(filename)
+      # Skip if the file doesn't exist
+      if not os.path.isfile(path):
+         continue
+      ctype, encoding = mimetypes.guess_type(path)
+      if ctype is None or encoding is not None:
+         # No guess could be made, or the file is encoded (compressed), so
+         # use a generic bag-of-bits type.
+         ctype = 'application/octet-stream'
+      maintype, subtype = ctype.split('/', 1)
+      if maintype == 'text':
+         fp = open(path)
+         # Note: we should handle calculating the charset
+         msg = MIMEText(fp.read(), _subtype=subtype)
+         fp.close()
+      elif maintype == 'image':
+         fp = open(path, 'rb')
+         msg = MIMEImage(fp.read(), _subtype=subtype)
+         fp.close()
+      elif maintype == 'audio':
+         fp = open(path, 'rb')
+         msg = MIMEAudio(fp.read(), _subtype=subtype)
+         fp.close()
+      else:
+         fp = open(path, 'rb')
+         msg = MIMEBase(maintype, subtype)
+         msg.set_payload(fp.read())
+         fp.close()
+         # Encode the payload using Base64
+         Encoders.encode_base64(msg)
+      # Set the filename parameter
+      msg.add_header('Content-Disposition', mode, filename=pretty_filename)
+      outer.attach(msg)
+
+   # Send the email
+   server = smtplib.SMTP(smtp_server)
+   server.sendmail(from_addr, to_addrs, outer.as_string())
+   server.quit()
+   # Remove the attachments if delattach is True (default: False)
+   if delattach:
+      for filename in attach:
+         if os.path.isfile(filename):
+            os.remove(filename)
