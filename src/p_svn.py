@@ -27,10 +27,13 @@ Threshold: When ever a new commit is detected, an event is created.
 
 def configured():
    import sys, subprocess
-   for repo in sys.argv[1:]:
-      try: proc = subprocess.Popen(['svn', 'info', repo], stdout=subprocess.PIPE)
-      except: return False
-   return True
+# DON'T GET CONFIGURATION FROM THE COMMAND-LINE!!!
+# GET IT WITH meshlib.get_config(...)
+#    for repo in sys.argv[1:]:
+#       try: proc = subprocess.Popen(['svn', 'info', repo], stdout=subprocess.PIPE)
+#       except: return False
+#    return True
+   return False
 
 import subprocess, re, time
 
