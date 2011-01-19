@@ -15,24 +15,31 @@
 # You should have received a copy of the GNU General Public License
 # along with Mesh.  If not, see <http://www.gnu.org/licenses/>.
 
+import os, sys
+sys.path.append(os.path.join(os.path.split(__file__)[0], 'src'))
+import meshlib
+
 print """
+Mesh %s
+
 Hi!  mesh is in alpha right now.  Once we reach beta, this file will do
 something useful, like configure/launch mesh.  But not yet.
 
 Here are some useful things you CAN do right now:
 
-# Run core unit tests
-test/run_test.py -v
-
-# Run specific plugin unit tests
-test/run_test.py -t p_someplugin
-
-# Actually run a plugin in trial-run mode
-src/master.py -t p_someplugin
-
-# Try starting up this node for real
-src/master.py
-
-# Or read some of the documentation!
+# Reading the documentation is always helpful
 ls docs/
-"""
+
+# Run all core unit tests, and plugin unit tests that apply to this setup
+test/run_test.py -a -v
+
+# See what else you could test
+test/run_test.py -h
+
+# Run a single plugin in trial-run mode (do 'ls src/p_*py' for list of plugins)
+src/master.py -t p_template
+
+# Try starting up this node for real.
+# You'll want to use 'src/send_push.py (master_url)' to inject commands into the process
+src/master.py -v
+""" % meshlib.release_version

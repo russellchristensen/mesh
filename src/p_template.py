@@ -39,6 +39,9 @@ Threshold: If more than banana_threshold bananas are encountered, then we create
 # //// Now get any config values you need
 banana_threshold = int(meshlib.get_config('p_template', 'banana_threshold', '0'))
 
+# //// Don't forget to import modules YOU want to use!
+import time
+
 # //// You MUST define this function that tells whether or not you now have
 #      enough configuration information to be able to run.
 def configured():

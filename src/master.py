@@ -87,7 +87,9 @@ def create_push_communicator():
 if __name__ == '__main__' and options.try_plugin:
    create_pull()
    print "Running in TRY PLUGIN mode.  We will run until either '%s' detects an event or dies.\n" % options.try_plugin
-   plugin_process = subprocess.Popen(('/usr/bin/env', 'python', options.try_plugin + '.py', master_pull_url))
+   plugin_process = subprocess.Popen(
+      ('/usr/bin/env', 'python', os.path.join(meshlib.project_root_dir, 'src', options.try_plugin + '.py'),
+       meshlib.config_file, master_pull_url))
    while True:
       retcode = plugin_process.poll()
       if retcode != None:
@@ -268,7 +270,7 @@ if __name__ == '__main__':
    # Shutting down...
    print "Received 'quit' -- sending children kill signal and exiting."
    # Kill child processes
-   for child in [port_assigner, communicator, inbound_pull_proxy, port_requestor]:
+   for child in plugins.values() + [port_assigner, communicator, inbound_pull_proxy, port_requestor]:
       if child.poll() == None:
          child.send_signal(subprocess.signal.SIGTERM)
    time.sleep(.1)

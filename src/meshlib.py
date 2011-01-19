@@ -19,6 +19,8 @@ import ConfigParser
 #------------------------------------------------------------------------------
 # CONSTANTS
 
+release_version = '0.1'
+
 # Nodes with the same comm_version can talk to each other
 comm_version = '1'
 

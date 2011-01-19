@@ -43,7 +43,7 @@ We're very actively designing, prototyping, and changing things all the time.  D
 
 The roadmap is subject to (lots of) change without notice!
 
-#### Version 0.1 (Release ETA: Jan 18 2011)
+#### Version 0.1 (Released Jan 18 2011 - https://github.com/meshers/mesh/downloads/mesh-0.1.tar.bz2)
 * Target audience: Developers only
 * Nodes can communicate (NOTE: COMMUNICATIONS ARE COMPLETELY UNSECURED!!)
 * Node connections are initiated manually
