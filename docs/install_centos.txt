@@ -1,0 +1,37 @@
+# Make CentOS a lot more sane (First, add a repository that has python 2.6 stuff)
+rpm -Uvh http://download.fedora.redhat.com/pub/epel/5/i386/epel-release-5-4.noarch.rpm
+yum install git patch which
+
+# Actually install python 2.6
+# NOTE: At the time, comments said 2.6 worked better on CentOS than 2.7 did.
+yum install python26 python26-devel
+
+# As root, I downloaded zmq and did
+./configure
+make
+make install
+
+# and then downloaded pyzmq 2.0.10 and did (still as root)
+python26 setup.py install
+
+# After installing zmq 2.0.10 from source (and then pyzmq), I had to create a symlink for pyzmq to work:
+# NOTE: This is subtly different than it was on Gentoo
+ln -s /usr/local/lib/libzmq.so.0.0.0 /usr/lib64/libzmq.so.0
+
+# and then downloaded M2Crypto, untarred, and applied this patch (type the patch line, paste in the rest, push ctrl-d twice)
+
+patch -p0
+
+--- setup.py.orig	2009-10-06 22:29:09.000000000 -0600
++++ setup.py	2011-01-24 16:49:36.000000000 -0700
+@@ -54,6 +54,7 @@
+         
+         self.swig_opts = ['-I%s' % i for i in self.include_dirs + \
+                           [opensslIncludeDir]]
++        self.swig_opts.append('-I/usr/include/openssl')
+         self.swig_opts.append('-includeall')
+         #self.swig_opts.append('-D__i386__') # Uncomment for early OpenSSL 0.9.7 versions, or on Fedora Core if build fails
+         #self.swig_opts.append('-DOPENSSL_NO_EC') # Try uncommenting if you can't build with EC disabled
+
+# and then installed m2crypto
+python26 setup.py install
