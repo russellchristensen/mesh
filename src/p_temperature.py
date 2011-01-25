@@ -34,9 +34,9 @@ import subprocess, time
 def configured():
    try: 
       subprocess.call("tempdemo")
-      return true
+      return True
    except:
-      return false
+      return False
 
 def get_temp():
    proc = subprocess.Popen("tempdemo", stdout = subprocess.PIPE)
