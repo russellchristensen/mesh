@@ -1,1 +1,22 @@
 # Here's what I had to do to install mesh on opensolaris
+
+# Install git...I don't remember how I did this, because I installed it a long time ago...
+
+# As root, I downloaded zmq and did
+./configure
+make
+make install
+
+# BEFORE installing pyzmq, you need some symlinks
+ln -s /usr/local/lib/libzmq.so.0.0.0 /usr/lib/libzmq.so
+ln -s /usr/local/lib/libzmq.so.0.0.0 /usr/lib/libzmq.so.0
+ln -s /usr/local/lib/libzmq.so.0.0.0 /usr/lib/libzmq.so.1
+
+# and then downloaded pyzmq 2.0.10 and did (still as root)
+python2.6 setup.py install
+
+# install swig
+pkg install SUNWswig
+
+# download and install M2Crypto the normal way
+python2.6 setup.py install

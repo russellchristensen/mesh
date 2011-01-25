@@ -1,6 +1,6 @@
 # Make CentOS a lot more sane (First, add a repository that has python 2.6 stuff)
 rpm -Uvh http://download.fedora.redhat.com/pub/epel/5/i386/epel-release-5-4.noarch.rpm
-yum install git patch which
+yum install git patch which swig
 
 # Actually install python 2.6
 # NOTE: At the time, comments said 2.6 worked better on CentOS than 2.7 did.
