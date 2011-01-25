@@ -47,8 +47,10 @@ if __name__ == '__main__':
       for log in logs:
          search_log = "%s/%s" % (log_path, log)
          tail = subprocess.Popen(["tail", "-f", search_log], stdout = subprocess.PIPE)
-         while not re.search('FAILED', search_log):
+         samba = tail.stdout.readline()
+         while not re.search('FAILED', samba):
             tail = subprocess.Popen(["tail", "-f", search_log], stdout = subprocess.PIPE)
+            samba = tail.stdout.readline()
             if len(os.listdir(logpath)) != log_count:
                break
          meshlib.send_plugin_result(segfault, push_master)
