@@ -21,16 +21,16 @@ sys.path.append(os.path.join(core_tests.project_root_dir, 'src'))
 
 # Parse command-line arguments
 parser = optparse.OptionParser()
-parser.add_option('-a', '--test-all',     help='Test everything.',               action='store_true', dest='test_all', default=False)
-parser.add_option('-c', '--test-core',    help='(DEFAULT) Test mesh core only.', action='store_true', dest='test_core', default=False)
-parser.add_option('-p', '--test-plugins', help='Test all plugins.',              action='store_true', dest='test_plugins', default=False)
-parser.add_option('-t', '--test-plugin',  help='Test a specific plugin only.',   action='store', dest='test_plugin', default=False)
-parser.add_option('-v', '--verbose',      help='Verbose output',                 action='store_true', dest='verbose', default=False)
+parser.add_option('-a', '--test-all',     help='(DEFAULT) Test everything.',   action='store_true', dest='test_all', default=False)
+parser.add_option('-c', '--test-core',    help='Test mesh core.',              action='store_true', dest='test_core', default=False)
+parser.add_option('-p', '--test-plugins', help='Test all plugins.',            action='store_true', dest='test_plugins', default=False)
+parser.add_option('-t', '--test-plugin',  help='Test a specific plugin only.', action='store', dest='test_plugin', default=False)
+parser.add_option('-v', '--verbose',      help='Verbose output',               action='store_true', dest='verbose', default=False)
 (options, args) = parser.parse_args()
 
-# Default to running core unit tests
+# Default to running everything
 if not (options.test_all + options.test_core + options.test_plugins) and not options.test_plugin:
-   options.test_core = True
+   options.test_all = True
 
 # Set verbosity
 if options.verbose:
@@ -43,20 +43,33 @@ suite_list = []
 if options.test_all or options.test_core:
    suite_list.append(unittest.TestLoader().loadTestsFromModule(core_tests))
 # Run all plugins' unit tests?
+ok           = 0
+unconfigured = 0
+unsupported  = 0
+broken       = 0
 if options.test_all or options.test_plugins:
    for full_path in glob.glob(os.path.join(core_tests.project_root_dir, 'src', 'p_*py')):
       module_name = os.path.split(full_path)[1][:-3]
       print "Loading %-25s" % module_name,
-      module_to_test = __import__(module_name)
+      try:
+         module_to_test = __import__(module_name)
+      except:
+         print "[Broken]"
+         broken += 1
+         continue
       if not sys.platform in module_to_test.supported_os:
-         print "[unsupported]"
+         print "[Unsupported]"
+         unsupported += 1
          continue
       elif not module_to_test.configured():
-         print "[unconfigured]"
+         print "[Unconfigured]"
+         unconfigured += 1
          continue
       else:
-         print "[ok]"
+         print "[OK]"
+         ok += 1
          suite_list.append(unittest.TestLoader().loadTestsFromModule(module_to_test))
+   print "OK: %d, Unconfigured: %d, Unsupported: %d, Broken: %d" % (ok, unconfigured, unsupported, broken)
 # Run a specific plugin's unit tests?
 elif options.test_plugin:
    module_to_test = __import__(options.test_plugin)
