@@ -152,7 +152,7 @@ Returns a tuple (zmq_context, push_master)
 def send_plugin_result(msg, socket):
    socket.send("plugin_result|"+msg)
 
-def tail_iterator(filename):
+def tail(filename):
    """
 Returns an iterator for use in a for loop.
 
@@ -162,7 +162,7 @@ Future versions of this function will (hopefully) use various
 file-system monitoring libraries on various operating systems.
 
 Example:
-for line in meshlib.tail_iterator('/var/lob/messages'):
+for line in meshlib.tail('/var/lob/messages'):
    # ...process line
 """
    # First choice, use a filesystem monitoring tool or framework...
