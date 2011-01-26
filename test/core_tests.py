@@ -296,13 +296,13 @@ Tp7tERNH08s4Wb7hvIj6p/EloWtb/CA01EfQwA==
       meshlib.load_config()
       self.assertTrue(meshlib.get_identifier())
 
-   def test_36tail_iterator(self):
-      "Function tail_iterator() can tail a file"
+   def test_36tail(self):
+      "Function tail() can tail a file"
       import meshlib
       tempfilething = tempfile.NamedTemporaryFile()
       filename = tempfilething.name
       echo_process = subprocess.Popen(('bash', '-c', 'while echo testing >> %s ; do sleep .1 ; done' % filename))
-      for line in meshlib.tail_iterator(filename):
+      for line in meshlib.tail(filename):
          if line.strip() != 'testing':
             self.fail("Tailing is working correctly")
             echo_process.kill()
