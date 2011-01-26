@@ -13,7 +13,7 @@
 # You should have received a copy of the GNU General Public License
 # along with Mesh.  If not, see <http://www.gnu.org/licenses/>.
 
-import glob, os, sys, subprocess, time, unittest
+import glob, os, sys, subprocess, tempfile, time, unittest
 from distutils import version
 
 global gpl_header
@@ -56,32 +56,32 @@ class Test00Dependencies(unittest.TestCase):
       "[DEPENDENCY TESTS]"
 
    def test_01os(self):
-      "Supported OS?"
+      "OS is supported"
       if sys.platform not in ['darwin', 'linux2']:
          self.fail("Unsupported OS: %s" % sys.platform)
 
    def test_03python_version(self):
-      "Supported version of Python?"
+      "Python >= 2.6 is present"
       supported_version = version.StrictVersion('2.6')
       this_version = version.StrictVersion(str(sys.version_info[0]) + '.' + str(sys.version_info[1]))
       self.assertTrue(this_version >= supported_version)
 
    def test_09m2crypto(self):
-      "Supported version of M2Crypto?"
+      "M2Crypto >= 0.20.2 is present"
       import M2Crypto
       supported_version = version.StrictVersion('0.20.2')
       this_version = version.StrictVersion(M2Crypto.version)
       self.assertTrue(this_version >= supported_version)
 
    def test_12zmq(self):
-      "Supported version of ZeroMQ"
+      "ZeroMQ >= 2.0.10 is present"
       import zmq
       supported_version = version.LooseVersion('2.0.10')
       this_version = version.LooseVersion(zmq.__version__)
       self.assertTrue(this_version >= supported_version)
 
    def test_15psutil(self):
-      "Supported version of psutil"
+      "psutil >= 0.2.0 is present"
       import psutil
       supported_version = version.StrictVersion('0.2.0')
       this_version = version.StrictVersion(".".join([str(x) for x in psutil.version_info]))
@@ -109,8 +109,8 @@ class Test02Syntax(unittest.TestCase):
       "[SYNTAX TESTS]"
 
    def test_03import(self):
-      # /// need to try importing all the non-plugin files here
-      pass
+      "No syntax errors are encountered in main project files"
+      import communicator, master, meshlib, port_assigner, port_requestor, pull_proxy
       
 class Test02zmq(unittest.TestCase):
    def test_00banner(self):
@@ -295,6 +295,22 @@ Tp7tERNH08s4Wb7hvIj6p/EloWtb/CA01EfQwA==
       import meshlib
       meshlib.load_config()
       self.assertTrue(meshlib.get_identifier())
+
+   def test_36tail_iterator(self):
+      "Function tail_iterator() can tail a file"
+      import meshlib
+      tempfilething = tempfile.NamedTemporaryFile()
+      filename = tempfilething.name
+      echo_process = subprocess.Popen(('bash', '-c', 'while echo testing >> %s ; do sleep .1 ; done' % filename))
+      for line in meshlib.tail_iterator(filename):
+         if line.strip() != 'testing':
+            self.fail("Tailing is working correctly")
+            echo_process.kill()
+            del tempfilething
+         else:
+            break
+      echo_process.kill()
+      del tempfilething
 
 class Test04master(unittest.TestCase):
    def setUp(self):

@@ -19,7 +19,7 @@ import ConfigParser
 #------------------------------------------------------------------------------
 # CONSTANTS
 
-release_version = '0.1'
+release_version = '0.2alpha'
 
 # Nodes with the same comm_version can talk to each other
 comm_version = '1'
@@ -54,6 +54,16 @@ while not project_root_dir:
       break
    if not last_element:
       break
+# If we didn't find it yet, perhaps we were imported from live python
+if not project_root_dir:
+   curr_root_dir = os.getcwd()
+   while not project_root_dir:
+      curr_root_dir, last_element = os.path.split(curr_root_dir)
+      if os.path.isfile(os.path.join(curr_root_dir, 'mesh')):
+         project_root_dir = curr_root_dir
+         break
+      if not last_element:
+         break
 if not project_root_dir:
    print "Error, couldn't find the project root directory.  :-("
    sys.exit(1)
@@ -141,6 +151,51 @@ Returns a tuple (zmq_context, push_master)
 # For plugins to send events to master.py
 def send_plugin_result(msg, socket):
    socket.send("plugin_result|"+msg)
+
+def tail_iterator(filename):
+   """
+Returns an iterator for use in a for loop.
+
+Plugins should use this instead of doing their own tailing.
+
+Future versions of this function will (hopefully) use various
+file-system monitoring libraries on various operating systems.
+
+Example:
+for line in meshlib.tail_iterator('/var/lob/messages'):
+   # ...process line
+"""
+   # First choice, use a filesystem monitoring tool or framework...
+   # ...none implemented
+   # TO DO: Implement a REAL interrupt-driven blocking read on...
+   #        Linux - http://pyinotify.sourceforge.net/
+   #        Mac - http://pypi.python.org/pypi/pyobjc-framework-FSEvents/2.2b2
+   #        Windows - http://timgolden.me.uk/python/win32%5Fhow%5Fdo%5Fi/watch%5Fdirectory%5Ffor%5Fchanges.html
+   #  (all from http://stackoverflow.com/questions/1475950/tail-f-in-python-with-no-time-sleep )
+
+   # Second choice, use tail if available
+   try:
+      p = subprocess.Popen(['tail']) # If it's not here, this throws an OSError exception.
+      p.kill()
+      tail_process = subprocess.Popen(["tail", "-n", "0", "-f", filename], stdout = subprocess.PIPE)
+      line = True
+      while line:
+         line = tail_process.stdout.readline()
+         yield line
+   except OSError:
+      # No tail
+      pass
+
+   # Third choice, imitate the behavior of tail in pure python
+   import time
+   fh = open(filename)
+   fh.seek(0,2)
+   while True:
+      line = fh.readline()
+      if not line:
+         time.sleep(0.1)
+         continue
+      yield line
 
 #------------------------------------------------------------------------------
 # ENCRYPTION FUNCTIONS
