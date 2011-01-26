@@ -70,3 +70,9 @@ Users
 
 Samba
 - unsuccessful logins
+
+Printers
+- toner levels
+- paper levels
+- jam status
+- on/off
