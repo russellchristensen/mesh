@@ -1,0 +1,5 @@
+# We need git, of course
+apt-get install git
+
+# In Ubuntu 10.10 repositories, m2crypto and zeromq are too old
+
