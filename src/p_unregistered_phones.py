@@ -37,14 +37,11 @@ import re, subprocess
 from time import *
 
 if __name__=='__main__':
-   log_info = subprocess.Popen(['tail', '-f', log_location], stdout=subprocess.PIPE)
    while 1:
-      log_stat = log_info.stdout.readline()
-      phone = re.search("chan_sip.c: Registration from '<sip:(\d+)",log_stat, re.MULTILINE|re.DOTALL)
-      while not phone:
-         log_stat = log_info.stdout.readline()
+      for line in meshlib.tail(log_location):
          phone = re.search("chan_sip.c: Registration from '<sip:(\d+)",log_stat, re.MULTILINE|re.DOTALL)
-      meshlib.send_plugin_result('%s failed registration' % phone.group(1), push_master)
+         if phone:
+            meshlib.send_plugin_result('%s failed registration' % phone.group(1), push_master)
 
 class TestPlugin(unittest.TestCase):
    def test_00logexists(self):

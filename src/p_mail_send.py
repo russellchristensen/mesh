@@ -49,7 +49,6 @@ queue_pattern = re.compile('.*?:.*?:.*?: (.*?):*%s*'% from_address,re.DOTALL|re.
 
 # Plugins will typically have an infinite main loop
 if __name__ == '__main__':
-   file = subprocess.Popen(['tail', '-f', log_location],stdout=subprocess.PIPE)
    found = False
    while 1:
       start_time = time.time()
@@ -58,18 +57,16 @@ if __name__ == '__main__':
          outgoing.sendmail(from_address, to_address, 'test')
       except:
          meshlib.send_plugin_result('Message not sent!', push_master)
-      while (time.time() - start_time) < send_threshold:
-         recent = file.stdout.readline()
-         queued = re.search(queue_pattern,recent)
-         if queued:
-            while (time.time() - start_time) < send_threshold:
-               recent = file.stdout.readline()
-               if re.search('.*%s.*250 2.0.0 Ok.*' % queued.groups(1),recent,re.DOTALL|re.MULTILINE):
-                  found = True
-      if not found:
-         meshlib.send_plugin_result('Message not sent within time!', push_master)
-      time.sleep(60)
-
+      for line in meshlib.tail(log_location):
+         while (time.time() - start_time) < send_threshold:
+            queued = re.search(queue_pattern,recent)
+            if queued:
+               while (time.time() - start_time) < send_threshold:
+                  recent = file.stdout.readline()
+                  if re.search('.*%s.*250 2.0.0 Ok.*' % queued.groups(1),recent,re.DOTALL|re.MULTILINE):
+                     found = True
+            if not found:
+               meshlib.send_plugin_result('Message not sent within time!', push_master)
 
 class TestPlugin(unittest.TestCase):
 # First, test setup requirements (do files/commands/libraries exist, etc.)
