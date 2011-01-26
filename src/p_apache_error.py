@@ -39,11 +39,9 @@ def configured():
    return True
 
 if __name__ == '__main__':
-   proc = subprocess.Popen(['tail', '-f', apache_ssl_error_log], stdout=subprocess.PIPE)
-
-   while 1:
+   for output in meshlib.tail(apache_ssl_error_log):
       # Parse data from tail
-      date, ip, error = re.findall(parse_ssl_error_log, proc.stdout.readline())[0]
+      date, ip, error = re.findall(parse_ssl_error_log, output)[0]
       # Convert date to usable format
       date = datetime.strptime(date, date_format)
       # Return results
