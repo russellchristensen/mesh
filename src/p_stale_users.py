@@ -31,7 +31,7 @@ import subprocess, re, time, datetime
 
 def configured():
    import os
-   if not os.path.exists('/bin/tail') or not os.access('/bin/tail', os.X_OK): return False
+   if not os.path.exists('/bin/last') or not os.access('/bin/last', os.X_OK): return False
    try: int(threshold)
    except: return False
    return True

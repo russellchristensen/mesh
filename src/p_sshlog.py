@@ -26,7 +26,7 @@ Check for invalid SSH logins.
 Threshold: Every time an invalid SSH login is detect, an event is created.
 """
 
-import os, atexit, re, subprocess, sys
+import os, re, subprocess, sys
 
 global log_location; log_location = meshlib.get_config(plugin_name, 'log_locaiton', '/var/log/secure.log')
 global parse; parse = re.compile(r'(.{15}) ([\w\d-]+) sshd\[(\d+)\]: ((?:Failed password)|(?:.*?))\s(.+)', re.MULTILINE)
@@ -38,23 +38,7 @@ def configured():
    return True
 
 if __name__ == '__main__':
-   # Tail the log file
-   if os.path.isfile(log_location):
-      proc = subprocess.Popen(['tail', '-f', log_location], stdout=subprocess.PIPE)
-   else:
-      meshlib.send_plugin_result('Error: Log file does not exist. "%s"' % (log_location), push_master)
-      sys.exit(1)
-
-   # Setup function to kill the child process at exit
-   @atexit.register
-   def kill_child():
-      '''Kill child process at exit'''
-      meshlib.send_plugin_result('Notice: Killing child: %s' % (proc.pid), push_master)
-      proc.kill()
-
-   while True:
-      # Get a line from proc
-      line = proc.stdout.readline()
+   for line in meshlib.tail(log_location):
       # Make sure the line is an ssh log line
       if 'ssh' in str(line):
          # Parse the line
